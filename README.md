@@ -5,7 +5,11 @@ white ground, frosted-glass panels, and the brand blue, red and yellow used as g
 
 ## Files
 
-- `index.html` — the whole page: markup, CSS and vanilla JavaScript in one file. No build step.
+- `index.html` — the whole page: markup, CSS, vanilla JavaScript and the logo in one file. No build step.
+
+The GTPL KCBPL logo is embedded as a base64 PNG inside the stylesheet (the `.logo` class), so the
+page makes no image requests. It is declared once and shared by the header and the footer. To swap
+it, replace the data URI in that one rule and keep the `aspect-ratio` in step with the new artwork.
 
 ## Run it
 
