@@ -89,6 +89,8 @@ on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and th
   email endpoint. Your team collects name, company and industry on the callback.
 - **Testimonials**: the three quotes are placeholders attributed to roles only. Replace them with
   real client quotes (see the `Placeholder testimonials` comment).
-- **Client logos**: clients are shown as text wordmarks. Swap in real logo images if you have
-  licence to use them.
+- **Client logos**: each client sits behind a neutral placeholder mark (the `m-1` … `m-10` symbols
+  in the sprite). These are abstract shapes, deliberately not imitations of anyone's real logo.
+  Replace each `<use href="#m-n">` with the client's actual logo file once you have licence to use
+  it.
 - **Fonts**: Manrope loads from Google Fonts. Self-host it if the page must work without that request.
