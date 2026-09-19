@@ -1,7 +1,7 @@
 # GTPL KCBPL — Business Leased Line landing page
 
-A single-page, self-contained landing page for GTPL KCBPL's Business Internet Leased Line offer,
-redesigned with an Apple-style "liquid glass" treatment on the existing brand palette.
+A single-page, self-contained landing page for GTPL KCBPL's Business Internet Leased Line offer:
+white ground, frosted-glass panels, and the brand blue, red and yellow used as gradients.
 
 ## Files
 
@@ -17,7 +17,7 @@ npx serve .
 
 ## What's inside
 
-- Sticky glass nav, offer ticker, and a dark hero with an animated fibre-network canvas
+- Sticky glass nav and a white hero with a quiet animated fibre-network canvas
 - Glass enquiry form (Name, Email, Phone, Company, Industry, PIN, District) with client-side validation
 - "Join 1500+ companies" wordmark marquee
 - Benefits bento grid (15 benefits, 99.02% SLA gauge, symmetrical-speed meters)
@@ -45,5 +45,5 @@ Defined once at the top of the stylesheet in `index.html`:
   client quotes (see the `Placeholder testimonials` comment).
 - **Client logos**: clients are shown as text wordmark chips. Swap in real logo images if you have
   licence to use them.
-- **Fonts**: Outfit and Plus Jakarta Sans load from Google Fonts. Self-host them if you need the page
+- **Fonts**: Manrope loads from Google Fonts. Self-host them if you need the page
   to work without that request.
