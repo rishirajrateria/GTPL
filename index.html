@@ -307,6 +307,48 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.9)}
 .mbar .btn{flex:1;padding:11px 8px;font-size:13.5px}
 
+/* ---- the fibre spine: light travelling down the page as you scroll ---- */
+.spine{position:fixed;left:30px;top:0;bottom:0;width:22px;z-index:40;display:none;pointer-events:none}
+@media (min-width:1280px){.spine{display:block}}
+.spine .rail{position:absolute;left:10px;top:14vh;bottom:14vh;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,transparent,rgba(36,88,164,.18) 10%,rgba(36,88,164,.18) 90%,transparent)}
+.spine .fill{position:absolute;left:10px;top:14vh;width:2px;border-radius:2px;height:calc(var(--p,0) * (100% - 28vh));
+  background:linear-gradient(180deg,rgba(36,88,164,.2),var(--blue));box-shadow:0 0 14px rgba(36,88,164,.45)}
+.spine .head{position:absolute;left:4px;top:calc(14vh + var(--p,0) * (100% - 28vh));width:14px;height:14px;margin-top:-7px;border-radius:50%;
+  background:var(--blue);box-shadow:0 0 0 5px rgba(36,88,164,.12),0 0 20px 5px rgba(36,88,164,.45)}
+.spine .head::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--yellow)}
+.spine .tk{position:absolute;left:8px;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:rgba(36,88,164,.22);
+  transition:background .45s var(--ease),box-shadow .45s var(--ease),transform .45s var(--ease)}
+.spine .tk.on{background:var(--blue);box-shadow:0 0 10px rgba(36,88,164,.55);transform:scale(1.3)}
+
+/* ---- a light sweep crossing the headline, kept inside blue ---- */
+.hero h1 .grad{background:linear-gradient(100deg,var(--blue) 0 34%,var(--blue-lt) 44%,#8ab8f0 50%,var(--blue-lt) 56%,var(--blue) 66% 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7.5s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:125% 0}50%{background-position:-25% 0}}
+
+/* ---- live network status ---- */
+.topline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;
+  letter-spacing:.04em;color:var(--ink-2);background:rgba(255,255,255,.62);box-shadow:inset 0 0 0 1px rgba(36,88,164,.18)}
+.live i{position:relative;width:7px;height:7px;border-radius:50%;background:var(--blue);flex:none}
+.live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--blue);animation:ping 2.4s cubic-bezier(.2,.7,.2,1) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.55}100%{transform:scale(3.4);opacity:0}}
+
+/* ---- the feature grid lights up under the cursor as one surface ---- */
+.flist::after{background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(36,88,164,.14),transparent 62%)}
+.gauge .ringfx .nd{fill:#fff;stroke:var(--blue);stroke-width:2.4}
+.gauge .ringfx .pk{fill:var(--yellow);stroke:#fff;stroke-width:1.6;filter:drop-shadow(0 0 4px rgba(242,203,77,.9))}
+.gauge .ringfx .cut{fill:none;stroke:var(--red);stroke-width:10;stroke-linecap:round;opacity:0;transition:opacity .3s var(--ease)}
+.gauge .ringfx.broken .cut{opacity:1}
+.gauge .ringfx.broken .pk{fill:var(--red);filter:drop-shadow(0 0 5px rgba(217,56,50,.85))}
+.p .reroute{height:16px;margin-top:-4px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);opacity:0;transition:opacity .3s}
+.p.broken .reroute{opacity:1}
+
+/* ---- a slow scan across the dark panel, like a NOC display ---- */
+.scale .panel::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 42%,rgba(242,203,77,.11) 50%,transparent 58%);background-size:260% 100%;animation:scan 10s ease-in-out infinite}
+@keyframes scan{0%,100%{background-position:135% 0}50%{background-position:-35% 0}}
+
 .js .rv{opacity:0;transform:translateY(20px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
 .js .rv.in{opacity:1;transform:none}
 .js .rv.d1{transition-delay:.06s}.js .rv.d2{transition-delay:.12s}.js .rv.d3{transition-delay:.18s}
@@ -372,7 +414,8 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .sky i,.marquee ul,.btn,.tile{animation:none!important;transition:none!important}
+  .sky i,.marquee ul,.btn,.tile,.hero h1 .grad,.live i::after,.scale .panel::after{animation:none!important;transition:none!important}
+  .hero h1 .grad{background:var(--g-blue);-webkit-background-clip:text;background-clip:text}
   .js .rv{opacity:1;transform:none;transition:none}
   .gauge .arc,.meter .bar i{transition:none}
   .hero canvas{display:none}
@@ -382,6 +425,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="sky" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i></div>
+<div class="spine" aria-hidden="true"><span class="rail"></span><span class="fill"></span><span class="head"></span></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -450,7 +494,10 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   <canvas id="net" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
-      <span class="eyebrow">India's leading enterprise ISP</span>
+      <div class="topline">
+        <span class="eyebrow">India's leading enterprise ISP</span>
+        <span class="live"><i></i>All rings operational</span>
+      </div>
       <h1 id="h1">Business <span class="grad">Leased Line</span></h1>
       <p class="sub">Dedicated symmetrical fibre, installed fast and never shared.</p>
       <ul class="checks">
@@ -549,9 +596,10 @@ h2{font-size:clamp(28px,3.4vw,44px)}
     </div>
     <div class="proof">
       <div class="p glass tile rv">
-        <div class="viz"><div class="gauge"><svg viewBox="0 0 186 186" aria-hidden="true"><circle class="track" cx="93" cy="93" r="83"/><circle class="arc" cx="93" cy="93" r="83"/></svg><div class="num"><b class="count" data-to="99.02" data-dec="2">99.02</b><i>%</i><span>Uptime SLA</span></div></div></div>
+        <div class="viz"><div class="gauge"><svg viewBox="0 0 186 186" aria-hidden="true"><circle class="track" cx="93" cy="93" r="83"/><circle class="arc" cx="93" cy="93" r="83"/><g class="ringfx"><circle class="nd" cx="176" cy="93" r="4.5"/><circle class="nd" cx="93" cy="176" r="4.5"/><circle class="nd" cx="10" cy="93" r="4.5"/><circle class="nd" cx="93" cy="10" r="4.5"/><path class="cut"/><circle class="pk" cx="176" cy="93" r="5.2"/></g></svg><div class="num"><b class="count" data-to="99.02" data-dec="2">99.02</b><i>%</i><span>Uptime SLA</span></div></div></div>
         <p class="cap">Guaranteed uptime, in writing</p>
         <p class="sub">Ring-protected fibre, automatic failover.</p>
+        <span class="reroute">Rerouting</span>
         <span class="pill">95% on typical broadband</span>
       </div>
       <div class="p glass tile rv d1">
@@ -702,8 +750,67 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   root.classList.add('js');
 
   var nav=d.querySelector('.nav');
-  function onScroll(){ nav.classList.toggle('scrolled',w.scrollY>20); }
-  w.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* ---------- fibre spine: scroll progress as light down the page ---------- */
+  var spine=d.querySelector('.spine'), ticks=[];
+  function buildTicks(){
+    if(!spine) return;
+    ticks.forEach(function(t){ t.el.remove(); }); ticks=[];
+    var span=d.documentElement.scrollHeight-w.innerHeight;
+    if(span<=0) return;
+    ['#compare','#benefits','#how','#why','#testimonials','.cta'].forEach(function(sel){
+      var sec=d.querySelector(sel); if(!sec) return;
+      var r=Math.min(1,Math.max(0,(sec.offsetTop+sec.offsetHeight*0.35)/span));
+      var el=d.createElement('span'); el.className='tk';
+      el.style.top='calc(14vh + '+r.toFixed(4)+' * (100% - 28vh))';
+      spine.appendChild(el); ticks.push({el:el,r:r});
+    });
+  }
+  var pQueued=false;
+  function paintSpine(){
+    pQueued=false;
+    var span=d.documentElement.scrollHeight-w.innerHeight;
+    var p=span>0?Math.min(1,Math.max(0,w.scrollY/span)):0;
+    if(spine) spine.style.setProperty('--p',p.toFixed(4));
+    for(var i=0;i<ticks.length;i++) ticks[i].el.classList.toggle('on',p>=ticks[i].r-0.005);
+  }
+  function onScroll(){
+    nav.classList.toggle('scrolled',w.scrollY>20);
+    if(!pQueued){ pQueued=true; w.requestAnimationFrame(paintSpine); }
+  }
+  w.addEventListener('scroll',onScroll,{passive:true});
+  w.addEventListener('resize',function(){ buildTicks(); paintSpine(); },{passive:true});
+  buildTicks(); onScroll(); paintSpine();
+
+  /* ---------- ring protection: a link cuts, traffic routes the other way ---------- */
+  (function(){
+    var box=d.querySelector('.gauge .ringfx'); if(!box||RM) return;
+    var pk=box.querySelector('.pk'), cut=box.querySelector('.cut'), panel=box.closest('.p');
+    var CX=93, CY=93, R=83, ang=0, dir=1, cutAt=null, raf=0, live=false, next=0;
+    function pt(a){ var r=a*Math.PI/180; return [CX+R*Math.cos(r), CY+R*Math.sin(r)]; }
+    function arc(a0,a1){
+      var p0=pt(a0), p1=pt(a1);
+      return 'M'+p0[0].toFixed(2)+' '+p0[1].toFixed(2)+'A'+R+' '+R+' 0 0 1 '+p1[0].toFixed(2)+' '+p1[1].toFixed(2);
+    }
+    function frame(ts){
+      if(!next) next=ts+2600;
+      ang+=dir*0.42;
+      var p=pt(ang); pk.setAttribute('cx',p[0].toFixed(2)); pk.setAttribute('cy',p[1].toFixed(2));
+      if(ts>next){
+        if(cutAt===null){                       /* a span goes down ahead of the packet */
+          cutAt=ang+dir*40; cut.setAttribute('d',arc(cutAt-13,cutAt+13));
+          box.classList.add('broken'); if(panel) panel.classList.add('broken'); dir=-dir; next=ts+2800;
+        }else{                                  /* the ring heals */
+          cutAt=null; box.classList.remove('broken'); if(panel) panel.classList.remove('broken'); next=ts+3400;
+        }
+      }
+      raf=w.requestAnimationFrame(frame);
+    }
+    function sync(){ if(live&&!raf){ next=0; raf=w.requestAnimationFrame(frame); } if(!live&&raf){ w.cancelAnimationFrame(raf); raf=0; } }
+    if('IntersectionObserver' in w){ new IntersectionObserver(function(e){ live=e[0].isIntersecting&&!d.hidden; sync(); }).observe(box); }
+    else { live=true; sync(); }
+    d.addEventListener('visibilitychange',function(){ if(d.hidden){ live=false; sync(); } });
+  })();
 
   d.addEventListener('pointermove',function(e){
     var el=e.target.closest&&e.target.closest('.glass'); if(!el) return;
@@ -755,26 +862,66 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   });
 
   var cv=d.getElementById('net'); if(!cv||RM) return;
-  var ctx=cv.getContext('2d'),W=0,H=0,dpr=1,nodes=[],raf=0,vis=!d.hidden,inview=true,M={x:-9999,y:-9999};
+  var ctx=cv.getContext('2d'),W=0,H=0,dpr=1,strands=[],pulses=[],raf=0,vis=!d.hidden,inview=true,M={x:-9999,y:-9999},T=0;
+  var BLUE='36,88,164', GOLD='242,203,77';
   function resize(){
-    dpr=Math.min(2,w.devicePixelRatio||1); var r=cv.parentNode.getBoundingClientRect(); W=r.width;H=r.height;
-    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var n=Math.round(Math.min(80,Math.max(32,W*H/23000))); nodes=[];
-    for(var i=0;i<n;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:1+Math.random()*1.3});
+    dpr=Math.min(2,w.devicePixelRatio||1);
+    var r=cv.parentNode.getBoundingClientRect(); W=r.width; H=r.height;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.max(5,Math.min(11,Math.round(H/78)));
+    strands=[]; pulses=[];
+    for(var i=0;i<n;i++){
+      strands.push({
+        y:H*(i+0.6)/(n+0.2),
+        amp:16+Math.sin(i*2.7)*10+ (i%3)*7,
+        freq:(0.0032+(i%4)*0.0009),
+        phase:i*1.37,
+        drift:0.00016+(i%3)*0.00009,
+        a:0.065+((i*37)%5)*0.014
+      });
+      pulses.push({s:i,t:(i*0.17)%1,v:0.00042+((i*13)%5)*0.00011,gold:(i%4===1)});
+      if(i%2===0) pulses.push({s:i,t:((i*0.43)+0.5)%1,v:0.00036+((i*7)%4)*0.00012,gold:(i%8===3)});
+    }
   }
-  function draw(){
+  function yAt(st,x){
+    var bend=0;
+    if(M.x>-9000){                                  /* strands lean toward the cursor */
+      var dx=(x-M.x)/190, dy=(st.y-M.y);
+      bend=Math.exp(-dx*dx)*Math.max(-26,Math.min(26,-dy*0.3));
+    }
+    return st.y + st.amp*Math.sin(x*st.freq + st.phase + T*st.drift) + bend;
+  }
+  function draw(ts){
+    T=ts||0;
     ctx.clearRect(0,0,W,H);
-    var L=Math.min(165,W/7);
-    for(var i=0;i<nodes.length;i++){
-      var a=nodes[i]; a.x+=a.vx;a.y+=a.vy;
-      if(a.x<-10)a.x=W+10; if(a.x>W+10)a.x=-10; if(a.y<-10)a.y=H+10; if(a.y>H+10)a.y=-10;
-      var dx=M.x-a.x,dy=M.y-a.y,dd=dx*dx+dy*dy; if(dd<40000){ a.x+=dx*.004; a.y+=dy*.004; }
-      for(var j=i+1;j<nodes.length;j++){
-        var b=nodes[j],ex=a.x-b.x,ey=a.y-b.y,dist=Math.sqrt(ex*ex+ey*ey);
-        if(dist<L){ var al=(1-dist/L)*.17; ctx.strokeStyle='rgba(36,88,164,'+al.toFixed(3)+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+    var step=Math.max(10,W/110), i, x;
+    for(i=0;i<strands.length;i++){
+      var st=strands[i];
+      ctx.beginPath(); ctx.moveTo(0,yAt(st,0));
+      for(x=step;x<=W;x+=step) ctx.lineTo(x,yAt(st,x));
+      ctx.strokeStyle='rgba('+BLUE+','+st.a.toFixed(3)+')'; ctx.lineWidth=1; ctx.stroke();
+    }
+    for(i=0;i<pulses.length;i++){
+      var p=pulses[i]; p.t+=p.v*16; if(p.t>1.12) p.t=-0.12;
+      var st2=strands[p.s]; if(!st2) continue;
+      var px=p.t*W, tail=Math.min(160,W*0.16), col=p.gold?GOLD:BLUE;
+      if(px<-tail||px>W+tail) continue;
+      var x0=Math.max(0,px-tail), x1=Math.min(W,px);
+      if(x1>x0){
+        var g=ctx.createLinearGradient(x0,0,x1,0);
+        g.addColorStop(0,'rgba('+col+',0)'); g.addColorStop(1,'rgba('+col+',0.58)');
+        ctx.beginPath(); ctx.moveTo(x0,yAt(st2,x0));
+        for(x=x0+step;x<=x1;x+=step) ctx.lineTo(x,yAt(st2,x));
+        ctx.lineTo(x1,yAt(st2,x1));
+        ctx.strokeStyle=g; ctx.lineWidth=1.7; ctx.lineCap='round'; ctx.stroke();
+      }
+      if(px>=0&&px<=W){                              /* the light head, with a soft bloom */
+        var hy=yAt(st2,px), rg=ctx.createRadialGradient(px,hy,0,px,hy,9);
+        rg.addColorStop(0,'rgba('+col+',0.5)'); rg.addColorStop(1,'rgba('+col+',0)');
+        ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,hy,9,0,6.283); ctx.fill();
+        ctx.fillStyle='rgba('+col+',0.85)'; ctx.beginPath(); ctx.arc(px,hy,1.7,0,6.283); ctx.fill();
       }
     }
-    for(var k=0;k<nodes.length;k++){ var p=nodes[k]; ctx.fillStyle='rgba(36,88,164,.34)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); }
     raf=w.requestAnimationFrame(draw);
   }
   function sync(){ var on=vis&&inview; if(on&&!raf) raf=w.requestAnimationFrame(draw); if(!on&&raf){ w.cancelAnimationFrame(raf); raf=0; } }

@@ -34,6 +34,24 @@ The page is built to be understood by scrolling straight down:
 
 Floating: WhatsApp button, desktop Enquire Now side tab, mobile sticky Call / Get a Quote bar.
 
+## The fibre motif
+
+One idea runs through the page: light travelling down a fibre line.
+
+- **Fibre spine** (1280px and up) — a thread pinned to the left margin. It fills with blue as you
+  scroll, a glowing head marks your position, and a node lights up as each section is reached.
+- **Hero strands** — a canvas of fibre strands carrying light pulses, blue with occasional gold.
+  They lean toward the cursor. Paused when off-screen or the tab is hidden.
+- **Headline sweep** — a specular band crossing "Leased Line", kept inside blue.
+- **Self-healing ring** — the uptime gauge doubles as a protected ring. A packet circles it; every
+  few seconds a span cuts, the packet turns red and reverses, "REROUTING" appears, then it heals.
+  This is what the 99.02% figure actually rests on.
+- **Live status** — a pulsing "All rings operational" chip beside the hero eyebrow.
+- **Grid spotlight** — the feature grid lights up as one surface under the cursor.
+- **Panel scan** — a slow gold sweep across the dark scale panel.
+
+Every one of these is disabled under `prefers-reduced-motion`.
+
 ## Brand tokens
 
 Defined once at the top of the stylesheet in `index.html`. These are the exact shades supplied
