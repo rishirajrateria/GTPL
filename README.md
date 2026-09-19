@@ -22,7 +22,7 @@ The page is built to be understood by scrolling straight down:
 1. **Hero** — headline, four key figures, and the enquiry form, kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
 3. **Step one: why a leased line, not broadband** — three-column glass comparison
-4. **Step two: what you get** — bento grid of 15 benefits, led by a 99.02% SLA gauge, speed meters, a packet-loss trace and a ring-topology diagram
+4. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
 5. **Step three: live in three moves** — enquire, survey and quote, install
 6. **Scale** — dark panel, eight figures in brand yellow
 7. **Client stories** — three testimonials

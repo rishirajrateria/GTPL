@@ -191,44 +191,47 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .col.broad .ico{color:var(--ink-3)}.col.broad .ico::before{opacity:.22}
 
 /* ============================================================
-   6. BENEFITS — bento, icon-led
+   6. BENEFITS — three proof panels + one dense feature grid
    ============================================================ */
-.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.b{padding:20px;display:flex;flex-direction:column;gap:13px;min-height:142px}
-.b h3{font-size:14.5px;font-weight:700;letter-spacing:-.015em;color:var(--ink);line-height:1.3;margin-top:auto}
-.b.feat{grid-column:span 2;grid-row:span 2;align-items:center;justify-content:center;text-align:center;gap:6px;padding:26px}
-.gauge{position:relative;width:186px;height:186px}
+.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.p{padding:22px 20px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:10px}
+.p .pill{margin-top:auto}
+.p .cap{font-size:14.5px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-top:2px}
+.p .sub{font-size:12.5px;color:var(--ink-3)}
+.p .viz{width:100%;display:flex;align-items:center;justify-content:center;min-height:132px}
+
+.gauge{position:relative;width:132px;height:132px}
 .gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
-.gauge .track{stroke:rgba(16,29,48,.07);stroke-width:9;fill:none}
-.gauge .arc{stroke:url(#gArc);stroke-width:9;fill:none;stroke-linecap:round;stroke-dasharray:521;stroke-dashoffset:521;transition:stroke-dashoffset 1.8s var(--ease)}
+.gauge .track{stroke:rgba(16,29,48,.07);stroke-width:10;fill:none}
+.gauge .arc{stroke:url(#gArc);stroke-width:10;fill:none;stroke-linecap:round;stroke-dasharray:521;stroke-dashoffset:521;transition:stroke-dashoffset 1.8s var(--ease)}
 .in .gauge .arc{stroke-dashoffset:5}
 .gauge .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-.gauge .num b{font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
-.gauge .num i{font-style:normal;font-size:20px;color:var(--blue)}
-.gauge .num span{display:block;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-4);margin-top:6px}
-.b.feat h3{font-size:18px;margin-top:10px}
-.b.feat p{font-size:12.5px;color:var(--ink-3)}
-.b.feat .vs{margin-top:8px;display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;font-size:11.5px;font-weight:700;color:var(--ink-2);background:rgba(242,203,77,.22);box-shadow:inset 0 0 0 1px rgba(242,203,77,.5)}
-.b.wide{grid-column:span 2}
-.b .hd{display:flex;align-items:center;gap:12px}
-.b .hd h3{margin-top:0}
-.meter{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--ink-3)}
-.meter+.meter{margin-top:9px}
-.meter .bar{height:6px;border-radius:99px;background:rgba(16,29,48,.07);overflow:hidden}
+.gauge .num b{font-size:29px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.gauge .num i{font-style:normal;font-size:16px;color:var(--blue)}
+.gauge .num span{display:block;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-top:5px}
+
+.meters{width:100%;max-width:300px}
+.meter{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--ink-3)}
+.meter+.meter{margin-top:12px}
+.meter .bar{height:7px;border-radius:99px;background:rgba(16,29,48,.07);overflow:hidden}
 .meter .bar i{display:block;height:100%;width:0;border-radius:inherit;transition:width 1.6s var(--ease)}
 .meter.dn .bar i{background:var(--blue)}
 .meter.up .bar i{background:var(--g-warm)}
 .in .meter .bar i{width:100%}
 .meter b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:12.5px}
-.spark{height:34px;width:100%;margin-top:auto}
-.spark path{fill:none;stroke:url(#gSpark);stroke-width:2;stroke-linecap:round}
-.ringdia{width:100px;height:100px;margin:2px auto 0}
-.ringdia circle.o{fill:none;stroke:rgba(36,88,164,.3);stroke-width:1.5;stroke-dasharray:3 6}
-.ringdia .nd{fill:var(--blue)}
-.ringdia .pk{fill:var(--yellow)}
-.ringdia .rot circle:first-child{opacity:.32}
-.ringdia .rot{transform-origin:50px 50px;animation:spin 9s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+.p .big{font-size:40px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--blue)}
+.spark{width:100%;max-width:300px;height:46px}
+.spark path{fill:none;stroke:url(#gSpark);stroke-width:2.2;stroke-linecap:round}
+.p .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;font-size:11.5px;font-weight:700;color:var(--ink-2);background:rgba(242,203,77,.22);box-shadow:inset 0 0 0 1px rgba(242,203,77,.5)}
+
+.flist{margin-top:14px;overflow:hidden;padding:0}
+.flist ul{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(16,29,48,.09);border-radius:inherit;overflow:hidden}
+.flist li{display:flex;align-items:center;gap:12px;padding:15px 16px;min-height:66px;background:rgba(255,255,255,.62);
+  font-size:13.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink);line-height:1.25;transition:background .3s var(--ease)}
+.flist li:hover{background:rgba(255,255,255,.95)}
+.flist .ico{width:34px;height:34px;border-radius:11px}
+.flist .ico::before{border-radius:12px}
+.flist .ico .i{width:17px;height:17px}
 
 /* ============================================================
    7. STEPS
@@ -310,14 +313,18 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 @media (min-width:1024px){.side-tab{display:block}}
 @media (max-width:1100px){
   .hero .wrap{grid-template-columns:1fr 390px;gap:30px}
-  .bento{grid-template-columns:repeat(3,1fr)}
-  .b.feat{grid-column:span 3;grid-row:auto}
+  .flist ul{grid-template-columns:repeat(3,1fr)}
   .sgrid{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:900px){
   .hero .wrap{grid-template-columns:1fr}
   .hero{padding-bottom:30px}
   .form .halo{inset:-20px}
+  .proof{grid-template-columns:1fr}
+  .p{padding:20px 18px;gap:9px}
+  .p .viz{min-height:0}
+  .gauge{width:124px;height:124px}
+  .gauge .num b{font-size:27px}
   .cmp{grid-template-columns:1fr}
   .col.keys{display:none}
   .rows{grid-auto-rows:auto}
@@ -338,9 +345,14 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   .kpis{gap:16px}
   .kpis b{font-size:20px}
   .fields{grid-template-columns:1fr}
-  .bento{grid-template-columns:1fr 1fr}
-  .b{min-height:126px;padding:16px;gap:10px}
-  .b.wide,.b.feat{grid-column:span 2}
+  .flist ul{grid-template-columns:1fr 1fr}
+  .flist li{padding:12px;min-height:58px;font-size:12.5px;gap:10px}
+  .p{padding:18px 16px;gap:8px}
+  .p .viz{min-height:0}
+  .gauge{width:116px;height:116px}
+  .gauge .num b{font-size:26px}
+  .p .big{font-size:34px}
+  .spark{height:36px}
   .sgrid{grid-template-columns:1fr 1fr}
   .sg{min-height:126px;padding:17px 15px}
   .marquee ul{gap:34px;padding-right:34px}
@@ -348,14 +360,14 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   .foot .wrap{flex-direction:column;align-items:flex-start}
 }
 @media (max-width:460px){.brand .tag{display:none}}
+@media (max-width:340px){.flist ul{grid-template-columns:1fr}}
 @media (max-width:400px){
-  .bento{grid-template-columns:1fr}.b.wide,.b.feat{grid-column:auto}
   .sgrid{grid-template-columns:1fr}.sg{min-height:0}
   .kpis{flex-wrap:wrap;gap:14px 20px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .sky i,.marquee ul,.ringdia .rot,.btn,.tile{animation:none!important;transition:none!important}
+  .sky i,.marquee ul,.btn,.tile{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none;transition:none}
   .gauge .arc,.meter .bar i{transition:none}
   .hero canvas{display:none}
@@ -390,6 +402,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
     <symbol id="i-cable" viewBox="0 0 24 24"><path d="M4 18c4 0 4-12 8-12s4 12 8 12"/><circle cx="4" cy="18" r="1.5"/><circle cx="20" cy="18" r="1.5"/></symbol>
     <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M9 20h6M12 16v4M7 12l3-3 2 2 4-4"/></symbol>
     <symbol id="i-arrows" viewBox="0 0 24 24"><path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3"/></symbol>
+    <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="5" r="1.7" fill="currentColor" stroke="none"/><circle cx="18" cy="15.5" r="1.7" fill="currentColor" stroke="none"/><circle cx="6" cy="15.5" r="1.7" fill="currentColor" stroke="none"/></symbol>
     <symbol id="i-p2p" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h9"/></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 8v6l-4-2v-4z"/></symbol>
     <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/></symbol>
@@ -537,43 +550,47 @@ h2{font-size:clamp(28px,3.4vw,44px)}
       <span class="eyebrow">Step two</span>
       <h2 id="bn-h">What you get</h2>
     </div>
-    <div class="bento">
-      <div class="b feat glass tile rv">
-        <div class="gauge"><svg viewBox="0 0 186 186" aria-hidden="true"><circle class="track" cx="93" cy="93" r="83"/><circle class="arc" cx="93" cy="93" r="83"/></svg><div class="num"><b class="count" data-to="99.02" data-dec="2">99.02</b><i>%</i><span>Uptime SLA</span></div></div>
-        <h3>Guaranteed uptime, in writing</h3>
-        <p>Ring-protected fibre with automatic failover.</p>
-        <span class="vs"><svg class="i" aria-hidden="true" focusable="false" style="width:13px;height:13px"><use href="#i-arrows"/></svg>95% on typical broadband</span>
+    <div class="proof">
+      <div class="p glass tile rv">
+        <div class="viz"><div class="gauge"><svg viewBox="0 0 186 186" aria-hidden="true"><circle class="track" cx="93" cy="93" r="83"/><circle class="arc" cx="93" cy="93" r="83"/></svg><div class="num"><b class="count" data-to="99.02" data-dec="2">99.02</b><i>%</i><span>Uptime SLA</span></div></div></div>
+        <p class="cap">Guaranteed uptime, in writing</p>
+        <p class="sub">Ring-protected fibre, automatic failover.</p>
+        <span class="pill">95% on typical broadband</span>
       </div>
-
-      <div class="b wide glass tile rv d1">
-        <div class="hd"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrows"/></svg></span><h3>Symmetrical speeds</h3></div>
-        <div style="margin-top:auto">
+      <div class="p glass tile rv d1">
+        <div class="viz"><div class="meters">
           <div class="meter dn"><span>Download</span><span class="bar"><i></i></span><b>1 Gbps</b></div>
           <div class="meter up"><span>Upload</span><span class="bar"><i></i></span><b>1 Gbps</b></div>
-        </div>
+        </div></div>
+        <p class="cap">Symmetrical speeds</p>
+        <p class="sub">The same rate up and down, never shared.</p>
+        <span class="pill">Broadband is asymmetrical</span>
       </div>
-
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cable"/></svg></span><h3>Multiple last-mile options</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-monitor"/></svg></span><h3>24/7 remote monitoring</h3></div>
-
-      <div class="b wide glass tile rv">
-        <div class="hd"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-packet"/></svg></span><h3>0% packet loss</h3></div>
-        <svg class="spark" viewBox="0 0 400 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 19 H150 l6-7 6 7 H264 l6-5 6 5 H400"/><circle cx="393" cy="19" r="3.5" fill="#f2cb4d" stroke="none"/></svg>
+      <div class="p glass tile rv d2">
+        <div class="viz"><div style="width:100%"><div class="big">0%</div>
+          <svg class="spark" viewBox="0 0 300 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 H112 l5-8 5 8 H196 l5-6 5 6 H300"/><circle cx="294" cy="30" r="4" fill="#f2cb4d" stroke="none"/></svg>
+        </div></div>
+        <p class="cap">Packet loss</p>
+        <p class="sub">A clean line for voice, video and cloud apps.</p>
+        <span class="pill">Shared lines drop packets</span>
       </div>
+    </div>
 
-      <div class="b glass tile rv d1">
-        <svg class="ringdia" viewBox="0 0 100 100" aria-hidden="true"><circle class="o" cx="50" cy="50" r="32"/><circle class="nd" cx="50" cy="18" r="3.6"/><circle class="nd" cx="82" cy="50" r="3.6"/><circle class="nd" cx="50" cy="82" r="3.6"/><circle class="nd" cx="18" cy="50" r="3.6"/><g class="rot"><circle class="pk" cx="50" cy="18" r="6"/><circle class="pk" cx="50" cy="18" r="2.6" opacity=".9"/></g></svg>
-        <h3>Ring topology</h3>
-      </div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-p2p"/></svg></span><h3>Point-to-point</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-timer"/></svg></span><h3>Optimal latency</h3></div>
-      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span><h3>Highly secured</h3></div>
-      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-filter"/></svg></span><h3>Web &amp; app filtering</h3></div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cloud"/></svg></span><h3>Easy cloud access</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-db"/></svg></span><h3>Large data transfer</h3></div>
-      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg></span><h3>Faster connection</h3></div>
-      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span><h3>Built for corporates</h3></div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-rupee"/></svg></span><h3>Cost-effective</h3></div>
+    <div class="flist glass rv d1">
+      <ul>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cable"/></svg></span>Multiple last-mile options</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-monitor"/></svg></span>24/7 remote monitoring</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-ring"/></svg></span>Ring topology</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-p2p"/></svg></span>Point-to-point</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-timer"/></svg></span>Optimal latency</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span>Highly secured</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-filter"/></svg></span>Web &amp; app filtering</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cloud"/></svg></span>Easy cloud access</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-db"/></svg></span>Large data transfer</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg></span>Faster connection</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span>Built for corporates</li>
+        <li><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-rupee"/></svg></span>Cost-effective</li>
+      </ul>
     </div>
   </div>
 </section>
