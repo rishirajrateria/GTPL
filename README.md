@@ -28,13 +28,16 @@ The page is built to be understood by scrolling straight down:
 
 1. **Hero** — headline, four key figures, and a two-field availability check (PIN code and mobile), kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
-3. **Step one: why a leased line, not broadband** — two glass cards for the two real options, with
+3. **Sectors we serve** — a slim band of ten industry chips, each with an icon. The chip order is
+   chosen so the row packs evenly at every width and never leaves a single chip stranded on its
+   own line
+4. **Step one: why a leased line, not broadband** — two glass cards for the two real options, with
    the row labels as a plain right-aligned rail beside them rather than a third card
-4. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
-5. **Step three: live in three moves** — enquire, survey and quote, install
-6. **Scale** — dark panel, eight figures in brand yellow
-7. **Client stories** — three testimonials
-8. **Call to action** and footer
+5. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
+6. **Step three: live in three moves** — enquire, survey and quote, install
+7. **Scale** — dark panel, eight figures in brand yellow
+8. **Client stories** — three testimonials
+9. **Call to action** and footer
 
 Floating: WhatsApp button, desktop Enquire Now side tab, mobile sticky Call / Get a Quote bar.
 

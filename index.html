@@ -187,6 +187,33 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .marquee .lg{width:30px;height:30px;flex:none;color:currentColor}
 
 /* ============================================================
+   4b. SECTORS — a slim band of who we serve
+   ============================================================ */
+.sec.slim{padding-block:clamp(42px,4.4vw,64px)}
+.sectors .head{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;margin-bottom:26px}
+.sectors .head h2{font-size:clamp(22px,2.3vw,30px)}
+.sectors .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:900px;margin-inline:auto}
+.sct{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:99px;
+  background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 12px 26px -20px rgba(13,31,60,.55);
+  font-size:13.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),color .35s var(--ease)}
+.sct:hover{transform:translateY(-3px);color:var(--blue);box-shadow:inset 0 0 0 1px rgba(255,255,255,.95),0 18px 32px -20px rgba(36,88,164,.7)}
+.sct .ic{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;flex:none;color:var(--blue);
+  background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,255,255,.55));box-shadow:inset 0 0 0 1px rgba(255,255,255,.9)}
+.sct .ic::before{content:"";position:absolute;inset:-1px;border-radius:10px;padding:1px;
+  background:linear-gradient(150deg,var(--blue),rgba(36,88,164,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.5}
+.sct .ic .i{width:16px;height:16px}
+@media (max-width:640px){
+  .sectors .row{gap:8px}
+  .sct{padding:7px 13px 7px 7px;font-size:12.5px;gap:8px}
+  .sct .ic{width:26px;height:26px;border-radius:8px}
+  .sct .ic .i{width:14px;height:14px}
+}
+
+/* ============================================================
    5. COMPARE
    ============================================================ */
 .cmp{display:grid;grid-template-columns:max-content 1.1fr 1fr;gap:18px;align-items:stretch}
@@ -481,6 +508,13 @@ h2{font-size:clamp(28px,3.4vw,44px)}
     <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4.5-6.2"/></symbol>
     <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></symbol>
     <symbol id="i-india" viewBox="0 0 24 24"><path d="M8 3l3 1 3-1 3 3-1 4 2 3-3 4-2 5-3-1-2-4-3-2 1-4-1-3z"/></symbol>
+    <symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V10l6 4V10l6 4V7l6 4v10z"/><path d="M7 21v-3M12 21v-3M17 21v-3"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 18v-7h13a4 4 0 0 1 4 4v3M3 18v3M21 18v3M3 11V6"/><circle cx="7.5" cy="9.5" r="2"/></symbol>
+    <symbol id="i-health" viewBox="0 0 24 24"><path d="M3 12h4l2-4 3 8 2.5-5 1.5 3h5"/><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-4 10 4-10 4z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M21 9.5V15"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10l9-5 9 5M4 10v8M9 10v8M15 10v8M20 10v8M2.5 21h19"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M4 8h16l-1.2 12H5.2z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></symbol>
+    <symbol id="i-media" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2.5"/><path d="M10 10.5l4.5 3-4.5 3zM8 3l2 3M16 3l-2 3"/></symbol>
     <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
     <symbol id="i-hash" viewBox="0 0 24 24"><path d="M9 4L7 20M17 4l-2 16M4 9h17M3 15h17"/></symbol>
     <symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6H9zM9 12h6M9 16h4"/></symbol>
@@ -561,6 +595,29 @@ h2{font-size:clamp(28px,3.4vw,44px)}
         <li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-1"/></svg>Wipro</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-2"/></svg>Aditya Birla Group</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-3"/></svg>Ambuja Neotia</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-4"/></svg>Kolkata Airport</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-5"/></svg>Globe TV</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-6"/></svg>Haldiram's</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-7"/></svg>Monotel</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-8"/></svg>Maruti Suzuki</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-9"/></svg>NDIA</li><li><svg class="lg" aria-hidden="true" focusable="false"><use href="#m-10"/></svg>Vibtree</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- =============== SECTORS =============== -->
+<section class="sec slim sectors" id="sectors" aria-labelledby="sc-h">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Sectors we serve</span>
+      <h2 id="sc-h">Custom quotes for <span class="grad">every industry</span></h2>
+    </div>
+    <!-- order chosen so the chips pack into even rows at every width -->
+    <ul class="row rv d1">
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-factory"/></svg></span>Manufacturing</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bank"/></svg></span>BFSI</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bed"/></svg></span>Hospitality</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bag"/></svg></span>Retail</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-health"/></svg></span>Healthcare</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-media"/></svg></span>Media</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span>Government</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cap"/></svg></span>Education</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chip"/></svg></span>IT &amp; ITES</li>
+      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span>Logistics</li>
+    </ul>
   </div>
 </section>
 
