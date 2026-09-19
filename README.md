@@ -7,9 +7,12 @@ white ground, frosted-glass panels, and the brand blue, red and yellow used as g
 
 - `index.html` — the whole page: markup, CSS, vanilla JavaScript and the logo in one file. No build step.
 
-The GTPL KCBPL logo is embedded as a base64 PNG inside the stylesheet (the `.logo` class), so the
-page makes no image requests. It is declared once and shared by the header and the footer. To swap
-it, replace the data URI in that one rule and keep the `aspect-ratio` in step with the new artwork.
+- `logo.svg` — the brand logo as a standalone vector, for reuse elsewhere.
+
+The logo is a vector: the supplied PNG was traced into three flat colour layers (blue, red and the
+globe's yellow) and lives as an SVG `<symbol id="logo">` in the sprite at the top of the body. The
+header and footer both reference it with `<use href="#logo">`, so it is stored once, stays sharp at
+any size and on any display, and the page still makes no image requests.
 
 ## Run it
 
