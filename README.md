@@ -41,10 +41,10 @@ Floating: WhatsApp button, desktop Enquire Now side tab, mobile sticky Call / Ge
 
 One idea runs through the page: light travelling down a fibre line.
 
-- **Fibre spine** (1280px and up) — a thread pinned to the left margin. It fills with blue as you
-  scroll, a glowing head marks your position, and a node lights up as each section is reached.
 - **Hero strands** — a canvas of fibre strands carrying light pulses, blue with occasional gold.
-  They lean toward the cursor. Paused when off-screen or the tab is hidden.
+  They lean toward the cursor. Held well back with a low opacity and a gradient mask that clears
+  the area behind the copy entirely, so nothing competes with the text. Paused when off-screen or
+  the tab is hidden.
 - **Headline sweep** — a specular band crossing "Leased Line", kept inside blue.
 - **Self-healing ring** — the uptime gauge doubles as a protected ring. A packet circles it; every
   few seconds a span cuts, the packet turns red and reverses, "REROUTING" appears, then it heals.
