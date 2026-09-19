@@ -42,10 +42,19 @@ by the client; the neutrals are tuned toward blue rather than pure grey.
 | `--yellow` | `#f2cb4d` | gradient tails, figures on the dark panel, stars |
 | `--navy` | `#0d1f3c` | the one dark panel (neutral, not a brand shade) |
 
-Brand colour appears through three gradients — `--g-brand` (blue to red, used for text and
-buttons), `--g-full` (blue to red to yellow, for rules and edges) and `--g-warm` (red to yellow).
-Yellow is never set as text on white: at 1.8:1 it fails the contrast bar, so it carries shapes,
-edges and the dark panel instead.
+Each colour has one job, so the three never blur into each other:
+
+- **Blue** is the product — headline emphasis, every icon, the leased-line column, the uptime
+  gauge, the download meter, the packet-loss trace.
+- **Red** is action and negation — every call-to-action button, the Recommended ribbon, the step
+  numbers, the crosses against broadband, required-field markers, the upload meter.
+- **Yellow** is the highlight — figures on the dark panel, stars, comparison pills, the endpoint
+  of the trace.
+
+Gradients stay inside one hue (`--g-blue`, `--g-red`). Blue is never blended into red: their
+midpoint is a muddy purple that reads as neither brand colour. Where all three must appear
+together, `--g-tri` sets them as hard-stopped segments rather than a blend. Yellow is never text
+on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and the dark panel.
 
 ## Before going live
 
