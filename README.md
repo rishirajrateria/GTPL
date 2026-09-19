@@ -19,7 +19,7 @@ npx serve .
 
 The page is built to be understood by scrolling straight down:
 
-1. **Hero** — headline, four key figures, and the enquiry form, kept short so the client rail is visible without scrolling
+1. **Hero** — headline, four key figures, and a two-field availability check (PIN code and mobile), kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
 3. **Step one: why a leased line, not broadband** — three-column glass comparison
 4. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
@@ -58,8 +58,9 @@ on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and th
 
 ## Before going live
 
-- **Form backend**: the enquiry form is client-side only. Search for `TODO: wire form` in
-  `index.html` and post the fields to your CRM or email endpoint.
+- **Form backend**: the availability form is client-side only and collects PIN code and mobile
+  number. Search for `TODO: wire form` in `index.html` and post the two fields to your CRM or
+  email endpoint. Your team collects name, company and industry on the callback.
 - **Testimonials**: the three quotes are placeholders attributed to roles only. Replace them with
   real client quotes (see the `Placeholder testimonials` comment).
 - **Client logos**: clients are shown as text wordmarks. Swap in real logo images if you have

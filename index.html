@@ -126,20 +126,20 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .kpis span{display:block;margin-top:5px;font-size:12px;font-weight:600;color:var(--ink-3)}
 
 /* form */
-.form{padding:22px 22px 20px}
+.form{padding:24px 22px 22px}
 .form .halo{position:absolute;inset:-44px -36px -32px -40px;z-index:-1;border-radius:56px;filter:blur(38px);pointer-events:none;
   background:linear-gradient(135deg,rgba(36,88,164,.18),rgba(242,203,77,.32) 100%)}
 .form .fh{display:flex;align-items:center;gap:11px}
 .form h2{font-size:21px;letter-spacing:-.03em}
 .form .fh p{font-size:12.5px;color:var(--ink-3);margin-top:2px}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .f{display:flex;flex-direction:column;gap:5px;min-width:0}
 .f.full{grid-column:1/-1}
 .f label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
 .f label em{font-style:normal;color:var(--red)}
 .ctrl{position:relative;display:flex;align-items:center}
 .ctrl .i{position:absolute;left:12px;width:15px;height:15px;color:var(--ink-4);pointer-events:none}
-.ctrl input,.ctrl select{width:100%;height:42px;padding:0 12px 0 36px;border-radius:11px;border:1px solid var(--line-2);background:rgba(255,255,255,.72);color:var(--ink);font-size:14.5px;
+.ctrl input,.ctrl select{width:100%;height:46px;padding:0 12px 0 36px;border-radius:11px;border:1px solid var(--line-2);background:rgba(255,255,255,.72);color:var(--ink);font-size:14.5px;
   transition:border-color .25s,box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
 .ctrl input::placeholder{color:var(--ink-4)}
 .ctrl select{padding-right:32px;cursor:pointer}
@@ -148,7 +148,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .f.err .ctrl input,.f.err .ctrl select{border-color:var(--red);box-shadow:0 0 0 4px rgba(217,56,50,.12)}
 .f .msg{display:none;font-size:11.5px;color:var(--red)}
 .f.err .msg{display:block}
-.form .btn{width:100%;margin-top:15px;height:46px}
+.form .btn{width:100%;margin-top:16px;height:48px}
 .form .priv{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:11.5px;color:var(--ink-4)}
 .form .priv .i{width:12px;height:12px}
 .done{display:none;text-align:center;padding:26px 6px}
@@ -474,19 +474,14 @@ h2{font-size:clamp(28px,3.4vw,44px)}
       <span class="halo" aria-hidden="true"></span>
       <div class="fh">
         <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></span>
-        <span><h2 id="f-h">Enquire now</h2><p>Get a custom quote in 24 hours.</p></span>
+        <span><h2 id="f-h">Check availability</h2><p>PIN code and mobile. We call you back in 24 hours.</p></span>
       </div>
       <!-- TODO: wire form to backend / CRM endpoint -->
       <div class="fields">
-        <div class="f full"><label for="name">Name <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-user"/></svg><input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required aria-describedby="name-m"></span><span class="msg" id="name-m">Please enter your name.</span></div>
-        <div class="f"><label for="email">Email <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg><input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required aria-describedby="email-m"></span><span class="msg" id="email-m">Enter a valid email.</span></div>
-        <div class="f"><label for="phone">Phone <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required aria-describedby="phone-m"></span><span class="msg" id="phone-m">Enter a 10-digit mobile.</span></div>
-        <div class="f"><label for="company">Company <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building"/></svg><input id="company" name="company" type="text" autocomplete="organization" placeholder="Company name" required aria-describedby="company-m"></span><span class="msg" id="company-m">Please enter your company.</span></div>
-        <div class="f"><label for="industry">Industry</label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-brief"/></svg><select id="industry" name="industry"><option value="">Select industry</option><option>IT / ITES</option><option>Manufacturing</option><option>Hospitality</option><option>Healthcare</option><option>Education</option><option>BFSI</option><option>Retail</option><option>Government</option><option>Media</option><option>Other</option></select><svg class="i chev" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span></div>
-        <div class="f"><label for="pin">PIN code <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><input id="pin" name="pin" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="6-digit PIN" required aria-describedby="pin-m"></span><span class="msg" id="pin-m">Enter a 6-digit PIN.</span></div>
-        <div class="f"><label for="district">District</label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-map"/></svg><select id="district" name="district"><option value="">Select district</option><option>Kolkata</option><option>Howrah</option><option>Hooghly</option><option>North 24 Parganas</option><option>South 24 Parganas</option><option>Nadia</option><option>Purba Bardhaman</option><option>Paschim Bardhaman</option><option>Darjeeling / Siliguri</option><option>Other</option></select><svg class="i chev" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span></div>
+        <div class="f"><label for="pin">PIN code <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><input id="pin" name="pin" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="6-digit PIN" required aria-describedby="pin-m"></span><span class="msg" id="pin-m">Enter a 6-digit PIN code.</span></div>
+        <div class="f"><label for="phone">Phone <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required aria-describedby="phone-m"></span><span class="msg" id="phone-m">Enter a 10-digit mobile number.</span></div>
       </div>
-      <button class="btn btn-primary" type="submit"><span>Submit</span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></button>
+      <button class="btn btn-primary" type="submit"><span>Get my quote</span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></button>
       <p class="priv"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-lock"/></svg>Your details stay private.</p>
       <div class="done" role="status" aria-live="polite">
         <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>
@@ -744,8 +739,8 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   }
 
   var form=d.getElementById('enquire');
-  var rules={name:function(v){return v.trim().length>1},email:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())},
-    phone:function(v){return /^[6-9]\d{9}$/.test(v.replace(/\D/g,''))},company:function(v){return v.trim().length>1},pin:function(v){return /^[1-9]\d{5}$/.test(v.trim())}};
+  var rules={pin:function(v){return /^[1-9]\d{5}$/.test(v.trim())},
+    phone:function(v){return /^[6-9]\d{9}$/.test(v.replace(/\D/g,''))}};
   function check(id){ var f=d.getElementById(id),ok=rules[id](f.value); f.closest('.f').classList.toggle('err',!ok); f.setAttribute('aria-invalid',ok?'false':'true'); return ok; }
   Object.keys(rules).forEach(function(id){ d.getElementById(id).addEventListener('input',function(){ if(this.closest('.f').classList.contains('err')) check(id); }); });
   form.addEventListener('submit',function(e){
