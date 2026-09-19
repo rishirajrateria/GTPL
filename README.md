@@ -28,7 +28,8 @@ The page is built to be understood by scrolling straight down:
 
 1. **Hero** — headline, four key figures, and a two-field availability check (PIN code and mobile), kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
-3. **Step one: why a leased line, not broadband** — three-column glass comparison
+3. **Step one: why a leased line, not broadband** — two glass cards for the two real options, with
+   the row labels as a plain right-aligned rail beside them rather than a third card
 4. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
 5. **Step three: live in three moves** — enquire, survey and quote, install
 6. **Scale** — dark panel, eight figures in brand yellow

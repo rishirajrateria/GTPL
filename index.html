@@ -189,7 +189,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 /* ============================================================
    5. COMPARE
    ============================================================ */
-.cmp{display:grid;grid-template-columns:1fr 1.14fr 1fr;gap:14px;align-items:stretch}
+.cmp{display:grid;grid-template-columns:.76fr 1.14fr 1fr;gap:14px;align-items:stretch}
 .col{padding:24px 22px;display:flex;flex-direction:column}
 .col .top{display:flex;align-items:center;gap:12px;min-height:58px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .col .top h3{font-size:16.5px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
@@ -198,7 +198,11 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .rows li{display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--line);min-width:0}
 .rows li:last-child{border-bottom:0}
 .rows .i{width:17px;height:17px;flex:none;color:var(--ink-4)}
-.col.keys .rows li{color:var(--ink);font-weight:700}
+.col.keys{padding:24px 18px 24px 0;background:none;box-shadow:none;border-radius:0}
+.col.keys .klab{display:flex;align-items:flex-end;justify-content:flex-end;min-height:61px;padding-bottom:16px;
+  font-size:11px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-4);text-align:right}
+.col.keys .rows li{justify-content:flex-end;text-align:right;border-bottom:0;
+  font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
 .col.lease::before{background:linear-gradient(150deg,var(--blue),var(--blue-lt));opacity:.95}
 .col.lease .top h3{color:var(--blue)}
 .col.lease .rows .i{color:var(--blue)}
@@ -557,8 +561,8 @@ h2{font-size:clamp(28px,3.4vw,44px)}
       <h2 id="cp-h">Why a <span class="grad">leased line</span>, not broadband</h2>
     </div>
     <div class="cmp">
-      <div class="col keys glass rv" aria-hidden="true">
-        <div class="top"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hash"/></svg></span><div><h3>Key differences</h3><small>What matters</small></div></div>
+      <div class="col keys rv" aria-hidden="true">
+        <p class="klab">What matters</p>
         <ul class="rows"><li>Bandwidth</li><li>Speeds</li><li>Latency &amp; security</li><li>SLA</li><li>Support</li><li>Usage</li></ul>
       </div>
       <div class="col lease glass tile rv d1">
