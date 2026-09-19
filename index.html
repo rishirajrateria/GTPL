@@ -4,41 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>GTPL KCBPL Leased Line</title>
-<meta name="description" content="Dedicated, symmetrical business internet leased lines from GTPL KCBPL — 99.02% uptime SLA, 24×7 support, custom quotes for every industry.">
+<meta name="description" content="India's leading business internet leased line. Dedicated symmetrical fibre, 99.02% uptime SLA, 24×7 dedicated support.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   1. TOKENS — white ground, brand colours only as gradients
+   1. TOKENS — exact brand shades, neutral greys tuned to blue
    ============================================================ */
 :root{
-  --blue:#005aab; --blue-d:#003f7d; --blue-l:#3f8fd6;
-  --red:#e12124;  --red-d:#b3121a;
-  --yellow:#f8c102; --gold:#d9a400;
-  --navy:#0b1f3a;
-  --ink:#0f1c2e; --ink-2:#3b4a5e; --ink-3:#6b7a8f; --ink-4:#9aa7b8;
-  --line:rgba(15,28,46,.08); --line-2:rgba(15,28,46,.14);
-  --bg:#ffffff; --bg-2:#f6f9fd;
-  --glass:rgba(255,255,255,.58); --glass-2:rgba(255,255,255,.78);
-  --glass-edge:rgba(255,255,255,.9);
-  --shadow:0 30px 70px -32px rgba(11,31,58,.22),0 2px 6px -2px rgba(11,31,58,.06);
-  --shadow-sm:0 14px 34px -22px rgba(11,31,58,.22);
-  --g-brand:linear-gradient(100deg,var(--blue-d) 0%,var(--blue) 30%,var(--red) 68%,#b8650a 100%);
-  --g-full:linear-gradient(100deg,var(--blue) 0%,var(--red) 55%,var(--yellow) 100%);
-  --g-brand-soft:linear-gradient(100deg,rgba(0,90,171,.12),rgba(225,33,36,.09) 55%,rgba(248,193,2,.20));
-  --g-warm:linear-gradient(100deg,var(--red) 0%,#f07a2a 60%,var(--yellow) 100%);
-  --g-cool:linear-gradient(135deg,var(--blue-d) 0%,var(--blue) 55%,var(--blue-l) 100%);
-  --g-hair:linear-gradient(90deg,transparent,var(--blue) 25%,var(--red) 60%,var(--yellow) 80%,transparent);
+  --blue:#2458a4;  --red:#d93832;  --yellow:#f2cb4d;
+  --navy:#0d1f3c;                              /* neutral dark ground */
+  --ink:#101d30; --ink-2:#3d4b60; --ink-3:#6c7a8e; --ink-4:#9aa6b6;
+  --line:rgba(16,29,48,.08); --line-2:rgba(16,29,48,.13);
+  --bg:#fff;
+  --glass:rgba(255,255,255,.6); --edge:rgba(255,255,255,.92);
+  --shadow:0 28px 64px -34px rgba(13,31,60,.28),0 2px 5px -2px rgba(13,31,60,.05);
+  --g-brand:linear-gradient(100deg,var(--blue) 0%,var(--red) 100%);
+  --g-full:linear-gradient(100deg,var(--blue) 0%,var(--red) 58%,var(--yellow) 100%);
+  --g-warm:linear-gradient(100deg,var(--red) 0%,var(--yellow) 100%);
   --font:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --gutter:clamp(16px,4vw,40px);
-  --sec:clamp(72px,8.5vw,128px);
-  --r:22px; --r-sm:14px;
+  --gutter:clamp(16px,3.6vw,40px);
+  --sec:clamp(64px,7vw,104px);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;font-family:var(--font);font-size:15.5px;line-height:1.55;color:var(--ink-2);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:var(--font);font-size:15px;line-height:1.5;color:var(--ink-2);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,p,ul,figure,blockquote{margin:0}
 ul{padding:0;list-style:none}
 a{color:inherit;text-decoration:none}
@@ -50,298 +42,320 @@ img,svg{display:block;max-width:100%}
 .skip{position:absolute;left:-9999px;top:8px;z-index:100;padding:10px 14px;background:#fff;border-radius:8px}
 .skip:focus{left:16px}
 
-/* atmosphere: one fixed, very soft brand gradient wash */
-.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f7fafd 100%)}
-.sky i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
-.sky .a{width:60vw;height:60vw;left:-18vw;top:-22vw;background:radial-gradient(circle,rgba(0,90,171,.22),transparent 68%)}
-.sky .b{width:52vw;height:52vw;right:8vw;top:-14vw;background:radial-gradient(circle,rgba(225,33,36,.13),transparent 68%)}
-.sky .c{width:48vw;height:48vw;right:-6vw;top:34vh;background:radial-gradient(circle,rgba(248,193,2,.24),transparent 66%)}
-@keyframes drift{50%{transform:translate3d(4vw,3vw,0) scale(1.08)}}
-.sky .a{animation:drift 26s ease-in-out infinite alternate}
-.sky .b{animation:drift 32s ease-in-out infinite alternate-reverse}
-.sky .c{animation:drift 38s ease-in-out infinite alternate}
+.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:linear-gradient(180deg,#fff,#f7fafd)}
+.sky i{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform}
+.sky .a{width:56vw;height:56vw;left:-16vw;top:-20vw;background:radial-gradient(circle,rgba(36,88,164,.24),transparent 68%)}
+.sky .b{width:46vw;height:46vw;right:4vw;top:-12vw;background:radial-gradient(circle,rgba(217,56,50,.15),transparent 68%)}
+.sky .c{width:46vw;height:46vw;right:-8vw;top:30vh;background:radial-gradient(circle,rgba(242,203,77,.3),transparent 66%)}
+@keyframes drift{50%{transform:translate3d(3vw,2.5vw,0) scale(1.07)}}
+.sky .a{animation:drift 28s ease-in-out infinite alternate}
+.sky .b{animation:drift 34s ease-in-out infinite alternate-reverse}
+.sky .c{animation:drift 40s ease-in-out infinite alternate}
 
-/* ============================================================
-   2. GLASS PRIMITIVE
-   ============================================================ */
-.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
-  border-radius:var(--r);box-shadow:var(--shadow),inset 0 1px 0 var(--glass-edge),inset 0 0 0 1px rgba(255,255,255,.45)}
+/* ---------- glass ---------- */
+.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(165%);backdrop-filter:blur(26px) saturate(165%);
+  border-radius:20px;box-shadow:var(--shadow),inset 0 1px 0 var(--edge),inset 0 0 0 1px rgba(255,255,255,.5)}
 .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
-  background:linear-gradient(150deg,rgba(255,255,255,.95),rgba(255,255,255,.25) 40%,rgba(0,90,171,.10) 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude}
+  background:linear-gradient(150deg,rgba(255,255,255,.95),rgba(255,255,255,.2) 45%,rgba(36,88,164,.12));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .5s;
-  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 60%)}
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.6),transparent 62%)}
 .glass:hover::after{opacity:1}
 .tile{transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
-.tile:hover{transform:translateY(-4px);box-shadow:0 40px 80px -36px rgba(11,31,58,.3),inset 0 1px 0 var(--glass-edge),inset 0 0 0 1px rgba(255,255,255,.5)}
+.tile:hover{transform:translateY(-4px);box-shadow:0 38px 74px -36px rgba(13,31,60,.32),inset 0 1px 0 var(--edge),inset 0 0 0 1px rgba(255,255,255,.55)}
 
-/* icon in a thin gradient ring */
-.ico{position:relative;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:var(--blue-d);flex:none;
-  background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,.55));box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 8px 20px -12px rgba(11,31,58,.3)}
-.ico::before{content:"";position:absolute;inset:-1px;border-radius:15px;padding:1px;background:linear-gradient(140deg,rgba(0,90,171,.6),rgba(225,33,36,.3) 55%,rgba(248,193,2,.8));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.7}
-.ico .i{width:21px;height:21px}
-.ico.lg{width:56px;height:56px;border-radius:17px}.ico.lg::before{border-radius:18px}.ico.lg .i{width:25px;height:25px}
+.ico{position:relative;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;color:var(--blue);flex:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,255,255,.6));box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 7px 18px -12px rgba(13,31,60,.35)}
+.ico::before{content:"";position:absolute;inset:-1px;border-radius:14px;padding:1px;background:linear-gradient(140deg,var(--blue),var(--red) 58%,var(--yellow));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
+.ico .i{width:19px;height:19px}
 
-/* text */
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
-.eyebrow::before{content:"";width:26px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--red),var(--yellow))}
+/* ---------- type ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow::before{content:"";width:24px;height:2px;border-radius:2px;background:var(--g-full)}
 .grad{background:var(--g-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
-h1,h2{font-weight:800;letter-spacing:-.035em;line-height:1.04;color:var(--ink);text-wrap:balance}
-h2{font-size:clamp(30px,3.8vw,50px)}
-.lead{max-width:56ch;color:var(--ink-3);font-size:16.5px}
+h1,h2{font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--ink);text-wrap:balance}
+h2{font-size:clamp(28px,3.4vw,44px)}
 .sec{position:relative;padding-block:var(--sec)}
-.sec-head{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;max-width:820px;margin:0 auto clamp(40px,4.5vw,64px)}
+.sec-head{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;max-width:760px;margin:0 auto clamp(34px,3.6vw,52px)}
 
-/* buttons */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border-radius:12px;border:0;cursor:pointer;
-  font-weight:700;font-size:14.5px;letter-spacing:-.005em;white-space:nowrap;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background-color .3s}
-.btn .i{width:17px;height:17px}
-.btn-primary{color:#fff;background:var(--g-brand);background-size:160% 100%;background-position:0 0;box-shadow:0 14px 30px -14px rgba(0,90,171,.6),inset 0 1px 0 rgba(255,255,255,.25)}
-.btn-primary:hover{transform:translateY(-1px);background-position:100% 0;box-shadow:0 18px 36px -14px rgba(240,165,0,.55),inset 0 1px 0 rgba(255,255,255,.25)}
-.btn-primary{transition:transform .35s var(--ease),box-shadow .35s var(--ease),background-position .6s var(--ease)}
-.btn-glass{color:var(--ink);background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px rgba(15,28,46,.1),inset 0 1px 0 #fff,var(--shadow-sm)}
-.btn-glass:hover{transform:translateY(-1px);background:rgba(255,255,255,.85)}
-.btn-lg{padding:16px 28px;font-size:15.5px;border-radius:14px}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 20px;border-radius:11px;border:0;cursor:pointer;
+  font-weight:700;font-size:14px;white-space:nowrap;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background-position .6s var(--ease)}
+.btn .i{width:16px;height:16px}
+.btn-primary{color:#fff;background:var(--g-brand);background-size:170% 100%;box-shadow:0 12px 26px -12px rgba(36,88,164,.65),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-primary:hover{transform:translateY(-1px);background-position:100% 0;box-shadow:0 16px 32px -12px rgba(217,56,50,.55),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-glass{color:var(--ink);background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(16,29,48,.1),inset 0 1px 0 #fff,0 12px 28px -20px rgba(13,31,60,.3)}
+.btn-glass:hover{transform:translateY(-1px);background:rgba(255,255,255,.88)}
+.btn-lg{padding:15px 26px;font-size:15px;border-radius:13px}
 
 /* ============================================================
-   3. NAV
+   2. NAV — slim
    ============================================================ */
-.nav{position:sticky;top:0;z-index:50;padding:14px 0;transition:padding .3s}
-.nav .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px 10px 20px;border-radius:18px;min-width:0}
-.nav.scrolled{padding:8px 0}
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.brand .mark{width:34px;height:34px;flex:none}
-.brand>span:not(.mark):not(.name){display:flex;flex-direction:column;min-width:0}
-.brand .name{font-weight:800;font-size:19px;letter-spacing:-.03em;line-height:1;white-space:nowrap}
+.nav{position:sticky;top:0;z-index:50;padding:10px 0;transition:padding .3s}
+.nav.scrolled{padding:6px 0}
+.nav .bar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 8px 8px 18px;border-radius:15px;min-width:0}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .mark{width:30px;height:30px;flex:none}
+.brand .stack{display:flex;flex-direction:column;min-width:0}
+.brand .name{font-weight:800;font-size:17.5px;letter-spacing:-.03em;line-height:1;white-space:nowrap}
 .brand .name .g{color:var(--blue)}.brand .name .k{color:var(--red)}
-.brand .tag{font-size:8.5px;font-weight:700;letter-spacing:.2em;color:var(--ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
-.nav-right{display:flex;align-items:center;gap:18px;min-width:0}
-.tel{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap}
-.tel .ico{width:38px;height:38px;border-radius:11px}.tel .ico::before{border-radius:12px}.tel .ico .i{width:17px;height:17px}
-.tel .short{display:none}
+.brand .tag{font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.nav-right{display:flex;align-items:center;gap:14px;min-width:0}
+.tel{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:14.5px;color:var(--ink);white-space:nowrap}
+.tel .ico{width:34px;height:34px;border-radius:10px}.tel .ico::before{border-radius:11px}.tel .ico .i{width:16px;height:16px}
 
 /* ============================================================
-   4. HERO
+   3. HERO — compact, so the client rail clears the fold
    ============================================================ */
-.hero{position:relative;padding:clamp(28px,5vw,72px) 0 clamp(64px,7vw,104px);overflow:hidden}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr 440px;gap:clamp(32px,5vw,80px);align-items:center}
-.hero h1{font-size:clamp(42px,5.8vw,76px);margin-top:22px}
-.hero h1 .g{display:block}
-.hero .lead{margin-top:20px}
-.checks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:26px}
-.checks li{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;color:var(--ink-2)}
-.checks .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--g-warm);box-shadow:0 6px 14px -6px rgba(225,33,36,.55)}
-.checks .dot .i{width:12px;height:12px;stroke-width:2.4}
-.hero-stats{display:flex;margin-top:40px;padding-top:26px;border-top:1px solid var(--line);gap:0}
-.hero-stats li{flex:1;padding-right:22px;position:relative}
-.hero-stats li+li{padding-left:22px}
-.hero-stats li+li::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line-2)}
-.hero-stats b{display:block;background-size:100% 100%;font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.hero-stats span{display:block;margin-top:6px;font-size:12.5px;font-weight:600;color:var(--ink-3)}
-.offers{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:12.5px;font-weight:600;color:var(--ink-4)}
-.offers li{display:inline-flex;align-items:center;gap:8px}
-.offers li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--g-warm)}
+.hero{position:relative;padding:clamp(20px,2.6vw,38px) 0 clamp(22px,2.8vw,40px);overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.85}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1fr 430px;gap:clamp(28px,4vw,64px);align-items:center}
+.hero h1{font-size:clamp(38px,4.6vw,60px);margin-top:16px}
+.hero h1 span{display:block}
+.hero .sub{margin-top:14px;font-size:16px;color:var(--ink-3);max-width:42ch}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.checks li{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 8px;border-radius:99px;font-weight:600;font-size:13.5px;color:var(--ink);
+  background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8),0 8px 20px -16px rgba(13,31,60,.4)}
+.checks .dot{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--g-brand)}
+.checks .dot .i{width:11px;height:11px;stroke-width:2.6}
+.kpis{display:flex;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.kpis b{display:block;font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpis span{display:block;margin-top:5px;font-size:12px;font-weight:600;color:var(--ink-3)}
 
 /* form */
-.form{padding:clamp(22px,3vw,32px)}
-.form .halo{position:absolute;inset:-46px -40px -40px -46px;z-index:-1;border-radius:60px;background:linear-gradient(135deg,rgba(0,90,171,.14),rgba(225,33,36,.08) 50%,rgba(248,193,2,.26));filter:blur(40px);pointer-events:none}
-.form h2{font-size:26px;letter-spacing:-.03em}
-.form .sub{margin-top:6px;font-size:13.5px;color:var(--ink-3)}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
-.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.form{padding:22px 22px 20px}
+.form .halo{position:absolute;inset:-44px -36px -32px -40px;z-index:-1;border-radius:56px;filter:blur(38px);pointer-events:none;
+  background:linear-gradient(135deg,rgba(36,88,164,.16),rgba(217,56,50,.1) 50%,rgba(242,203,77,.3))}
+.form .fh{display:flex;align-items:center;gap:11px}
+.form h2{font-size:21px;letter-spacing:-.03em}
+.form .fh p{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
 .f.full{grid-column:1/-1}
-.f label{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.f label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
 .f label em{font-style:normal;color:var(--red)}
 .ctrl{position:relative;display:flex;align-items:center}
-.ctrl .i{position:absolute;left:13px;width:16px;height:16px;color:var(--ink-4);pointer-events:none}
-.ctrl input,.ctrl select{width:100%;height:46px;padding:0 14px 0 40px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.7);color:var(--ink);
+.ctrl .i{position:absolute;left:12px;width:15px;height:15px;color:var(--ink-4);pointer-events:none}
+.ctrl input,.ctrl select{width:100%;height:42px;padding:0 12px 0 36px;border-radius:11px;border:1px solid var(--line-2);background:rgba(255,255,255,.72);color:var(--ink);font-size:14.5px;
   transition:border-color .25s,box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
 .ctrl input::placeholder{color:var(--ink-4)}
-.ctrl select{padding-right:36px;cursor:pointer}
-.ctrl .chev{left:auto;right:13px;width:14px;height:14px}
-.ctrl input:focus,.ctrl select:focus{outline:0;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(0,90,171,.12)}
-.f.err .ctrl input,.f.err .ctrl select{border-color:var(--red);box-shadow:0 0 0 4px rgba(225,33,36,.1)}
-.f .msg{display:none;font-size:12px;color:var(--red-d)}
+.ctrl select{padding-right:32px;cursor:pointer}
+.ctrl .chev{left:auto;right:12px;width:13px;height:13px}
+.ctrl input:focus,.ctrl select:focus{outline:0;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(36,88,164,.14)}
+.f.err .ctrl input,.f.err .ctrl select{border-color:var(--red);box-shadow:0 0 0 4px rgba(217,56,50,.12)}
+.f .msg{display:none;font-size:11.5px;color:var(--red)}
 .f.err .msg{display:block}
-.form .btn{width:100%;margin-top:20px;height:50px}
-.form .priv{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:12px;font-size:12px;color:var(--ink-4)}
-.form .priv .i{width:13px;height:13px}
+.form .btn{width:100%;margin-top:15px;height:46px}
+.form .priv{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:11.5px;color:var(--ink-4)}
+.form .priv .i{width:12px;height:12px}
 .done{display:none;text-align:center;padding:26px 6px}
-.done .ico{margin:0 auto 18px}
-.done h3{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
-.done p{margin-top:8px;color:var(--ink-3);font-size:14px}
-.form.ok .fields,.form.ok .btn,.form.ok .priv,.form.ok .sub,.form.ok h2{display:none}
+.done .ico{width:54px;height:54px;border-radius:17px;margin:0 auto 16px}.done .ico::before{border-radius:18px}.done .ico .i{width:25px;height:25px}
+.done h3{font-size:20px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.done p{margin-top:7px;color:var(--ink-3);font-size:13.5px}
+.form.ok .fields,.form.ok .btn,.form.ok .priv,.form.ok .fh{display:none}
 .form.ok .done{display:block}
 
 /* ============================================================
-   5. TRUSTED BY
+   4. CLIENT RAIL — sits right under the hero
    ============================================================ */
-.trusted{padding-block:clamp(40px,4.5vw,60px)}
-.trusted .head{text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);margin-bottom:26px}
-.marquee{position:relative;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.marquee ul{display:flex;gap:56px;width:max-content;animation:slide 48s linear infinite;padding-right:56px}
+.rail{position:relative;padding-block:clamp(18px,2.2vw,28px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.rail .lab{display:flex;align-items:center;justify-content:center;gap:10px;font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-4);margin-bottom:16px}
+.rail .lab b{color:var(--blue);font-size:12px;letter-spacing:.06em}
+.marquee{position:relative;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee ul{display:flex;align-items:center;gap:52px;width:max-content;animation:slide 46s linear infinite;padding-right:52px}
 .marquee:hover ul{animation-play-state:paused}
 @keyframes slide{to{transform:translateX(-50%)}}
-.marquee li{font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--ink-3);white-space:nowrap;display:inline-flex;align-items:center;gap:12px;opacity:.8;transition:opacity .3s,color .3s}
+.marquee li{display:inline-flex;align-items:center;gap:11px;font-weight:800;font-size:17px;letter-spacing:-.02em;color:var(--ink-3);white-space:nowrap;opacity:.78;transition:opacity .3s,color .3s}
 .marquee li:hover{opacity:1;color:var(--ink)}
-.marquee li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--g-warm);opacity:.8}
+.marquee li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--g-warm)}
 
 /* ============================================================
-   6. BENEFITS
+   5. COMPARE
    ============================================================ */
-.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.b{padding:24px;display:flex;flex-direction:column;gap:16px;min-height:168px}
-.b h3{font-size:15.5px;font-weight:700;letter-spacing:-.015em;color:var(--ink);line-height:1.3}
-.b p{font-size:13px;color:var(--ink-3)}
-.b.wide{grid-column:span 2}
-.b.feat{grid-column:span 2;grid-row:span 2;flex-direction:row;align-items:center;gap:28px;padding:32px}
-.gauge{position:relative;width:168px;height:168px;flex:none}
-.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
-.gauge .track{stroke:rgba(15,28,46,.07);stroke-width:8;fill:none}
-.gauge .arc{stroke:url(#gArc);stroke-width:8;fill:none;stroke-linecap:round;stroke-dasharray:477;stroke-dashoffset:477;transition:stroke-dashoffset 1.8s var(--ease)}
-.in .gauge .arc{stroke-dashoffset:4.7}
-.gauge .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-.gauge .num b{font-size:34px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
-.gauge .num span{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-top:6px}
-.b.feat h3{font-size:22px}
-.b.feat .cmp{margin-top:14px;font-size:12.5px;color:var(--ink-4)}
-.b.feat .cmp b{color:var(--ink-2)}
-.meter{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;font-size:12.5px;font-weight:600;color:var(--ink-3)}
-.meter+.meter{margin-top:10px}
-.meter .bar{height:5px;border-radius:99px;background:rgba(15,28,46,.07);overflow:hidden}
-.meter .bar i{display:block;height:100%;width:0;border-radius:inherit;background:var(--g-cool);transition:width 1.6s var(--ease)}
-.meter:nth-child(2) .bar i{background:var(--g-cool)}
-.meter:nth-child(3) .bar i{background:linear-gradient(90deg,var(--red),var(--yellow))}
-.in .meter .bar i{width:100%}
-.meter b{color:var(--ink);font-variant-numeric:tabular-nums}
-.spark{height:36px;width:100%}
-.spark path{fill:none;stroke:url(#gSpark);stroke-width:2;stroke-linecap:round}
-
-/* ============================================================
-   7. COMPARE
-   ============================================================ */
-.compare .grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:16px;align-items:stretch}
-.col{padding:26px 24px;display:flex;flex-direction:column}
-.col .top{display:flex;align-items:center;gap:14px;min-height:64px;padding-bottom:18px;border-bottom:1px solid var(--line)}
-.col .top h3{font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-.col .top small{display:block;font-size:12px;font-weight:600;color:var(--ink-3);margin-top:2px}
-.rows{display:grid;grid-auto-rows:64px}
-.rows li{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--line);min-width:0}
+.cmp{display:grid;grid-template-columns:1fr 1.14fr 1fr;gap:14px;align-items:stretch}
+.col{padding:24px 22px;display:flex;flex-direction:column}
+.col .top{display:flex;align-items:center;gap:12px;min-height:58px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.col .top h3{font-size:16.5px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.col .top small{display:block;font-size:11.5px;font-weight:600;color:var(--ink-3);margin-top:2px}
+.rows{display:grid;grid-auto-rows:60px}
+.rows li{display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--line);min-width:0}
 .rows li:last-child{border-bottom:0}
-.rows .i{width:18px;height:18px;flex:none;color:var(--ink-4)}
+.rows .i{width:17px;height:17px;flex:none;color:var(--ink-4)}
 .col.keys .rows li{color:var(--ink);font-weight:700}
-.col.lease{background:linear-gradient(170deg,rgba(255,255,255,.85),rgba(255,255,255,.6))}
 .col.lease::before{background:linear-gradient(150deg,var(--blue),var(--red) 58%,var(--yellow));opacity:.95}
-.col.lease .top h3{background:var(--g-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+.col.lease .top h3{color:var(--blue)}
 .col.lease .rows .i{color:var(--blue)}
 .col.lease .rows li{color:var(--ink)}
-.col.lease .rec{position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:6px 14px;border-radius:99px;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(100deg,var(--blue),var(--red) 70%,#c8880a);box-shadow:0 10px 24px -10px rgba(0,90,171,.6)}
-.col.broad .rows .i{color:var(--ink-4)}
-.col.broad .rows li{color:var(--ink-3)}
-.col.broad .ico{color:var(--ink-3)}.col.broad .ico::before{opacity:.3}
+.col.lease .rec{position:absolute;top:-12px;left:50%;transform:translateX(-50%);padding:5px 13px;border-radius:99px;color:#fff;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:var(--g-brand);box-shadow:0 10px 22px -10px rgba(36,88,164,.7)}
+.col.broad .rows li,.col.broad .rows .i{color:var(--ink-3)}
+.col.broad .ico{color:var(--ink-3)}.col.broad .ico::before{opacity:.22}
 
 /* ============================================================
-   8. WHY
+   6. BENEFITS — bento, icon-led
    ============================================================ */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.s{min-width:0;padding:26px 24px;display:flex;flex-direction:column;gap:22px;min-height:190px}
-.s .num{font-size:clamp(34px,3vw,44px);font-weight:800;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums;margin-top:auto}
-.s .num small{font-size:.5em;letter-spacing:-.02em;margin-left:2px}
-.s .num.word{font-size:clamp(24px,2.1vw,30px)}
-.s p{font-size:13.5px;font-weight:600;color:var(--ink-3);line-height:1.4}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.b{padding:20px;display:flex;flex-direction:column;gap:13px;min-height:142px}
+.b h3{font-size:14.5px;font-weight:700;letter-spacing:-.015em;color:var(--ink);line-height:1.3;margin-top:auto}
+.b.feat{grid-column:span 2;grid-row:span 2;align-items:center;justify-content:center;text-align:center;gap:6px;padding:26px}
+.gauge{position:relative;width:186px;height:186px}
+.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.gauge .track{stroke:rgba(16,29,48,.07);stroke-width:9;fill:none}
+.gauge .arc{stroke:url(#gArc);stroke-width:9;fill:none;stroke-linecap:round;stroke-dasharray:521;stroke-dashoffset:521;transition:stroke-dashoffset 1.8s var(--ease)}
+.in .gauge .arc{stroke-dashoffset:5}
+.gauge .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gauge .num b{font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.gauge .num i{font-style:normal;font-size:20px;color:var(--blue)}
+.gauge .num span{display:block;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-4);margin-top:6px}
+.b.feat h3{font-size:18px;margin-top:10px}
+.b.feat p{font-size:12.5px;color:var(--ink-3)}
+.b.feat .vs{margin-top:8px;display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;font-size:11.5px;font-weight:700;color:var(--ink-2);background:rgba(242,203,77,.22);box-shadow:inset 0 0 0 1px rgba(242,203,77,.5)}
+.b.wide{grid-column:span 2}
+.b .hd{display:flex;align-items:center;gap:12px}
+.b .hd h3{margin-top:0}
+.meter{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--ink-3)}
+.meter+.meter{margin-top:9px}
+.meter .bar{height:6px;border-radius:99px;background:rgba(16,29,48,.07);overflow:hidden}
+.meter .bar i{display:block;height:100%;width:0;border-radius:inherit;transition:width 1.6s var(--ease)}
+.meter.dn .bar i{background:var(--blue)}
+.meter.up .bar i{background:var(--g-warm)}
+.in .meter .bar i{width:100%}
+.meter b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:12.5px}
+.spark{height:34px;width:100%;margin-top:auto}
+.spark path{fill:none;stroke:url(#gSpark);stroke-width:2;stroke-linecap:round}
+.ringdia{width:100px;height:100px;margin:2px auto 0}
+.ringdia circle.o{fill:none;stroke:rgba(36,88,164,.3);stroke-width:1.5;stroke-dasharray:3 6}
+.ringdia .nd{fill:var(--blue)}
+.ringdia .pk{fill:var(--yellow)}
+.ringdia .rot circle:first-child{opacity:.32}
+.ringdia .rot{transform-origin:50px 50px;animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   7. STEPS
+   ============================================================ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative}
+.steps::before{content:"";position:absolute;left:12%;right:12%;top:52px;height:2px;border-radius:2px;background:var(--g-full);opacity:.4}
+.st{padding:26px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.st .n{position:relative;z-index:2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;background:var(--g-brand);box-shadow:0 12px 26px -12px rgba(36,88,164,.7),0 0 0 6px rgba(255,255,255,.9)}
+.st h3{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.st p{font-size:13px;color:var(--ink-3)}
+
+/* ============================================================
+   8. SCALE — the one dark panel, where yellow can be type
+   ============================================================ */
+.scale .panel{position:relative;overflow:hidden;border-radius:26px;padding:clamp(34px,4vw,54px) clamp(20px,3vw,44px);
+  background:linear-gradient(150deg,#14294c 0%,var(--navy) 55%,#091730 100%);box-shadow:0 40px 90px -44px rgba(13,31,60,.7),inset 0 1px 0 rgba(255,255,255,.14)}
+.scale .glow{position:absolute;inset:-30% -10% auto auto;width:60%;aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(242,203,77,.3),transparent 66%);filter:blur(60px)}
+.scale .glow2{position:absolute;left:-14%;bottom:-40%;width:52%;aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(36,88,164,.55),transparent 66%);filter:blur(60px)}
+.scale .hd{position:relative;z-index:2;text-align:center;margin-bottom:clamp(26px,3vw,40px)}
+.scale .hd .eyebrow{color:rgba(255,255,255,.62)}
+.scale .hd h2{color:#fff;margin-top:12px}
+.scale .hd h2 em{font-style:normal;color:var(--yellow)}
+.sgrid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12);border-radius:18px;overflow:hidden}
+.sg{background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));padding:22px 18px;display:flex;flex-direction:column;gap:14px;min-height:150px}
+.sg .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--yellow);background:rgba(242,203,77,.12);box-shadow:inset 0 0 0 1px rgba(242,203,77,.28)}
+.sg .ic .i{width:17px;height:17px}
+.sg b{margin-top:auto;font-size:clamp(26px,2.4vw,34px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--yellow);font-variant-numeric:tabular-nums}
+.sg b small{font-size:.55em;letter-spacing:-.02em}
+.sg b.word{font-size:clamp(18px,1.6vw,22px)}
+.sg>span:not(.ic){font-size:12.5px;font-weight:600;color:rgba(255,255,255,.66);line-height:1.35}
+.sg b span{font-size:inherit;font-weight:inherit;color:inherit}
 
 /* ============================================================
    9. TESTIMONIALS
    ============================================================ */
-.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.t{padding:28px;display:flex;flex-direction:column;gap:20px}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.t{padding:26px;display:flex;flex-direction:column;gap:18px}
 .stars{display:flex;gap:3px}
-.stars .i{width:15px;height:15px;fill:url(#gStar);stroke:none}
-.t blockquote{font-size:16.5px;font-weight:600;letter-spacing:-.01em;line-height:1.5;color:var(--ink);flex:1}
-.t .who{display:flex;align-items:center;gap:12px;padding-top:18px;border-top:1px solid var(--line)}
-.t .av{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:800;background:var(--g-cool);flex:none}
-.t .who .meta{min-width:0}
-.t .who .meta b{display:block;font-size:14px;color:var(--ink)}
-.t .who .meta span{display:block;font-size:12.5px;color:var(--ink-3)}
+.stars .i{width:15px;height:15px;fill:var(--yellow);stroke:none}
+.t blockquote{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.5;color:var(--ink);flex:1}
+.t .who{display:flex;align-items:center;gap:11px;padding-top:16px;border-top:1px solid var(--line)}
+.t .av{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:12.5px;font-weight:800;background:var(--g-brand);flex:none}
+.t .meta{min-width:0}
+.t .meta b{display:block;font-size:13.5px;color:var(--ink)}
+.t .meta span{display:block;font-size:12px;color:var(--ink-3)}
 
 /* ============================================================
    10. CTA + FOOTER
    ============================================================ */
-.cta .panel{overflow:hidden;text-align:center;padding:clamp(52px,6vw,84px) clamp(20px,4vw,60px)}
-.cta .band{position:absolute;left:-10%;right:-10%;top:50%;height:60%;transform:translateY(-50%) rotate(-4deg);pointer-events:none;
-  background:linear-gradient(90deg,rgba(0,90,171,.16),rgba(225,33,36,.12) 50%,rgba(248,193,2,.26));filter:blur(50px)}
-.cta .in{position:relative;z-index:2;max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:18px}
-.cta h2{font-size:clamp(32px,4.4vw,58px)}
-.cta .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.foot{padding:34px 0 40px}
-.foot .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-4)}
+.cta .panel{overflow:hidden;text-align:center;padding:clamp(44px,5vw,72px) clamp(20px,4vw,56px);border-radius:26px}
+.cta .band{position:absolute;left:-10%;right:-10%;top:50%;height:62%;transform:translateY(-50%) rotate(-4deg);pointer-events:none;filter:blur(48px);
+  background:linear-gradient(90deg,rgba(36,88,164,.2),rgba(217,56,50,.13) 50%,rgba(242,203,77,.34))}
+.cta .in{position:relative;z-index:2;max-width:700px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+.cta h2{font-size:clamp(30px,4vw,52px)}
+.cta p{color:var(--ink-3)}
+.cta .acts{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.foot{padding:30px 0 36px}
+.foot .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-4)}
 
-/* floating */
-.wa{position:fixed;right:18px;bottom:18px;z-index:70;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#25d366;
-  background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.9);transition:transform .3s var(--ease)}
+.wa{position:fixed;right:18px;bottom:18px;z-index:70;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#25d366;
+  background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.9);transition:transform .3s var(--ease)}
 .wa:hover{transform:translateY(-2px) scale(1.04)}
-.wa svg{width:26px;height:26px}
+.wa svg{width:25px;height:25px}
 .side-tab{display:none;position:fixed;right:0;top:50%;z-index:70;transform:rotate(-90deg) translate(50%,0);transform-origin:100% 100%;
-  padding:11px 20px;border-radius:12px 12px 0 0;color:#fff;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(100deg,var(--blue) 0%,var(--red) 70%,#c8880a 100%);box-shadow:0 -8px 24px -10px rgba(0,90,171,.5)}
-.mbar{display:none;position:fixed;left:12px;right:82px;bottom:14px;z-index:70;gap:8px;padding:8px;border-radius:16px;
-  background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.9)}
-.mbar .btn{flex:1;padding:12px 10px;font-size:14px}
+  padding:10px 19px;border-radius:11px 11px 0 0;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.17em;text-transform:uppercase;background:var(--g-brand);box-shadow:0 -8px 22px -10px rgba(36,88,164,.6)}
+.mbar{display:none;position:fixed;left:12px;right:78px;bottom:14px;z-index:70;gap:8px;padding:7px;border-radius:15px;
+  background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.9)}
+.mbar .btn{flex:1;padding:11px 8px;font-size:13.5px}
 
-/* reveals — hidden state applied by JS only */
-.js .rv{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv{opacity:0;transform:translateY(20px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
 .js .rv.in{opacity:1;transform:none}
-.js .rv.d1{transition-delay:.06s}.js .rv.d2{transition-delay:.12s}.js .rv.d3{transition-delay:.18s}.js .rv.d4{transition-delay:.24s}
+.js .rv.d1{transition-delay:.06s}.js .rv.d2{transition-delay:.12s}.js .rv.d3{transition-delay:.18s}
 
 /* ============================================================
    11. RESPONSIVE
    ============================================================ */
 @media (min-width:1024px){.side-tab{display:block}}
 @media (max-width:1100px){
-  .hero .wrap{grid-template-columns:1fr 400px;gap:32px}
+  .hero .wrap{grid-template-columns:1fr 390px;gap:30px}
   .bento{grid-template-columns:repeat(3,1fr)}
   .b.feat{grid-column:span 3;grid-row:auto}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .sgrid{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:900px){
-  .tel .num{display:none}.tel .short{display:inline}
   .hero .wrap{grid-template-columns:1fr}
+  .hero{padding-bottom:30px}
   .form .halo{inset:-20px}
-  .compare .grid{grid-template-columns:1fr}
+  .cmp{grid-template-columns:1fr}
   .col.keys{display:none}
-  .rows li::before{content:attr(data-k);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);min-width:104px}
-  .rows{grid-auto-rows:auto}.rows li{padding:14px 0;flex-wrap:wrap}
+  .rows{grid-auto-rows:auto}
+  .rows li{padding:13px 0;flex-wrap:wrap}
+  .rows li::before{content:attr(data-k);font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);min-width:98px}
+  .steps{grid-template-columns:1fr}
+  .steps::before{display:none}
   .tgrid{grid-template-columns:1fr}
   .mbar{display:flex}
-  body{padding-bottom:84px}
+  body{padding-bottom:80px}
 }
 @media (max-width:640px){
-  .nav .bar{padding:8px 8px 8px 14px}
-  .brand .name{font-size:17px}
-  .nav .btn span{display:none}.nav .btn{padding:11px 13px}
-  .brand .tag{letter-spacing:.12em}
-  .nav-right{gap:10px}
-  .hero-stats{flex-wrap:wrap;gap:18px 0}
-  .hero-stats li{flex:1 1 40%}
-  .hero-stats li+li{padding-left:0}.hero-stats li+li::before{display:none}
+  .nav .bar{padding:7px 7px 7px 13px}
+  .nav .btn span{display:none}.nav .btn{padding:10px 12px}
+  .nav .tel .num{display:none}
+  .nav-right{gap:9px}
+  .hero h1{font-size:clamp(32px,9vw,42px)}
+  .kpis{gap:16px}
+  .kpis b{font-size:20px}
   .fields{grid-template-columns:1fr}
   .bento{grid-template-columns:1fr 1fr}
-  .b{min-height:150px;padding:18px;gap:12px}
+  .b{min-height:126px;padding:16px;gap:10px}
   .b.wide,.b.feat{grid-column:span 2}
-  .b.feat{flex-direction:column;align-items:flex-start;padding:22px}
-  .stats{grid-template-columns:1fr 1fr}
-  .s{min-height:160px;padding:20px}
-  .marquee ul{gap:36px;padding-right:36px}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .sg{min-height:126px;padding:17px 15px}
+  .marquee ul{gap:34px;padding-right:34px}
   .cta .acts .btn{width:100%}
   .foot .wrap{flex-direction:column;align-items:flex-start}
 }
 @media (max-width:460px){.brand .tag{display:none}}
-@media (max-width:400px){.bento{grid-template-columns:1fr}.b.wide,.b.feat{grid-column:auto}.stats{grid-template-columns:1fr}.s{min-height:0}.hero-stats li{flex:1 1 100%}}
+@media (max-width:400px){
+  .bento{grid-template-columns:1fr}.b.wide,.b.feat{grid-column:auto}
+  .sgrid{grid-template-columns:1fr}.sg{min-height:0}
+  .kpis{flex-wrap:wrap;gap:14px 20px}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .sky i,.marquee ul,.btn,.tile{animation:none!important;transition:none!important}
+  .sky i,.marquee ul,.ringdia .rot,.btn,.tile{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none;transition:none}
   .gauge .arc,.meter .bar i{transition:none}
   .hero canvas{display:none}
@@ -354,10 +368,9 @@ h2{font-size:clamp(30px,3.8vw,50px)}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <linearGradient id="gArc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#005aab"/><stop offset=".55" stop-color="#e12124"/><stop offset="1" stop-color="#f8c102"/></linearGradient>
-    <linearGradient id="gSpark" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="400" y2="0"><stop offset="0" stop-color="#005aab"/><stop offset=".6" stop-color="#e12124"/><stop offset="1" stop-color="#f8c102"/></linearGradient>
-    <linearGradient id="gStar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8c102"/><stop offset="1" stop-color="#e8912a"/></linearGradient>
-    <linearGradient id="gMark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#005aab"/><stop offset="1" stop-color="#e12124"/></linearGradient>
+    <linearGradient id="gArc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2458a4"/><stop offset=".58" stop-color="#d93832"/><stop offset="1" stop-color="#f2cb4d"/></linearGradient>
+    <linearGradient id="gSpark" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="400" y2="0"><stop offset="0" stop-color="#2458a4"/><stop offset=".6" stop-color="#d93832"/><stop offset="1" stop-color="#f2cb4d"/></linearGradient>
+    <linearGradient id="gMark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2458a4"/><stop offset="1" stop-color="#d93832"/></linearGradient>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
@@ -380,9 +393,7 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     <symbol id="i-p2p" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h9"/></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 8v6l-4-2v-4z"/></symbol>
     <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/></symbol>
-    <symbol id="i-sla" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
     <symbol id="i-packet" viewBox="0 0 24 24"><path d="M4 14l4-5 4 3 4-6 4 4"/><path d="M4 20h16"/></symbol>
-    <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="5" r="1.6"/><circle cx="18" cy="15.5" r="1.6"/><circle cx="6" cy="15.5" r="1.6"/></symbol>
     <symbol id="i-corp" viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-4 7 4v13"/><path d="M9 21v-5h6v5M10 11h4"/></symbol>
     <symbol id="i-rupee" viewBox="0 0 24 24"><path d="M7 5h10M7 9h10M7 5h2a4 4 0 0 1 0 8H7l7 7"/></symbol>
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 9-12h-6z"/></symbol>
@@ -396,7 +407,9 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     <symbol id="i-india" viewBox="0 0 24 24"><path d="M8 3l3 1 3-1 3 3-1 4 2 3-3 4-2 5-3-1-2-4-3-2 1-4-1-3z"/></symbol>
     <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
     <symbol id="i-hash" viewBox="0 0 24 24"><path d="M9 4L7 20M17 4l-2 16M4 9h17M3 15h17"/></symbol>
-    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 11h3v4H6v-3a4 4 0 0 1 4-4M15 11h3v4h-4v-3a4 4 0 0 1 4-4"/></symbol>
+    <symbol id="i-clip" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6H9zM9 12h6M9 16h4"/></symbol>
+    <symbol id="i-tools" viewBox="0 0 24 24"><path d="M14.5 5.5a3.5 3.5 0 0 0 4.6 4.6L21 12l-9 9-3-3 9-9z"/><path d="M6 14l-3 3 4 4 3-3"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M7.5 6.5a7 7 0 1 0 9 0"/></symbol>
   </defs>
 </svg>
 
@@ -405,8 +418,8 @@ h2{font-size:clamp(30px,3.8vw,50px)}
   <div class="wrap">
     <div class="bar glass">
       <a class="brand" href="#top" aria-label="GTPL KCBPL home">
-        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="14" fill="none" stroke="url(#gMark)" stroke-width="2"/><ellipse cx="20" cy="20" rx="6" ry="14" fill="none" stroke="url(#gMark)" stroke-width="1.6" opacity=".7"/><path d="M6 20h28" stroke="url(#gMark)" stroke-width="1.6" opacity=".7"/><circle cx="31" cy="11" r="3" fill="#f8c102"/></svg>
-        <span><span class="name"><span class="g">GTPL</span><span class="k">KCBPL</span></span><span class="tag">DIGITAL CABLE TV &amp; BROADBAND</span></span>
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="14" fill="none" stroke="url(#gMark)" stroke-width="2"/><ellipse cx="20" cy="20" rx="6" ry="14" fill="none" stroke="url(#gMark)" stroke-width="1.6" opacity=".7"/><path d="M6 20h28" stroke="url(#gMark)" stroke-width="1.6" opacity=".7"/><circle cx="31" cy="11" r="3" fill="#f2cb4d"/></svg>
+        <span class="stack"><span class="name"><span class="g">GTPL</span><span class="k">KCBPL</span></span><span class="tag">DIGITAL CABLE TV &amp; BROADBAND</span></span>
       </a>
       <div class="nav-right">
         <a class="tel" href="tel:+916293760118" aria-label="Call +91 6293760118"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg></span><span class="num">+91 6293760118</span></a>
@@ -423,52 +436,52 @@ h2{font-size:clamp(30px,3.8vw,50px)}
   <div class="wrap">
     <div>
       <span class="eyebrow">India's leading enterprise ISP</span>
-      <h1 id="h1">Business <span class="g grad">Leased Line</span></h1>
-      <p class="lead">Dedicated, symmetrical fibre bandwidth for your business. Installed fast, secured end to end, backed by a 99.02% uptime SLA.</p>
+      <h1 id="h1">Business <span class="grad">Leased Line</span></h1>
+      <p class="sub">Dedicated symmetrical fibre, installed fast and never shared.</p>
       <ul class="checks">
         <li><span class="dot"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>Instant installation</li>
         <li><span class="dot"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>High security</li>
-        <li><span class="dot"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>Designed for speed &amp; reliability</li>
+        <li><span class="dot"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>Speed &amp; reliability</li>
       </ul>
-      <ul class="hero-stats">
+      <ul class="kpis">
         <li><b class="grad">99.02%</b><span>Uptime SLA</span></li>
-        <li><b class="grad">1 : 1</b><span>Symmetrical speeds</span></li>
+        <li><b class="grad">1 : 1</b><span>Symmetrical</span></li>
         <li><b class="grad">24×7</b><span>Dedicated SPOC</span></li>
-      </ul>
-      <ul class="offers">
-        <li>Unbeatable pricing, guaranteed</li><li>Custom quotes for every industry</li><li>Flexible 3 / 6 / 12-month plans</li>
+        <li><b class="grad">0%</b><span>Packet loss</span></li>
       </ul>
     </div>
 
     <form class="form glass" id="enquire" novalidate aria-labelledby="f-h">
       <span class="halo" aria-hidden="true"></span>
-      <h2 id="f-h">Enquire now</h2>
-      <p class="sub">Fill out the form below to get a quote.</p>
+      <div class="fh">
+        <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></span>
+        <span><h2 id="f-h">Enquire now</h2><p>Get a custom quote in 24 hours.</p></span>
+      </div>
       <!-- TODO: wire form to backend / CRM endpoint -->
       <div class="fields">
         <div class="f full"><label for="name">Name <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-user"/></svg><input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required aria-describedby="name-m"></span><span class="msg" id="name-m">Please enter your name.</span></div>
-        <div class="f"><label for="email">Email <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg><input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required aria-describedby="email-m"></span><span class="msg" id="email-m">Enter a valid email address.</span></div>
-        <div class="f"><label for="phone">Phone <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required aria-describedby="phone-m"></span><span class="msg" id="phone-m">Enter a 10-digit Indian mobile number.</span></div>
-        <div class="f full"><label for="company">Your company name <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building"/></svg><input id="company" name="company" type="text" autocomplete="organization" placeholder="Company name" required aria-describedby="company-m"></span><span class="msg" id="company-m">Please enter your company name.</span></div>
-        <div class="f full"><label for="industry">Industry</label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-brief"/></svg><select id="industry" name="industry"><option value="">Select industry</option><option>IT / ITES</option><option>Manufacturing</option><option>Hospitality</option><option>Healthcare</option><option>Education</option><option>BFSI</option><option>Retail</option><option>Government</option><option>Media</option><option>Other</option></select><svg class="i chev" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span></div>
-        <div class="f"><label for="pin">PIN code <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><input id="pin" name="pin" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="6-digit PIN" required aria-describedby="pin-m"></span><span class="msg" id="pin-m">Enter a 6-digit PIN code.</span></div>
+        <div class="f"><label for="email">Email <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg><input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required aria-describedby="email-m"></span><span class="msg" id="email-m">Enter a valid email.</span></div>
+        <div class="f"><label for="phone">Phone <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required aria-describedby="phone-m"></span><span class="msg" id="phone-m">Enter a 10-digit mobile.</span></div>
+        <div class="f"><label for="company">Company <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building"/></svg><input id="company" name="company" type="text" autocomplete="organization" placeholder="Company name" required aria-describedby="company-m"></span><span class="msg" id="company-m">Please enter your company.</span></div>
+        <div class="f"><label for="industry">Industry</label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-brief"/></svg><select id="industry" name="industry"><option value="">Select industry</option><option>IT / ITES</option><option>Manufacturing</option><option>Hospitality</option><option>Healthcare</option><option>Education</option><option>BFSI</option><option>Retail</option><option>Government</option><option>Media</option><option>Other</option></select><svg class="i chev" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span></div>
+        <div class="f"><label for="pin">PIN code <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><input id="pin" name="pin" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="6-digit PIN" required aria-describedby="pin-m"></span><span class="msg" id="pin-m">Enter a 6-digit PIN.</span></div>
         <div class="f"><label for="district">District</label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-map"/></svg><select id="district" name="district"><option value="">Select district</option><option>Kolkata</option><option>Howrah</option><option>Hooghly</option><option>North 24 Parganas</option><option>South 24 Parganas</option><option>Nadia</option><option>Purba Bardhaman</option><option>Paschim Bardhaman</option><option>Darjeeling / Siliguri</option><option>Other</option></select><svg class="i chev" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span></div>
       </div>
       <button class="btn btn-primary" type="submit"><span>Submit</span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></button>
       <p class="priv"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-lock"/></svg>Your details stay private.</p>
       <div class="done" role="status" aria-live="polite">
-        <span class="ico lg"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>
+        <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>
         <h3 id="ok-h" tabindex="-1">Thanks — we'll call you within 24 hours</h3>
-        <p>A GTPL KCBPL specialist will reach out with your custom quote.</p>
+        <p>A specialist will reach out with your custom quote.</p>
       </div>
     </form>
   </div>
 </section>
 
-<!-- =============== TRUSTED =============== -->
-<section class="trusted" aria-label="Clients">
+<!-- =============== CLIENT RAIL =============== -->
+<section class="rail" aria-label="Clients">
   <div class="wrap">
-    <p class="head">Join 1500+ companies that we serve</p>
+    <p class="lab"><b>1500+</b> companies run on our network</p>
     <div class="marquee">
       <ul aria-hidden="true">
         <li>Wipro</li><li>Aditya Birla Group</li><li>Ambuja Neotia</li><li>Kolkata Airport</li><li>Globe TV</li><li>Haldiram's</li><li>Monotel</li><li>Maruti Suzuki</li><li>NDIA</li><li>Vibtree</li>
@@ -478,72 +491,35 @@ h2{font-size:clamp(30px,3.8vw,50px)}
   </div>
 </section>
 
-<!-- =============== BENEFITS =============== -->
-<section class="sec" id="benefits" aria-labelledby="bn-h">
+<!-- =============== 1. WHY A LEASED LINE =============== -->
+<section class="sec" id="compare" aria-labelledby="cp-h">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Benefits</span>
-      <h2 id="bn-h">Everything a business needs from its <span class="grad">internet leased line</span></h2>
+      <span class="eyebrow">Step one</span>
+      <h2 id="cp-h">Why a <span class="grad">leased line</span>, not broadband</h2>
     </div>
-    <div class="bento">
-      <div class="b feat glass tile rv">
-        <div class="gauge" aria-hidden="true"><svg viewBox="0 0 168 168"><circle class="track" cx="84" cy="84" r="76"/><circle class="arc" cx="84" cy="84" r="76"/></svg><div class="num"><b class="grad count" data-to="99.02" data-dec="2">99.02</b><span>Uptime SLA</span></div></div>
-        <div><h3>99.02% uptime SLA, guaranteed</h3><p>Ring-protected fibre with automatic failover, so a single cut never takes you offline.</p><p class="cmp"><b>vs 95%</b> on typical broadband</p></div>
-      </div>
-      <div class="b wide glass tile rv d1">
-        <div style="display:flex;align-items:center;gap:14px"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrows"/></svg></span><h3>Symmetrical speeds</h3></div>
-        <div><div class="meter"><span>Download</span><span class="bar"><i></i></span><b>1 Gbps</b></div><div class="meter"><span>Upload</span><span class="bar"><i></i></span><b>1 Gbps</b></div></div>
-      </div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cable"/></svg></span><h3>Multiple last-mile options</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-monitor"/></svg></span><h3>24/7 remote monitoring &amp; management</h3></div>
-      <div class="b wide glass tile rv">
-        <div style="display:flex;align-items:center;gap:14px"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-packet"/></svg></span><h3>0% packet loss</h3></div>
-        <svg class="spark" viewBox="0 0 400 36" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 H140 l6-8 6 8 H260 l6-6 6 6 H400"/><circle cx="392" cy="20" r="3.5" fill="#f8c102" stroke="none"/></svg>
-      </div>
-      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-p2p"/></svg></span><h3>Point-to-point</h3></div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-filter"/></svg></span><h3>Web &amp; application filtering</h3></div>
-      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cloud"/></svg></span><h3>Easy cloud access</h3></div>
-      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-ring"/></svg></span><h3>Ring topology</h3></div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span><h3>Ideal for corporate businesses</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-rupee"/></svg></span><h3>Cost-effective</h3></div>
-      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg></span><h3>Faster connection</h3></div>
-      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-timer"/></svg></span><h3>Optimal latency</h3></div>
-      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span><h3>Highly secured connection</h3></div>
-      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-db"/></svg></span><h3>Large data transfer</h3></div>
-    </div>
-  </div>
-</section>
-
-<!-- =============== COMPARE =============== -->
-<section class="sec compare" id="compare" aria-labelledby="cp-h">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="eyebrow">Compare</span>
-      <h2 id="cp-h"><span class="grad">Leased line</span> vs broadband</h2>
-      <p class="lead">Six differences that decide how your business runs online.</p>
-    </div>
-    <div class="grid">
+    <div class="cmp">
       <div class="col keys glass rv" aria-hidden="true">
         <div class="top"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hash"/></svg></span><div><h3>Key differences</h3><small>What matters</small></div></div>
-        <ul class="rows"><li>Internet bandwidth</li><li>Speeds</li><li>Latency &amp; security</li><li>Service level agreement</li><li>Support</li><li>Usage</li></ul>
+        <ul class="rows"><li>Bandwidth</li><li>Speeds</li><li>Latency &amp; security</li><li>SLA</li><li>Support</li><li>Usage</li></ul>
       </div>
       <div class="col lease glass tile rv d1">
         <span class="rec">Recommended</span>
         <div class="top"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cable"/></svg></span><div><h3>Leased line</h3><small>Dedicated fibre</small></div></div>
         <ul class="rows">
           <li data-k="Bandwidth"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Dedicated</li>
-          <li data-k="Speeds"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Symmetrical — same upload &amp; download</li>
-          <li data-k="Latency"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Optimal latency, high security</li>
+          <li data-k="Speeds"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Symmetrical, 1:1</li>
+          <li data-k="Latency"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Low latency, high security</li>
           <li data-k="SLA"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>99.02% uptime</li>
-          <li data-k="Support"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Dedicated SPOC + 24×7 support</li>
-          <li data-k="Usage"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Corporates &amp; mid-size, 20+ users</li>
+          <li data-k="Support"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Dedicated SPOC, 24×7</li>
+          <li data-k="Usage"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Corporates, 20+ users</li>
         </ul>
       </div>
       <div class="col broad glass tile rv d2">
         <div class="top"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-globe"/></svg></span><div><h3>Broadband</h3><small>Shared connection</small></div></div>
         <ul class="rows">
           <li data-k="Bandwidth"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Shared</li>
-          <li data-k="Speeds"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Asymmetrical — upload &amp; download vary</li>
+          <li data-k="Speeds"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Asymmetrical</li>
           <li data-k="Latency"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Higher latency, basic security</li>
           <li data-k="SLA"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-minus"/></svg>95% uptime</li>
           <li data-k="Support"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-minus"/></svg>24/7 support</li>
@@ -554,48 +530,114 @@ h2{font-size:clamp(30px,3.8vw,50px)}
   </div>
 </section>
 
-<!-- =============== WHY =============== -->
-<section class="sec" id="why" aria-labelledby="wh-h">
+<!-- =============== 2. WHAT YOU GET =============== -->
+<section class="sec" id="benefits" aria-labelledby="bn-h">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Why GTPL KCBPL</span>
-      <h2 id="wh-h">The scale behind <span class="grad">every connection</span></h2>
+      <span class="eyebrow">Step two</span>
+      <h2 id="bn-h">What you get</h2>
     </div>
-    <div class="stats">
-      <div class="s glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-award"/></svg></span><div class="num grad">#1</div><p>India's largest enterprise business solution provider</p></div>
-      <div class="s glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building"/></svg></span><div class="num grad">Fortune <span class="count" data-to="500">500</span></div><p>Trusted by Fortune 500 companies &amp; Govt of India undertakings</p></div>
-      <div class="s glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span><div class="num grad"><span class="count" data-to="9">9</span>M<small>+</small></div><p>Users nationwide</p></div>
-      <div class="s glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chip"/></svg></span><div class="num grad word">Juniper &amp; Nokia</div><p>Carrier-grade technical backbone</p></div>
-      <div class="s glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-india"/></svg></span><div class="num grad word">Pan India</div><p>Largest MSO + ISP across the country</p></div>
-      <div class="s glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span><div class="num grad"><span class="count" data-to="85">85</span><small>+</small></div><p>Service vehicles on the road</p></div>
-      <div class="s glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span><div class="num grad"><span class="count" data-to="1500">1500</span><small>+</small></div><p>Dedicated team members</p></div>
-      <div class="s glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-headset"/></svg></span><div class="num grad">24<small>/7</small></div><p>Customer service, every day</p></div>
+    <div class="bento">
+      <div class="b feat glass tile rv">
+        <div class="gauge"><svg viewBox="0 0 186 186" aria-hidden="true"><circle class="track" cx="93" cy="93" r="83"/><circle class="arc" cx="93" cy="93" r="83"/></svg><div class="num"><b class="count" data-to="99.02" data-dec="2">99.02</b><i>%</i><span>Uptime SLA</span></div></div>
+        <h3>Guaranteed uptime, in writing</h3>
+        <p>Ring-protected fibre with automatic failover.</p>
+        <span class="vs"><svg class="i" aria-hidden="true" focusable="false" style="width:13px;height:13px"><use href="#i-arrows"/></svg>95% on typical broadband</span>
+      </div>
+
+      <div class="b wide glass tile rv d1">
+        <div class="hd"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrows"/></svg></span><h3>Symmetrical speeds</h3></div>
+        <div style="margin-top:auto">
+          <div class="meter dn"><span>Download</span><span class="bar"><i></i></span><b>1 Gbps</b></div>
+          <div class="meter up"><span>Upload</span><span class="bar"><i></i></span><b>1 Gbps</b></div>
+        </div>
+      </div>
+
+      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cable"/></svg></span><h3>Multiple last-mile options</h3></div>
+      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-monitor"/></svg></span><h3>24/7 remote monitoring</h3></div>
+
+      <div class="b wide glass tile rv">
+        <div class="hd"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-packet"/></svg></span><h3>0% packet loss</h3></div>
+        <svg class="spark" viewBox="0 0 400 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 19 H150 l6-7 6 7 H264 l6-5 6 5 H400"/><circle cx="393" cy="19" r="3.5" fill="#f2cb4d" stroke="none"/></svg>
+      </div>
+
+      <div class="b glass tile rv d1">
+        <svg class="ringdia" viewBox="0 0 100 100" aria-hidden="true"><circle class="o" cx="50" cy="50" r="32"/><circle class="nd" cx="50" cy="18" r="3.6"/><circle class="nd" cx="82" cy="50" r="3.6"/><circle class="nd" cx="50" cy="82" r="3.6"/><circle class="nd" cx="18" cy="50" r="3.6"/><g class="rot"><circle class="pk" cx="50" cy="18" r="6"/><circle class="pk" cx="50" cy="18" r="2.6" opacity=".9"/></g></svg>
+        <h3>Ring topology</h3>
+      </div>
+      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-p2p"/></svg></span><h3>Point-to-point</h3></div>
+      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-timer"/></svg></span><h3>Optimal latency</h3></div>
+      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span><h3>Highly secured</h3></div>
+      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-filter"/></svg></span><h3>Web &amp; app filtering</h3></div>
+      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cloud"/></svg></span><h3>Easy cloud access</h3></div>
+      <div class="b glass tile rv d3"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-db"/></svg></span><h3>Large data transfer</h3></div>
+      <div class="b glass tile rv"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg></span><h3>Faster connection</h3></div>
+      <div class="b glass tile rv d1"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span><h3>Built for corporates</h3></div>
+      <div class="b glass tile rv d2"><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-rupee"/></svg></span><h3>Cost-effective</h3></div>
     </div>
   </div>
 </section>
 
-<!-- =============== TESTIMONIALS =============== -->
+<!-- =============== 3. HOW IT WORKS =============== -->
+<section class="sec" id="how" aria-labelledby="hw-h">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Step three</span>
+      <h2 id="hw-h">Live in three moves</h2>
+    </div>
+    <div class="steps">
+      <div class="st glass tile rv"><span class="n">1</span><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clip"/></svg></span><h3>Share your requirement</h3><p>One form. Bandwidth, location, timeline.</p></div>
+      <div class="st glass tile rv d1"><span class="n">2</span><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-tools"/></svg></span><h3>Survey &amp; custom quote</h3><p>Feasibility check, then pricing for your industry.</p></div>
+      <div class="st glass tile rv d2"><span class="n">3</span><span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-power"/></svg></span><h3>Install &amp; go live</h3><p>Fibre laid, router configured, SPOC assigned.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== 4. SCALE =============== -->
+<section class="sec scale" id="why" aria-labelledby="sc-h">
+  <div class="wrap">
+    <div class="panel rv">
+      <span class="glow" aria-hidden="true"></span><span class="glow2" aria-hidden="true"></span>
+      <div class="hd">
+        <span class="eyebrow">Why GTPL KCBPL</span>
+        <h2 id="sc-h">The scale behind <em>every connection</em></h2>
+      </div>
+      <div class="sgrid">
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-award"/></svg></span><b class="word">India's largest</b><span>Enterprise business solution provider</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-building"/></svg></span><b>Fortune <span class="count" data-to="500">500</span></b><span>Companies &amp; Govt of India undertakings</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span><b><span class="count" data-to="9">9</span>M<small>+</small></b><span>Users nationwide</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chip"/></svg></span><b class="word">Juniper &amp; Nokia</b><span>Carrier-grade backbone</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-india"/></svg></span><b class="word">Pan India</b><span>Largest MSO + ISP in the country</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span><b><span class="count" data-to="85">85</span><small>+</small></b><span>Service vehicles on the road</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"/></svg></span><b><span class="count" data-to="1500">1500</span><small>+</small></b><span>Dedicated team members</span></div>
+        <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-headset"/></svg></span><b>24<small>/7</small></b><span>Customer service, every day</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== 5. TESTIMONIALS =============== -->
 <section class="sec" id="testimonials" aria-labelledby="ts-h">
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Client stories</span>
-      <h2 id="ts-h">Rated by teams that <span class="grad">can't go offline</span></h2>
+      <h2 id="ts-h">Teams that <span class="grad">can't go offline</span></h2>
     </div>
     <!-- Placeholder testimonials — replace with real client quotes -->
     <div class="tgrid">
       <figure class="t glass tile rv">
         <div class="stars" aria-label="5 out of 5 stars"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></div>
-        <blockquote>&ldquo;Zero drops through two festive-season peaks. The dedicated SPOC simply makes things happen.&rdquo;</blockquote>
+        <blockquote>&ldquo;Zero drops through two festive-season peaks.&rdquo;</blockquote>
         <figcaption class="who"><span class="av" aria-hidden="true">HI</span><span class="meta"><b>Head of IT</b><span>Hospitality group &middot; Kolkata</span></span></figcaption>
       </figure>
       <figure class="t glass tile rv d1">
         <div class="stars" aria-label="5 out of 5 stars"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></div>
-        <blockquote>&ldquo;Installed in days, not weeks. Plant-floor systems, CCTV and ERP all run on one stable line.&rdquo;</blockquote>
+        <blockquote>&ldquo;Installed in days, not weeks. CCTV and ERP on one line.&rdquo;</blockquote>
         <figcaption class="who"><span class="av" aria-hidden="true">OM</span><span class="meta"><b>Operations Manager</b><span>Manufacturing unit &middot; Howrah</span></span></figcaption>
       </figure>
       <figure class="t glass tile rv d2">
         <div class="stars" aria-label="5 out of 5 stars"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></div>
-        <blockquote>&ldquo;Symmetrical uploads changed how our 60-seat team works with cloud tools remotely.&rdquo;</blockquote>
+        <blockquote>&ldquo;Symmetrical uploads changed how our 60-seat team works.&rdquo;</blockquote>
         <figcaption class="who"><span class="av" aria-hidden="true">CT</span><span class="meta"><b>CTO</b><span>IT services firm &middot; Salt Lake</span></span></figcaption>
       </figure>
     </div>
@@ -610,7 +652,7 @@ h2{font-size:clamp(30px,3.8vw,50px)}
       <div class="in">
         <span class="eyebrow">Go dedicated</span>
         <h2 id="ct-h">Ready for <span class="grad">dedicated bandwidth</span>?</h2>
-        <p class="lead">Custom quotes for your industry. Flexible 3, 6 and 12-month plans. A specialist calls you back within 24 hours.</p>
+        <p>Custom quotes by industry. Flexible 3, 6 and 12-month plans.</p>
         <div class="acts">
           <a class="btn btn-primary btn-lg" href="#enquire"><span>Request a Quote</span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
           <a class="btn btn-glass btn-lg" href="tel:+916293760118"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><span>+91 6293760118</span></a>
@@ -623,7 +665,7 @@ h2{font-size:clamp(30px,3.8vw,50px)}
 
 <footer class="foot">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="GTPL KCBPL"><span class="name"><span class="g">GTPL</span><span class="k">KCBPL</span></span></a>
+    <a class="brand" href="#top" aria-label="GTPL KCBPL"><span class="stack"><span class="name"><span class="g">GTPL</span><span class="k">KCBPL</span></span></span></a>
     <a class="tel" href="tel:+916293760118">+91 6293760118</a>
     <span>&copy; 2026 GTPL KCBPL. All rights reserved.</span>
   </div>
@@ -645,12 +687,10 @@ h2{font-size:clamp(30px,3.8vw,50px)}
   var RM=w.matchMedia&&w.matchMedia('(prefers-reduced-motion: reduce)').matches;
   root.classList.add('js');
 
-  /* nav density */
   var nav=d.querySelector('.nav');
-  function onScroll(){ nav.classList.toggle('scrolled',w.scrollY>24); }
+  function onScroll(){ nav.classList.toggle('scrolled',w.scrollY>20); }
   w.addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-  /* pointer sheen on glass */
   d.addEventListener('pointermove',function(e){
     var el=e.target.closest&&e.target.closest('.glass'); if(!el) return;
     var r=el.getBoundingClientRect();
@@ -658,17 +698,15 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     el.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
   },{passive:true});
 
-  /* counters */
   function ease(t){return 1-Math.pow(1-t,3)}
   function runCount(el){
     if(el.dataset.done) return; el.dataset.done='1';
     var to=parseFloat(el.dataset.to),dec=parseInt(el.dataset.dec||'0',10);
-    if(RM||isNaN(to)){ el.textContent=to.toFixed(dec); return; }
+    if(RM||isNaN(to)){ if(!isNaN(to)) el.textContent=to.toFixed(dec); return; }
     var t0=null,dur=1500;
     function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); el.textContent=(to*ease(p)).toFixed(dec); if(p<1) w.requestAnimationFrame(step); else el.textContent=to.toFixed(dec); }
     w.requestAnimationFrame(step);
   }
-  /* reveals */
   var rv=d.querySelectorAll('.rv');
   function show(el){ el.classList.add('in'); el.querySelectorAll('.count').forEach(runCount); }
   if(RM||!('IntersectionObserver' in w)){ rv.forEach(show); d.querySelectorAll('.count').forEach(runCount); }
@@ -677,12 +715,11 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     rv.forEach(function(el){ var r=el.getBoundingClientRect(); if(r.top<w.innerHeight&&r.bottom>0) show(el); else io.observe(el); });
     d.querySelectorAll('.count').forEach(function(c){ if(!c.closest('.rv')) runCount(c); });
     var pending=Array.prototype.slice.call(rv),queued=false;
-    function sweep(){ queued=false; pending=pending.filter(function(el){ if(el.classList.contains('in')) return false; var rc=el.getBoundingClientRect(); if(rc.top<w.innerHeight*1.05||rc.bottom<0){ show(el); io.unobserve(el); return false; } return true; }); }
+    function sweep(){ queued=false; pending=pending.filter(function(el){ if(el.classList.contains('in')) return false; var r=el.getBoundingClientRect(); if(r.top<w.innerHeight*1.05||r.bottom<0){ show(el); io.unobserve(el); return false; } return true; }); }
     w.addEventListener('scroll',function(){ if(!queued&&pending.length){ queued=true; w.requestAnimationFrame(sweep); } },{passive:true});
     setTimeout(sweep,3000);
   }
 
-  /* form */
   var form=d.getElementById('enquire');
   var rules={name:function(v){return v.trim().length>1},email:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())},
     phone:function(v){return /^[6-9]\d{9}$/.test(v.replace(/\D/g,''))},company:function(v){return v.trim().length>1},pin:function(v){return /^[1-9]\d{5}$/.test(v.trim())}};
@@ -695,7 +732,6 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     form.classList.add('ok'); var h=d.getElementById('ok-h'); if(h) h.focus({preventScroll:true});
   });
 
-  /* smooth anchors */
   d.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click',function(e){
       var id=a.getAttribute('href').slice(1),el=id&&d.getElementById(id); if(!el) return;
@@ -704,32 +740,31 @@ h2{font-size:clamp(30px,3.8vw,50px)}
     });
   });
 
-  /* hero network canvas — quiet, light, blue */
   var cv=d.getElementById('net'); if(!cv||RM) return;
   var ctx=cv.getContext('2d'),W=0,H=0,dpr=1,nodes=[],raf=0,vis=!d.hidden,inview=true,M={x:-9999,y:-9999};
   function resize(){
     dpr=Math.min(2,w.devicePixelRatio||1); var r=cv.parentNode.getBoundingClientRect(); W=r.width;H=r.height;
     cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var n=Math.round(Math.min(90,Math.max(36,W*H/22000))); nodes=[];
-    for(var i=0;i<n;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:1+Math.random()*1.4});
+    var n=Math.round(Math.min(80,Math.max(32,W*H/23000))); nodes=[];
+    for(var i=0;i<n;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:1+Math.random()*1.3});
   }
   function draw(){
     ctx.clearRect(0,0,W,H);
-    var L=Math.min(170,W/7);
+    var L=Math.min(165,W/7);
     for(var i=0;i<nodes.length;i++){
       var a=nodes[i]; a.x+=a.vx;a.y+=a.vy;
       if(a.x<-10)a.x=W+10; if(a.x>W+10)a.x=-10; if(a.y<-10)a.y=H+10; if(a.y>H+10)a.y=-10;
       var dx=M.x-a.x,dy=M.y-a.y,dd=dx*dx+dy*dy; if(dd<40000){ a.x+=dx*.004; a.y+=dy*.004; }
       for(var j=i+1;j<nodes.length;j++){
         var b=nodes[j],ex=a.x-b.x,ey=a.y-b.y,dist=Math.sqrt(ex*ex+ey*ey);
-        if(dist<L){ var al=(1-dist/L)*.18; ctx.strokeStyle='rgba(0,90,171,'+al.toFixed(3)+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+        if(dist<L){ var al=(1-dist/L)*.17; ctx.strokeStyle='rgba(36,88,164,'+al.toFixed(3)+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
       }
     }
-    for(var k=0;k<nodes.length;k++){ var p=nodes[k]; ctx.fillStyle='rgba(0,90,171,.35)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); }
+    for(var k=0;k<nodes.length;k++){ var p=nodes[k]; ctx.fillStyle='rgba(36,88,164,.34)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); }
     raf=w.requestAnimationFrame(draw);
   }
   function sync(){ var on=vis&&inview; if(on&&!raf) raf=w.requestAnimationFrame(draw); if(!on&&raf){ w.cancelAnimationFrame(raf); raf=0; } }
-  resize(); w.addEventListener('resize',function(){ resize(); },{passive:true});
+  resize(); w.addEventListener('resize',resize,{passive:true});
   d.addEventListener('visibilitychange',function(){ vis=!d.hidden; sync(); });
   if('IntersectionObserver' in w){ new IntersectionObserver(function(en){ inview=en[0].isIntersecting; sync(); }).observe(cv.parentNode); }
   var hero=cv.parentNode;
