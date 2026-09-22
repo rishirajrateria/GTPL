@@ -206,7 +206,33 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;opacity:.5}
 .sct .ic .i{width:16px;height:16px}
+.sct{border:0;font:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
+.sct[aria-expanded="true"]{color:#fff;background:var(--blue);transform:translateY(-3px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 16px 30px -18px rgba(36,88,164,.95)}
+.sct[aria-expanded="true"] .ic{color:#fff;background:rgba(255,255,255,.16);box-shadow:none}
+.sct[aria-expanded="true"] .ic::before{opacity:0}
+.sct .cv{width:12px;height:12px;margin-left:2px;opacity:.5;transition:transform .35s var(--ease),opacity .35s}
+.sct[aria-expanded="true"] .cv{transform:rotate(180deg);opacity:.9}
+
+.sct-wrap{display:grid;grid-template-rows:0fr;margin-top:0;
+  transition:grid-template-rows .45s var(--ease),margin-top .45s var(--ease)}
+.sct-wrap.open{grid-template-rows:1fr;margin-top:16px}
+.sct-inner{overflow:hidden;min-height:0}
+.sct-panel{max-width:900px;margin-inline:auto;padding:20px 22px;text-align:center}
+.sp-h{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:14px}
+.sp-h b{color:var(--blue);letter-spacing:.04em}
+.sp-list{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.sp-list li{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:99px;
+  font-size:13.5px;font-weight:700;letter-spacing:-.01em;color:var(--ink);
+  background:rgba(36,88,164,.07);box-shadow:inset 0 0 0 1px rgba(36,88,164,.12);
+  opacity:0;transform:translateY(7px);animation:pop .34s var(--ease) forwards}
+.sp-list li .d{width:6px;height:6px;border-radius:50%;background:var(--blue);flex:none}
+.sp-list li.none{background:none;box-shadow:none;color:var(--ink-3);font-weight:600}
+@keyframes pop{to{opacity:1;transform:none}}
+
 @media (max-width:640px){
+  .sct-panel{padding:16px 14px}
+  .sp-list li{font-size:12.5px;padding:7px 12px}
   .sectors .row{gap:8px}
   .sct{padding:7px 13px 7px 7px;font-size:12.5px;gap:8px}
   .sct .ic{width:26px;height:26px;border-radius:8px}
@@ -438,6 +464,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   .cta .acts .btn{width:100%}
   .foot .wrap{flex-direction:column;align-items:flex-start}
 }
+@media (max-width:360px){.sct .cv{display:none}.sct{padding-right:13px}}
 @media (max-width:400px){.logo{height:26px;width:143px}}
 @media (max-width:340px){.flist ul{grid-template-columns:1fr}}
 @media (max-width:400px){
@@ -446,7 +473,8 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .sky i,.marquee ul,.btn,.tile,.hero h1 .grad,.live i::after,.scale .panel::after,.hero .yrule{animation:none!important;transition:none!important}
+  .sky i,.marquee ul,.btn,.tile,.hero h1 .grad,.live i::after,.scale .panel::after,.hero .yrule,.sct-wrap,.sp-list li,.sct .cv{animation:none!important;transition:none!important}
+  .sp-list li{opacity:1;transform:none}
   .hero h1 .grad{background:var(--g-blue);-webkit-background-clip:text;background-clip:text}
   .js .rv{opacity:1;transform:none;transition:none}
   .gauge .arc,.meter .bar i{transition:none}
@@ -606,18 +634,25 @@ h2{font-size:clamp(28px,3.4vw,44px)}
       <h2 id="sc-h">Serving businesses across <span class="grad">every industry</span></h2>
     </div>
     <!-- order chosen so the chips pack into even rows at every width -->
+    <!-- order chosen so the chips pack into even rows at every width -->
     <ul class="row rv d1">
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-factory"/></svg></span>Manufacturing</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bank"/></svg></span>BFSI</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bed"/></svg></span>Hospitality</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bag"/></svg></span>Retail</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-health"/></svg></span>Healthcare</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-media"/></svg></span>Media</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span>Government</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cap"/></svg></span>Education</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chip"/></svg></span>IT &amp; ITES</li>
-      <li class="sct"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span>Logistics</li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Manufacturing"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-factory"/></svg></span>Manufacturing<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="BFSI"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bank"/></svg></span>BFSI<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Hospitality"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bed"/></svg></span>Hospitality<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Retail"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bag"/></svg></span>Retail<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Healthcare"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-health"/></svg></span>Healthcare<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Media"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-media"/></svg></span>Media<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Government"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-corp"/></svg></span>Government<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Education"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cap"/></svg></span>Education<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="IT & ITES"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chip"/></svg></span>IT &amp; ITES<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
+      <li><button class="sct" type="button" aria-expanded="false" aria-controls="sector-panel" data-k="Logistics"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-truck"/></svg></span>Logistics<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>
     </ul>
+    <!-- Placeholder client-by-sector mapping — edit SECTOR_CLIENTS in the script below -->
+    <div class="sct-wrap" id="sector-wrap">
+      <div class="sct-inner">
+        <div class="sct-panel glass" id="sector-panel" role="region" aria-live="polite"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -826,6 +861,46 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 
   function onScroll(){ nav.classList.toggle('scrolled',w.scrollY>20); }
   w.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* ---------- sectors: tap an industry to see who we serve there ---------- */
+  (function(){
+    var wrap=d.getElementById('sector-wrap'), panel=d.getElementById('sector-panel');
+    if(!wrap||!panel) return;
+    /* Replace these lists with the real client roster for each sector. */
+    var SECTOR_CLIENTS={
+      'Manufacturing':['Maruti Suzuki','Aditya Birla Group'],
+      'BFSI':[],
+      'Hospitality':['Ambuja Neotia','Monotel'],
+      'Retail':["Haldiram's"],
+      'Healthcare':[],
+      'Media':['Globe TV'],
+      'Government':['Kolkata Airport'],
+      'Education':[],
+      'IT & ITES':['Wipro','Vibtree'],
+      'Logistics':[]
+    };
+    var btns=[].slice.call(d.querySelectorAll('.sct')), open=null;
+    function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function fill(key){
+      var list=SECTOR_CLIENTS[key]||[];
+      var head=list.length
+        ? '<b>'+list.length+'</b> '+(list.length===1?'client':'clients')+' in '+esc(key)
+        : esc(key);
+      var items=list.length
+        ? list.map(function(n,i){ return '<li style="animation-delay:'+(i*45)+'ms"><span class="d"></span>'+esc(n)+'</li>'; }).join('')
+        : '<li class="none">Client names in '+esc(key)+' are shared on request.</li>';
+      panel.innerHTML='<p class="sp-h">'+head+'</p><ul class="sp-list">'+items+'</ul>';
+    }
+    function setOpen(btn){
+      btns.forEach(function(b){ b.setAttribute('aria-expanded', String(b===btn)); });
+      if(btn){ fill(btn.dataset.k); wrap.classList.add('open'); open=btn; }
+      else { wrap.classList.remove('open'); open=null; }
+    }
+    btns.forEach(function(b){
+      b.addEventListener('click',function(){ setOpen(open===b?null:b); });
+    });
+    d.addEventListener('keydown',function(e){ if(e.key==='Escape'&&open){ var t=open; setOpen(null); t.focus(); } });
+  })();
 
   /* ---------- ring protection: a link cuts, traffic routes the other way ---------- */
   (function(){
