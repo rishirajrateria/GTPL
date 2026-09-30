@@ -96,8 +96,8 @@ on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and th
   of `index.html`. It currently maps only the clients whose industry is obvious, and four sectors
   fall back to "shared on request". Fill in the real roster per sector, and check the mappings that
   are there. NDIA is not assigned to any sector because I could not identify its industry.
-- **Client logos**: each client sits behind a neutral placeholder mark (the `m-1` … `m-10` symbols
-  in the sprite). These are abstract shapes, deliberately not imitations of anyone's real logo.
-  Replace each `<use href="#m-n">` with the client's actual logo file once you have licence to use
-  it.
+- **Client logos**: five real logos are embedded (Wipro, Kolkata Airport, Globe TV, NDIA, Vibtree),
+  each once as a `.marquee .lg-*` background and also saved under `logos/`. They sit greyscale at
+  rest and go full colour on hover. The other five clients still use neutral placeholder marks
+  (`m-2`, `m-3`, `m-6`, `m-7`, `m-8`) — swap each `<use>` for the real logo once you have it.
 - **Fonts**: Manrope loads from Google Fonts. Self-host it if the page must work without that request.
