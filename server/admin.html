@@ -557,7 +557,7 @@ function demoData(from,to){
 
 /* ---------------- boot ---------------- */
 var saved=null; try{ saved=localStorage.getItem('ill_admin_range'); }catch(e){}
-if(location.protocol==='file:'||/[?&]demo=1/.test(location.search)||!/\/admin\/?$/.test(location.pathname)){ DEMO=true; d.getElementById('demo').hidden=false; d.getElementById('logout').hidden=true; }
+if(location.protocol==='file:'||/[?&]demo=1/.test(location.search)||!/\/admin\/?$/.test(location.pathname)){ DEMO=true; d.getElementById('demo').hidden=false; d.getElementById('logout').hidden=true; d.getElementById('export').hidden=true; }
 var resizeT; w.addEventListener('resize',function(){ clearTimeout(resizeT); resizeT=setTimeout(function(){ if(DATA) render(DATA); },150); });
 setPreset(saved&&/^(today|yesterday|7|30|90)$/.test(saved)?saved:'7');
 })();
