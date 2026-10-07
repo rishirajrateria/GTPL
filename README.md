@@ -28,9 +28,10 @@ The page is built to be understood by scrolling straight down:
 
 1. **Hero** — headline, four key figures, and a two-field availability check (PIN code and mobile), kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
-3. **Sectors** — a slim band of ten industry chips, each with an icon. Tapping one expands a panel
-   listing the clients served in that sector. The chip order is chosen so the row packs evenly at
-   every width and never leaves a single chip stranded on its own line
+3. **Sectors** — 17 industry chips with client counts, generated from
+   `data/Company_details_sector_wise.xlsx`. Tapping one opens a panel listing every client in that
+   sector with its locations; long location lists collapse to three with a "+N more" toggle. The
+   names are static HTML, so search engines and AI crawlers can read them
 4. **Step one: why a leased line, not broadband** — two glass cards for the two real options, with
    the row labels as a plain right-aligned rail beside them rather than a third card
 5. **Step two: what you get** — three proof panels (99.02% SLA gauge, symmetrical speed meters, packet-loss trace) above a single hairline grid holding the remaining twelve features
@@ -92,10 +93,15 @@ on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and th
   email endpoint. Your team collects name, company and industry on the callback.
 - **Testimonials**: the three quotes are placeholders attributed to roles only. Replace them with
   real client quotes (see the `Placeholder testimonials` comment).
-- **Clients by sector**: the sector panel reads from `SECTOR_CLIENTS` in the script at the bottom
-  of `index.html`. It currently maps only the clients whose industry is obvious, and four sectors
-  fall back to "shared on request". Fill in the real roster per sector, and check the mappings that
-  are there. NDIA is not assigned to any sector because I could not identify its industry.
+- **Clients by sector**: edit `data/Company_details_sector_wise.xlsx`, then rebuild the band:
+
+  ```sh
+  python3 data/build_sectors.py data/Company_details_sector_wise.xlsx index.html data/sector-report.json
+  ```
+
+  The script replaces the sectors section, its styles and its script in place. Read
+  `data/REVIEW.md` first: 53 businesses have no sector and are not shown, and a few entries look
+  like typos or notes rather than client names.
 - **Client logos**: the rail shows the five supplied logos (Wipro, Kolkata Airport, Globe TV, NDIA,
   Vibtree), each embedded once as a `.marquee .lg-*` background and also saved under `logos/`.
   They sit greyscale at rest and go full colour on hover. To add a client, key out its background,

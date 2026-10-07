@@ -1,0 +1,148 @@
+{
+ "total_brands": 244,
+ "chips": [
+  [
+   "Education",
+   39,
+   6
+  ],
+  [
+   "IT & Technology",
+   30,
+   14
+  ],
+  [
+   "Manufacturing",
+   24,
+   7
+  ],
+  [
+   "Healthcare",
+   21,
+   18
+  ],
+  [
+   "Government",
+   21,
+   2
+  ],
+  [
+   "Retail",
+   15,
+   16
+  ],
+  [
+   "Real Estate",
+   14,
+   1
+  ],
+  [
+   "Telecom",
+   13,
+   13
+  ],
+  [
+   "Food & FMCG",
+   12,
+   3
+  ],
+  [
+   "Media",
+   11,
+   13
+  ],
+  [
+   "Logistics",
+   11,
+   5
+  ],
+  [
+   "Hospitality",
+   9,
+   1
+  ],
+  [
+   "Automobile",
+   8,
+   5
+  ],
+  [
+   "Professional Services",
+   7,
+   2
+  ],
+  [
+   "BFSI",
+   6,
+   1
+  ],
+  [
+   "Trading",
+   4,
+   15
+  ],
+  [
+   "Energy",
+   3,
+   0
+  ]
+ ],
+ "unused_segments": {
+  "NA": 119
+ },
+ "na_brands": [
+  "2nd INNING",
+  "AAKASH UDYOG",
+  "ADSVITA COMMUNIQUE",
+  "ADTECH SOLUTIONS",
+  "AKR ENTERPRISES",
+  "ASHWIN MOHTA",
+  "ASPIARE COMMUNICATION",
+  "B&A",
+  "BANGLA JAGO",
+  "BISWA ENTERPRISES",
+  "Biotech Foundation",
+  "CORSICA SOLUTIONS",
+  "CYBER STORE",
+  "DARSH CREATIVES",
+  "Digimac Business Solutions",
+  "Dokania Overseas",
+  "EVOLTIK INTERNATIONAL",
+  "GROW EVER COMEX",
+  "Global Business Ventures",
+  "INFINITY LINE SOLUTIONS",
+  "INFINITYLINE SOLUTIONS",
+  "INFYNIX COMMUNICATIONS",
+  "INK & THREAD",
+  "KALPANA DEGITAL",
+  "KALPANA DIGITAL",
+  "KALPANA DIGITALS",
+  "Kalpana Digital",
+  "LONGTHARAI INTERNATIONAL",
+  "MAHARAJA",
+  "MEDHAVI ASPIRE",
+  "MERABO LABS",
+  "MINDRILL SYSTEMS AND SOLUTIONS",
+  "Mayur Resources",
+  "NOVEL TEAMS SOLUTIONS",
+  "PATTON INTERNATIONAL",
+  "PLATINUM COMMUNICATION",
+  "PROMOTEDGE GLOBAL SERVICES",
+  "PROTECT VANIJYA",
+  "RAD 365 SOLUTION",
+  "RIDDHI FOUNDATION",
+  "S P ENTERPRISE",
+  "SAJM BRAND HUB",
+  "SFE Solutions",
+  "SWARNAVALLI",
+  "SWASTIK AGENCIES",
+  "Swastik Agencies",
+  "TESCOM BUSINESS SOLUTION",
+  "THE CREATIVE SOLUTIONS",
+  "Techmate & Fincrop services Sona Biscuits",
+  "Transafe Services",
+  "UIC UDYOG",
+  "VIVA COMMUNICATIONS",
+  "VOZ CREATIVA"
+ ]
+}
