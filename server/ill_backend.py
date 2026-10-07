@@ -176,12 +176,12 @@ def day_start(s):
 def hash_password(pw, iters=240_000):
     salt = secrets.token_hex(16)
     dk = hashlib.pbkdf2_hmac('sha256', pw.encode(), salt.encode(), iters)
-    return f'pbkdf2_sha256${iters}${salt}${dk.hex()}'
+    return f'pbkdf2_sha256:{iters}:{salt}:{dk.hex()}'  # no '$': env files and shells would expand it
 
 
 def check_password(pw, stored):
     try:
-        algo, iters, salt, hexd = stored.split('$')
+        algo, iters, salt, hexd = re.split(r'[:$]', stored.strip())
         assert algo == 'pbkdf2_sha256'
         dk = hashlib.pbkdf2_hmac('sha256', pw.encode(), salt.encode(), int(iters))
         return hmac.compare_digest(dk.hex(), hexd)
