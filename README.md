@@ -14,6 +14,13 @@ globe's yellow) and lives as an SVG `<symbol id="logo">` in the sprite at the to
 header and footer both reference it with `<use href="#logo">`, so it is stored once, stays sharp at
 any size and on any display, and the page still makes no image requests.
 
+## Launch
+
+The site goes live at **https://ill.gtplkcbpl.com**. Everything the server administrator needs is in
+`deploy/`: step-by-step instructions in `deploy/DEPLOY.md`, and tested nginx and Apache configs.
+Only five files are served: `index.html`, `favicon.svg`, `og-image.jpg`, `robots.txt` and
+`sitemap.xml`. Never upload `data/`, which holds the customer spreadsheet.
+
 ## Run it
 
 Open `index.html` in a browser, or serve the folder with any static server:

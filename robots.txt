@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ill.gtplkcbpl.com/sitemap.xml
