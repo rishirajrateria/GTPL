@@ -11,8 +11,25 @@ install`, no separate database server. Everything is kept in one SQLite file on 
 | --- | --- |
 | Address | `https://ill.gtplkcbpl.com` |
 | Web root | `/var/www/ill.gtplkcbpl.com` (any folder works; update the config to match) |
-| Server | `103.211.23.150` is what `gtplkcbpl.com` resolves to today. Use it if this site goes on the same machine, otherwise use the IP of the server you choose. |
+| Server | A small rented Ubuntu 24.04 cloud server (DigitalOcean Bangalore, AWS Lightsail Mumbai or a Hostinger VPS, 1 GB memory). GTPL IT only adds the DNS record. |
 | Source | https://github.com/rishirajrateria/GTPL (branch `claude/ecstatic-mccarthy-sj43jp`) |
+
+## Quick setup (recommended)
+
+On a fresh Ubuntu 22.04/24.04 or Debian 12 server, as root (or with sudo), paste:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/rishirajrateria/GTPL/claude/ecstatic-mccarthy-sj43jp/deploy/install.sh | sudo bash
+```
+
+It installs nginx, certbot and Python, the page, the leads service with a generated admin password,
+and the nginx config, then prints the server IP and the password. Send the IP to GTPL IT for the
+DNS record below; once it resolves, run `sudo ill-https` to turn on HTTPS. Running the command
+again updates the files and keeps the password and all data. On AWS Lightsail, open port 443 in the
+instance's Networking tab. The installer downloads from GitHub, so the repository must be public
+when it runs (or set `ILL_REF` to a public copy).
+
+The numbered steps below are the same setup done by hand.
 
 ## 1. DNS
 
@@ -20,18 +37,18 @@ Add one record in the `gtplkcbpl.com` zone:
 
 | Type | Name | Value | TTL |
 | --- | --- | --- | --- |
-| A | `ill` | `103.211.23.150` | 300 |
+| A | `ill` | the server's public IP | 300 |
 
 In a BIND zone file that line is:
 
 ```
-ill    300    IN    A    103.211.23.150
+ill    300    IN    A    203.0.113.10      (example; use the real IP)
 ```
 
 Remember to bump the zone serial. Raise the TTL to 3600 once everything works. Check it with:
 
 ```sh
-dig +short ill.gtplkcbpl.com        # expect 103.211.23.150
+dig +short ill.gtplkcbpl.com        # expect the server's IP
 ```
 
 ## 2. Upload the site
