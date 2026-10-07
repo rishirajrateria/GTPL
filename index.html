@@ -184,6 +184,10 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 .done p{margin-top:7px;color:var(--ink-3);font-size:13.5px}
 .form.ok .fields,.form.ok .btn,.form.ok .priv,.form.ok .fh{display:none}
 .form.ok .done{display:block}
+.form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form .send-err{margin-top:12px;font-size:13px;color:var(--red);text-align:center}
+.form .send-err a{font-weight:700;text-decoration:underline}
+.form.sending .btn{opacity:.7;pointer-events:none}
 
 /* ============================================================
    4. CLIENT RAIL — sits right under the hero
@@ -634,13 +638,15 @@ h2{font-size:clamp(28px,3.4vw,44px)}
         <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></span>
         <span><h2 id="f-h">Check availability</h2><p>PIN code and mobile. We call you back in 24 hours.</p></span>
       </div>
-      <!-- TODO: wire form to backend / CRM endpoint -->
+      <!-- Leads post to /api/lead (server/ill_backend.py) when served from gtplkcbpl.com -->
+      <div class="hp" aria-hidden="true"><label for="hp-web">Website</label><input id="hp-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="fields">
         <div class="f"><label for="pin">PIN code <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><input id="pin" name="pin" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="6-digit PIN" required aria-describedby="pin-m"></span><span class="msg" id="pin-m">Enter a 6-digit PIN code.</span></div>
         <div class="f"><label for="phone">Phone <em>*</em></label><span class="ctrl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required aria-describedby="phone-m"></span><span class="msg" id="phone-m">Enter a 10-digit mobile number.</span></div>
       </div>
       <button class="btn btn-primary" type="submit"><span>Get my quote</span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-send"/></svg></button>
       <p class="priv"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-lock"/></svg>Your details stay private.</p>
+      <p class="send-err" id="send-err" role="alert" hidden>That didn't go through. Please try again, or call <a href="tel:+916293760118">+91 6293760118</a>.</p>
       <div class="done" role="status" aria-live="polite">
         <span class="ico"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>
         <h3 id="ok-h" tabindex="-1">Thanks — we'll call you within 24 hours</h3>
@@ -830,13 +836,13 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 </section>
 
 <!-- =============== 4. SCALE =============== -->
-<section class="sec scale" id="why" aria-labelledby="sc-h">
+<section class="sec scale" id="why" aria-labelledby="sl-h">
   <div class="wrap">
     <div class="panel rv">
       <span class="glow" aria-hidden="true"></span><span class="glow2" aria-hidden="true"></span>
       <div class="hd">
         <span class="eyebrow">Why GTPL KCBPL</span>
-        <h2 id="sc-h">The scale behind <em>every connection</em></h2>
+        <h2 id="sl-h">The scale behind <em>every connection</em></h2>
       </div>
       <div class="sgrid">
         <div class="sg"><span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-award"/></svg></span><b class="word">India's largest</b><span>Enterprise business solution provider</span></div>
@@ -922,6 +928,70 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   var d=document,w=window,root=d.documentElement;
   var RM=w.matchMedia&&w.matchMedia('(prefers-reduced-motion: reduce)').matches;
   root.classList.add('js');
+
+  /* ---------- visitor activity (only when served from the live domain) ---------- */
+  var ILL=(function(){
+    var H=location.hostname, live=/(^|\.)gtplkcbpl\.com$/.test(H)||H==='localhost'||H==='127.0.0.1';
+    var api={live:live, t0:Date.now(), sid:'', track:function(){}, flush:function(){}};
+    if(!live) return api;
+    function rid(){ var a=new Uint8Array(12); (w.crypto||w.msCrypto).getRandomValues(a); return Array.prototype.map.call(a,function(b){return (b%36).toString(36);}).join('')+Date.now().toString(36); }
+    function get(st,k){ try{ return w[st].getItem(k); }catch(e){ return null; } }
+    function put(st,k,v){ try{ w[st].setItem(k,v); }catch(e){} }
+    var vid=get('localStorage','ill_vid'), ret=!!vid; if(!vid){ vid=rid(); put('localStorage','ill_vid',vid); }
+    var sid=get('sessionStorage','ill_sid'), lastSeen=+get('sessionStorage','ill_seen')||0, fresh=false;
+    if(!sid||Date.now()-lastSeen>30*60*1000){ sid=rid(); put('sessionStorage','ill_sid',sid); fresh=true; }
+    api.sid=sid;
+    var q=[], once={}, eng=0, visibleAt=d.hidden?0:Date.now(), maxScroll=0, meta=null;
+    if(fresh){
+      var u=new URLSearchParams(location.search), ref='';
+      try{ ref=d.referrer?new URL(d.referrer).hostname:''; }catch(e){}
+      if(ref===H) ref='';
+      meta={ref:ref, us:u.get('utm_source')||'', um:u.get('utm_medium')||'', uc:u.get('utm_campaign')||'',
+            ut:u.get('utm_term')||'', ux:u.get('utm_content')||'', ck:u.get('gclid')?'g':u.get('fbclid')?'f':u.get('msclkid')?'m':'',
+            ret:ret?1:0, lang:(navigator.language||'').slice(0,12), scr:(screen.width||0)+'x'+(screen.height||0)};
+      q.push({t:'view'});
+    }
+    function engaged(){ return eng+(visibleAt?Date.now()-visibleAt:0); }
+    function payload(){ var p={sid:sid, vid:vid, ev:q.splice(0,60), eng:{ms:engaged(), sc:maxScroll}}; if(meta){ p.meta=meta; meta=null; } return JSON.stringify(p); }
+    function flush(beacon){
+      put('sessionStorage','ill_seen',String(Date.now()));
+      var body=payload();
+      if(beacon&&navigator.sendBeacon){ navigator.sendBeacon('/api/e', new Blob([body],{type:'text/plain'})); return; }
+      try{ fetch('/api/e',{method:'POST',body:body,keepalive:true,headers:{'Content-Type':'text/plain'}}).catch(function(){}); }catch(e){}
+    }
+    api.track=function(t,l,uniq){ var k=t+':'+(l||''); if(uniq){ if(once[k]) return; once[k]=1; } q.push({t:t,l:l||''}); if(t!=='scroll'&&t!=='section_view') flush(false); };
+    api.flush=flush;
+    flush(false);
+    setInterval(function(){ if(!d.hidden) flush(false); }, 15000);
+    d.addEventListener('visibilitychange',function(){
+      if(d.hidden){ if(visibleAt){ eng+=Date.now()-visibleAt; visibleAt=0; } flush(true); }
+      else visibleAt=Date.now();
+    });
+    w.addEventListener('pagehide',function(){ flush(true); });
+    w.addEventListener('scroll',function(){
+      var h=d.documentElement, sc=Math.round(100*(w.scrollY+w.innerHeight)/Math.max(1,h.scrollHeight));
+      if(sc>maxScroll){ maxScroll=Math.min(100,sc); [25,50,75,90].forEach(function(m){ if(maxScroll>=m) api.track('scroll',String(m),true); }); }
+    },{passive:true});
+    function where(el){ return el.closest('.nav')?'nav':el.closest('.mbar')?'mobile_bar':el.closest('.cta')?'final_cta':el.closest('.foot')?'footer':el.closest('.hero')?'hero':el.closest('.side-tab')||el.classList.contains('side-tab')?'side_tab':'page'; }
+    d.addEventListener('click',function(e){
+      var a=e.target.closest&&e.target.closest('a,button'); if(!a) return;
+      var href=a.getAttribute('href')||'';
+      if(href.indexOf('tel:')===0) api.track('click_call',where(a));
+      else if(href.indexOf('wa.me')>-1) api.track('click_whatsapp',where(a));
+      else if(href==='#enquire') api.track('click_quote',where(a));
+      else if(a.classList.contains('sct')&&a.getAttribute('aria-expanded')!=='true') api.track('sector_open',a.dataset.k||'');
+    },true);
+    d.addEventListener('copy',function(){
+      var t=String(w.getSelection?w.getSelection():'').replace(/\D/g,'');
+      if(t.indexOf('6293760118')>-1) api.track('copy_phone','selection');
+    });
+    if('IntersectionObserver' in w){
+      var so=new IntersectionObserver(function(list){ list.forEach(function(en){ if(en.isIntersecting){ api.track('section_view',en.target.id,true); so.unobserve(en.target); } }); },{threshold:.35});
+      ['sectors','compare','benefits','how','why','testimonials'].forEach(function(id){ var el=d.getElementById(id); if(el) so.observe(el); });
+      var cta=d.querySelector('.sec.cta'); if(cta){ cta.id=cta.id||'cta'; so.observe(cta); }
+    }
+    return api;
+  })();
 
   var nav=d.querySelector('.nav');
 
@@ -1023,11 +1093,25 @@ h2{font-size:clamp(28px,3.4vw,44px)}
     phone:function(v){return /^[6-9]\d{9}$/.test(v.replace(/\D/g,''))}};
   function check(id){ var f=d.getElementById(id),ok=rules[id](f.value); f.closest('.f').classList.toggle('err',!ok); f.setAttribute('aria-invalid',ok?'false':'true'); return ok; }
   Object.keys(rules).forEach(function(id){ d.getElementById(id).addEventListener('input',function(){ if(this.closest('.f').classList.contains('err')) check(id); }); });
+  Object.keys(rules).forEach(function(id){
+    var f=d.getElementById(id);
+    f.addEventListener('focus',function(){ ILL.track('form_start','',true); });
+    f.addEventListener('input',function(){ ILL.track('form_start','',true); ILL.track('form_field',id,true); });
+  });
+  var sendErr=d.getElementById('send-err');
+  function done(){ form.classList.remove('sending'); form.classList.add('ok'); var h=d.getElementById('ok-h'); if(h) h.focus({preventScroll:true}); }
   form.addEventListener('submit',function(e){
-    e.preventDefault(); var first=null;
-    Object.keys(rules).forEach(function(id){ if(!check(id)&&!first) first=id; });
-    if(first){ d.getElementById(first).focus(); return; }
-    form.classList.add('ok'); var h=d.getElementById('ok-h'); if(h) h.focus({preventScroll:true});
+    e.preventDefault(); var first=null, bad=[];
+    Object.keys(rules).forEach(function(id){ if(!check(id)){ bad.push(id); if(!first) first=id; } });
+    if(first){ bad.forEach(function(id){ ILL.track('form_error',id); }); d.getElementById(first).focus(); return; }
+    if(!ILL.live){ done(); return; }               /* preview copies have no server to send to */
+    sendErr.hidden=true; form.classList.add('sending');
+    fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      sid:ILL.sid, pin:d.getElementById('pin').value.trim(), phone:d.getElementById('phone').value,
+      hp:(d.getElementById('hp-web')||{}).value||'', t:Date.now()-ILL.t0})})
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ if(!r.ok||!j.ok) throw new Error('send'); }); })
+      .then(done)
+      .catch(function(){ form.classList.remove('sending'); sendErr.hidden=false; });
   });
 
   d.querySelectorAll('a[href^="#"]').forEach(function(a){

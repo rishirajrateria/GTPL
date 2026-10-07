@@ -21,6 +21,25 @@ The site goes live at **https://ill.gtplkcbpl.com**. Everything the server admin
 Only five files are served: `index.html`, `favicon.svg`, `og-image.jpg`, `robots.txt` and
 `sitemap.xml`. Never upload `data/`, which holds the customer spreadsheet.
 
+## Leads and the /admin dashboard
+
+`server/` holds a small Python service (standard library only, one SQLite file) that runs on the
+same machine behind nginx or Apache:
+
+- `POST /api/lead` receives the availability form (PIN code + mobile), with a honeypot, a
+  too-fast-to-be-human check, per-IP rate limits and same-number de-duplication. It can e-mail
+  each lead.
+- `POST /api/e` receives cookie-free, first-party activity from the page: visits, call taps (and
+  which button), WhatsApp opens, number copies, form starts, field errors, sector opens, section
+  reach and scroll depth, plus UTM tags and ad click IDs.
+- `/admin` is a password-protected dashboard: visitors, bounce rate, contact rate, the
+  visit → engaged → form → lead funnel, form drop-off by field, sources and campaigns with their
+  contact rates, devices, hour of day, and a lead list with status, notes and CSV export.
+
+The page only reports activity when served from `gtplkcbpl.com` (or `localhost`), so previews
+elsewhere send nothing. Open `server/admin.html` directly in a browser to see the dashboard with
+sample data. Setup is in `deploy/DEPLOY.md` step 3.
+
 ## Run it
 
 Open `index.html` in a browser, or serve the folder with any static server:
@@ -95,9 +114,6 @@ on white: at 1.8:1 it fails the contrast bar, so it carries shapes, edges and th
 
 ## Before going live
 
-- **Form backend**: the availability form is client-side only and collects PIN code and mobile
-  number. Search for `TODO: wire form` in `index.html` and post the two fields to your CRM or
-  email endpoint. Your team collects name, company and industry on the callback.
 - **Testimonials**: the three quotes are placeholders attributed to roles only. Replace them with
   real client quotes (see the `Placeholder testimonials` comment).
 - **Clients by sector**: edit `data/Company_details_sector_wise.xlsx`, then rebuild the band:
