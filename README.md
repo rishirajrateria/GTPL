@@ -54,7 +54,7 @@ The page is built to be understood by scrolling straight down:
 
 1. **Hero** — headline, four key figures, and a two-field availability check (PIN code and mobile), kept short so the client rail is visible without scrolling
 2. **Client rail** — "1500+ companies run on our network" with a wordmark marquee
-3. **Sectors** — 17 industry chips with client counts, generated from
+3. **Sectors** — 17 industry chips (no client counts shown), generated from
    `data/Company_details_sector_wise.xlsx`. Tapping one opens a panel listing every client in that
    sector with its locations; long location lists collapse to three with a "+N more" toggle. The
    names are static HTML, so search engines and AI crawlers can read them

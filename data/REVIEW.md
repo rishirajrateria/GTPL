@@ -21,10 +21,15 @@ an apparent individual's name (`ASHWIN MOHTA`), a row holding two companies
   `Virtual office Functioning at Seniour IAS officers`, `High court Calcutta bar Library club and ils`,
   `State Lotteries PWD`, `RAJPUR`, `SUJANYA`.
 - **Named after an individual:** `MS DR. SANJIB PAL` (Healthcare).
+- **Odd location:** `JIS UNIVERSITY` is listed in `Austin` (rows 49 and 50). That is shown on the page as
+  written; correct it in the sheet if it should be a West Bengal location.
 - **Consent:** this publishes 244 customer names and their branch locations. Make sure your
   customer agreements allow it.
 
 ## How the sheet was turned into the page
+
+- The page does not show client counts (no numbers on the sector chips, in the list headers or in
+  the section subtitle). Each list header shows only how many districts that sector spans.
 
 - Display names drop legal suffixes (Pvt Ltd, Private Limited, Limited, LLP), an `M/S` prefix and
   stray trailing counters such as `... LTD 1`. Names are shown in capitals, exactly as spelled.

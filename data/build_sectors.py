@@ -65,7 +65,6 @@ E = lambda t: html.escape(t, quote=True)
 chips = '\n      '.join(
   f'<li><button class="sct" type="button" aria-expanded="false" aria-controls="sp-{p["k"]}" data-k="{p["k"]}">'
   f'<span class="ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#{p["icon"]}"/></svg></span><span class="lbl">{E(p["label"])}</span>'
-  f'<span class="n">{len(p["items"])}</span>'
   f'<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>' for p in panels)
 
 def panel_html(p):
@@ -81,7 +80,7 @@ def panel_html(p):
             site = ('<span class="loc"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><span>'
                     + body + '</span></span>')
         cards.append(f'<li class="sp-item" style="--d:{min(i,14)*28}ms"><b>{E(b["name"])}</b>{site}</li>')
-    meta = f'<b>{len(p["items"])}</b> {"client" if len(p["items"])==1 else "clients"} in {E(p["title"])}'
+    meta = f'Clients in {E(p["title"])}'
     if p['districts']: meta += f' <i>·</i> {p["districts"]} {"district" if p["districts"]==1 else "districts"}'
     return (f'<div class="sp" id="sp-{p["k"]}" role="region" aria-label="{E(p["title"])} clients" hidden>'
             f'<p class="sp-h">{meta}</p><ul class="sp-grid">{"".join(cards)}</ul></div>')
@@ -93,7 +92,7 @@ section = f'''<section class="sec slim sectors" id="sectors" aria-labelledby="sc
     <div class="head rv">
       <span class="eyebrow">Sectors</span>
       <h2 id="sc-h">Serving businesses across <span class="grad">every industry</span></h2>
-      <p class="sub"><b>{total}</b> businesses across {len(panels)} sectors. Pick one to see who we connect, and where.</p>
+      <p class="sub">Pick a sector to see who we connect, and where.</p>
     </div>
     <!-- Generated from Company_details_sector_wise.xlsx. Chips sorted by number of clients. -->
     <ul class="row rv d1">
@@ -115,23 +114,18 @@ a = s.index('<section class="sec slim sectors" id="sectors"'); b = s.index('<!--
 s = s[:a] + section + s[b:]
 
 # ---- styles ----
-a = s.index('.sct-wrap{display:grid;grid-template-rows:0fr;'); b = s.index('@keyframes pop{to{opacity:1;transform:none}}') + len('@keyframes pop{to{opacity:1;transform:none}}')
+a = s.find('.sectors .sub{font-size:14px'); a = a if a >= 0 else s.index('.sct-wrap{display:grid;grid-template-rows:0fr;'); b = s.index('@keyframes pop{to{opacity:1;transform:none}}') + len('@keyframes pop{to{opacity:1;transform:none}}')
 s = s[:a] + '''.sectors .sub{font-size:14px;color:var(--ink-3)}
-.sectors .sub b{color:var(--blue)}
 .sectors .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:1100px}
 .sectors .row li{display:flex;min-width:0;flex:0 0 auto}
 .sectors .row .sct{width:100%;min-width:0}
 .sct .lbl{min-width:0}
-.sct .n{margin-left:auto}
 @media (max-width:640px){
   .sectors .row{gap:8px}
   .sectors .row li{flex:0 0 calc(50% - 4px)}
   .sectors .row .sct{padding:7px 9px 7px 7px;gap:8px;font-size:12.5px;white-space:normal;line-height:1.2;text-align:left}
   .sectors .row .sct .cv{display:none}
 }
-.sct .n{min-width:22px;padding:1px 7px;border-radius:99px;font-size:11px;font-weight:800;line-height:18px;text-align:center;
-  color:var(--blue);background:rgba(36,88,164,.09);font-variant-numeric:tabular-nums}
-.sct[aria-expanded="true"] .n{color:var(--blue);background:#fff}
 .sct-wrap{display:grid;grid-template-rows:0fr;margin-top:0;
   transition:grid-template-rows .45s var(--ease),margin-top .45s var(--ease)}
 .sct-wrap.open{grid-template-rows:1fr;margin-top:18px}
@@ -139,7 +133,6 @@ s = s[:a] + '''.sectors .sub{font-size:14px;color:var(--ink-3)}
 .sct-inner{overflow:hidden;min-height:0}
 .sct-panel{max-width:1080px;margin-inline:auto;padding:20px 20px 16px}
 .sp-h{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:14px;text-align:center}
-.sp-h b{color:var(--blue);letter-spacing:.04em}
 .sp-h i{font-style:normal;margin:0 4px;color:var(--ink-4)}
 .sp-grid{display:block;columns:3 240px;column-gap:8px;max-height:min(440px,62vh);overflow:auto;
   padding:2px 4px 6px;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(36,88,164,.3) transparent}
@@ -151,21 +144,22 @@ s = s[:a] + '''.sectors .sub{font-size:14px;color:var(--ink-3)}
 .sp-item .more{border:0;padding:0;background:none;font:inherit;font-weight:700;color:var(--blue);cursor:pointer;white-space:nowrap}
 .sp-item .more:hover{text-decoration:underline}
 .sp-item .loc .i{width:12px;height:12px;flex:none;margin-top:2px;color:var(--blue)}
-@keyframes pop{to{opacity:1;transform:none}}
-''' + s[b:]
+@keyframes pop{to{opacity:1;transform:none}}''' + s[b:]
 s = s.replace('''  .sct-panel{padding:16px 14px}
   .sp-list li{font-size:12.5px;padding:7px 12px}''', '''  .sct-panel{padding:14px 10px 10px}
   .sp-grid{columns:1;max-height:60vh}''', 1)
 s = s.replace(',.sct-wrap,.sp-list li,.sct .cv{animation:none!important;transition:none!important}\n  .sp-list li{opacity:1;transform:none}',
               ',.sct-wrap,.sp-item,.sct .cv{animation:none!important;transition:none!important}\n  .sp-item{opacity:1;transform:none}', 1)
 
-# ---- icons ----
-s = s.replace('    <symbol id="i-truck"', '''    <symbol id="i-tower" viewBox="0 0 24 24"><path d="M12 10v11M8.5 21h7M9.5 14l2.5-4 2.5 4"/><path d="M7.8 6.8a6 6 0 0 0 0 6.4M16.2 6.8a6 6 0 0 1 0 6.4M5 4a10 10 0 0 0 0 12M19 4a10 10 0 0 1 0 12"/><circle cx="12" cy="10" r="1.3"/></symbol>
+# ---- icons (only those not already in the sprite, so re-running is safe) ----
+NEW_ICONS = '''    <symbol id="i-tower" viewBox="0 0 24 24"><path d="M12 10v11M8.5 21h7M9.5 14l2.5-4 2.5 4"/><path d="M7.8 6.8a6 6 0 0 0 0 6.4M16.2 6.8a6 6 0 0 1 0 6.4M5 4a10 10 0 0 0 0 12M19 4a10 10 0 0 1 0 12"/><circle cx="12" cy="10" r="1.3"/></symbol>
     <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v2.5M20 16v2.5M4 12h16"/><circle cx="8" cy="14.2" r="1"/><circle cx="16" cy="14.2" r="1"/></symbol>
     <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5L12 12l8.5-4.5M12 12v9M7.8 5.3l8.5 4.5"/></symbol>
     <symbol id="i-food" viewBox="0 0 24 24"><path d="M5 10h12v3a6 6 0 0 1-12 0z"/><path d="M17 11h1.5a2 2 0 0 1 0 4H17M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3M4 21h14"/></symbol>
     <symbol id="i-city" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l5-3v15M10 21V4l6 3v14M16 21V11l4 2v8"/><path d="M7 12h1M7 15h1M12.5 9h1M12.5 12h1M12.5 15h1"/></symbol>
-    <symbol id="i-truck"''', 1)
+'''
+missing = ''.join(l + '\n' for l in NEW_ICONS.splitlines() if l.strip() and re.search(r'(id="[^"]+")', l).group(1) not in s)
+if missing: s = s.replace('    <symbol id="i-truck"', missing + '    <symbol id="i-truck"', 1)
 
 # ---- behaviour ----
 a = s.index('  /* ---------- sectors: tap an industry to see who we serve there ---------- */')
