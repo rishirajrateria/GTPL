@@ -37,6 +37,7 @@ const MAX_HEARTBEATS_PER_VISIT = 40;   // writes without new events; a tab left 
 const MAX_KEYS_PER_FLUSH = 15;         // json_set takes 1 + 2 * keys arguments; D1 allows 32 per function
 const TRACKING_WRITE_BUDGET = 60000;   // D1 rows/day tracking may use; the rest of the 100k is kept for leads
 const NEW_VISITS_PER_IP = 20;          // per 10 minutes, per isolate
+const WRITES_PER_IP_HOUR = 600;        // tracking writes per address per hour, per isolate (a visit makes ~3-8)
 const COOKIE = 'ill_admin';
 const COOKIE_TTL = 12 * 3600;
 
@@ -318,7 +319,7 @@ export async function ingest(env, request, data) {
   const keys = Object.keys(counts).slice(0, MAX_KEYS_PER_FLUSH);
   const D = await db(env);
   await trackingBudgetInit(D);
-  if (trackingOff()) return;
+  if (trackingOff() || !windowHit('w:' + ipk, WRITES_PER_IP_HOUR, 3600000)) return;
   let written = 0;
 
   // The tracker repeats `meta` on every flush, so a visit whose first request was lost is still created.
