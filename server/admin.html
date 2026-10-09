@@ -172,7 +172,7 @@ td .med{color:var(--ink-3);font-size:12px;margin-left:6px}
 </header>
 
 <div class="wrap">
-  <div class="demo" id="load-err" role="alert" hidden><b>Couldn't load this range.</b> Try a shorter range, or reload the page. Your data is safe; only this view failed.</div>
+  <div class="demo" id="load-err" role="alert" hidden><b>Couldn't load this range.</b><span> Try a shorter range, or reload the page. Your data is safe; only this view failed.</span></div>
   <div class="demo" id="demo" hidden><b>Sample data.</b> This preview has no server behind it, so every number below is made up to show the layout. On ill.gtplkcbpl.com/admin it shows your real visitors and leads.</div>
   <main id="main">
 
@@ -304,9 +304,10 @@ d.getElementById('lead-filter').addEventListener('change',function(){ if(DATA) r
 
 /* ---------------- data ---------------- */
 var pendingPreset=null;
-function loadFailed(){
+function loadFailed(msg){
   d.getElementById('main').classList.remove('loading');
-  d.getElementById('load-err').hidden=false;
+  var box=d.getElementById('load-err'); box.hidden=false;
+  box.lastChild.textContent=msg||' Try a shorter range, or reload the page. Your data is safe; only this view failed.';
 }
 function load(){
   d.getElementById('from').value=range.from; d.getElementById('to').value=range.to;
@@ -315,12 +316,14 @@ function load(){
   d.getElementById('main').classList.add('loading');
   if(DEMO){ render(demoData(range.from,range.to)); return; }
   fetch('/admin/api/summary?from='+range.from+'&to='+range.to,{credentials:'same-origin'})
-    .then(function(r){ if(r.status===401){ location.reload(); throw new Error('signed out'); } if(!r.ok) throw new Error('http'); return r.json(); })
+    .then(function(r){ if(r.status===401){ location.reload(); throw new Error('signed out'); }
+      if(r.status===429) throw new Error('limit'); if(!r.ok) throw new Error('http'); return r.json(); })
     .then(function(data){
       d.getElementById('load-err').hidden=true; render(data);
       if(pendingPreset){ try{ localStorage.setItem('ill_admin_range',pendingPreset); }catch(e){} }
     })
-    .catch(function(e){ if(e&&e.message==='signed out') return; loadFailed(); });   /* never fall back to sample data here */
+    .catch(function(e){ if(e&&e.message==='signed out') return;
+      loadFailed(e&&e.message==='limit'?' Today\u2019s free reporting allowance is used up; reports work again after 05:30 IST. Enquiries are still being collected.':''); });   /* never fall back to sample data here */
 }
 
 /* ---------------- render ---------------- */

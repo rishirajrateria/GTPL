@@ -60,11 +60,25 @@ const SCHEMA = [
   'CREATE TABLE IF NOT EXISTS throttle(k TEXT PRIMARY KEY, n INTEGER, reset REAL)',
   'CREATE TABLE IF NOT EXISTS meta(k TEXT PRIMARY KEY, v TEXT)',
 ];
+// Columns added after the first release; a database created by an older version gets them on first use.
+const ADDED_COLUMNS = [['sessions', 'beats', "INTEGER DEFAULT 0"], ['sessions', 'src', "TEXT DEFAULT ''"], ['sessions', 'med', "TEXT DEFAULT ''"]];
 let schemaReady = false;
 export async function db(env) {
   if (!env.DB) throw new Error('D1 binding "DB" is missing');
   if (!schemaReady) {
-    await env.DB.batch(SCHEMA.map(s => env.DB.prepare(s)));
+    const D = env.DB;
+    await D.batch(SCHEMA.map(s => D.prepare(s)));
+    const have = new Set((await D.prepare('PRAGMA table_info(sessions)').all()).results.map(r => r.name));
+    for (const [table, col, type] of ADDED_COLUMNS) {
+      if (!have.has(col)) await D.prepare(`ALTER TABLE ${table} ADD COLUMN ${col} ${type}`).run().catch(() => {}); // another isolate may win the race
+    }
+    if (!have.has('src')) {
+      // Visits recorded before src/med existed: classify them once (bounded, so a large table cannot stall a request).
+      const old = (await D.prepare(`SELECT id, utm_source, utm_medium, click_id, ref_host FROM sessions WHERE src = '' LIMIT 2000`).all()).results;
+      for (let i = 0; i < old.length; i += 100) {
+        await D.batch(old.slice(i, i + 100).map(r => { const [src, med] = sourceOf(r); return D.prepare('UPDATE sessions SET src = ?, med = ? WHERE id = ?').bind(src, med, r.id); }));
+      }
+    }
     schemaReady = true;
   }
   return env.DB;
@@ -211,9 +225,15 @@ function windowHit(key, limit, ms, count = true) {
 // Daily tracking budget: rows written are tallied per isolate and added to a shared per-UTC-day counter
 // every 100 rows (one extra write per 100). Past the budget, tracking stops until 00:00 UTC.
 const budget = { day: '', rows: 0, off: false };
-async function trackingSpent(D, rows) {
+/** Once per isolate per UTC day: learn whether other isolates already used up today's tracking budget. */
+async function trackingBudgetInit(D) {
   const day = new Date().toISOString().slice(0, 10);
-  if (budget.day !== day) Object.assign(budget, { day, rows: 0, off: false });
+  if (budget.day === day) return;
+  const row = await D.prepare('SELECT n FROM throttle WHERE k = ?').bind('track:' + day).first();
+  Object.assign(budget, { day, rows: 0, off: !!row && row.n >= TRACKING_WRITE_BUDGET });
+}
+async function trackingSpent(D, rows) {
+  await trackingBudgetInit(D);
   budget.rows += rows;
   if (budget.rows < 100) return;
   const add = budget.rows;
@@ -297,6 +317,8 @@ export async function ingest(env, request, data) {
   }
   const keys = Object.keys(counts).slice(0, MAX_KEYS_PER_FLUSH);
   const D = await db(env);
+  await trackingBudgetInit(D);
+  if (trackingOff()) return;
   let written = 0;
 
   // The tracker repeats `meta` on every flush, so a visit whose first request was lost is still created.
@@ -448,111 +470,144 @@ export async function updateLead(request, env) {
 }
 
 // ------------------------------------------------------------------------------------------ reporting
-// All per-visit work happens in D1; the Worker only shapes a few hundred aggregated rows, which keeps it
-// inside the free plan's 10 ms CPU. One statement computes every grouping from one pass over the visits.
-const has = type => `(ev LIKE '%"${type}:%')`;
-const VISITS = `
-  v AS MATERIALIZED (
-    SELECT s.id, s.visitor, s.is_return, s.started, s.engaged_ms, s.max_scroll, s.device, s.utm_campaign AS camp,
-           s.src, s.med, s.utm_source, s.utm_medium, s.click_id, s.ref_host,
-           ${has('click_call')} AS call, ${has('copy_phone')} AS copy, ${has('click_whatsapp')} AS wa,
-           ${has('form_start')} AS form, (${INTERACTIVE.map(has).join(' OR ')}) AS inter,
-           (SELECT COUNT(*) FROM leads l WHERE l.sid = s.id AND l.status != 'spam') AS nleads
-    FROM sessions s WHERE s.started >= ?1 AND s.started < ?2 AND s.bot = 0),
-  f AS MATERIALIZED (
-    SELECT *, nleads > 0 AS lead, (inter OR nleads > 0 OR engaged_ms >= ${ENGAGED_MS} OR max_scroll >= 50) AS engaged,
-           (call OR copy OR wa OR nleads > 0) AS contact
-    FROM v)`;
-const BLOCK = `COUNT(*) AS sessions, COUNT(DISTINCT visitor) AS visitors, SUM(NOT engaged) AS bounced,
-  SUM(nleads) AS leads, SUM(call) AS calls, SUM(copy) AS copies, SUM(wa) AS whatsapp, SUM(contact) AS contacts,
-  SUM(is_return) AS ret, SUM(form) AS form_starts, SUM(form AND NOT lead) AS abandons, SUM(lead) AS lead_visits,
-  SUM(lead AND form) AS lead_form, 0 AS median`;
-const MEDIAN = (cols, kind) => `
-  SELECT '${kind}' AS kind, ${cols.length ? cols.map((c, i) => `${c} AS ${'ab'[i]}`).join(', ') : "'' AS a"}${cols.length < 2 ? ", '' AS b" : ''},
-         0,0,0,0,0,0,0,0,0,0,0,0,0, engaged_ms
-  FROM (SELECT ${cols.length ? cols.join(', ') + ',' : ''} engaged_ms,
-               ROW_NUMBER() OVER (${cols.length ? 'PARTITION BY ' + cols.join(', ') : ''} ORDER BY engaged_ms) AS rn,
-               COUNT(*) OVER (${cols.length ? 'PARTITION BY ' + cols.join(', ') : ''}) AS cnt
-        FROM f${kind === 'med_camp' ? " WHERE camp != ''" : ''})
-  WHERE rn = cnt / 2 + 1`;
-// D1 allows only a few SELECTs per compound statement, so the groupings are split across two statements.
-const SUMMARY_SQL = [`WITH ${VISITS}
-  SELECT 'total' AS kind, '' AS a, '' AS b, ${BLOCK} FROM f
-  UNION ALL SELECT 'src', src, med, ${BLOCK} FROM f GROUP BY src, med
-  UNION ALL SELECT 'camp', camp, src, ${BLOCK} FROM f WHERE camp != '' GROUP BY camp, src
-  UNION ALL SELECT 'dev', device, '', ${BLOCK} FROM f GROUP BY device
-  UNION ALL SELECT 'day', strftime('%Y-%m-%d', started + ${IST}, 'unixepoch'), '', ${BLOCK} FROM f GROUP BY 2`,
-`WITH ${VISITS}
-  SELECT 'hour' AS kind, strftime('%H', started + ${IST}, 'unixepoch') AS a, '' AS b, ${BLOCK} FROM f GROUP BY 2
-  UNION ALL ${MEDIAN([], 'med_total')}
-  UNION ALL ${MEDIAN(['src', 'med'], 'med_src')}
-  UNION ALL ${MEDIAN(['camp', 'src'], 'med_camp')}
-  UNION ALL ${MEDIAN(['device'], 'med_dev')}`];
-const LABELS_SQL = `SELECT j.key AS k, COUNT(*) AS visits, SUM(j.value) AS total
-  FROM sessions s, json_each(s.ev) AS j
-  WHERE s.started >= ?1 AND s.started < ?2 AND s.bot = 0 AND j.value > 0 GROUP BY j.key`;
+// Built for the free plan's two limits: 10 ms of Worker CPU (so per-visit work happens in D1) and 5M D1 rows
+// read a day (so a report makes three passes over the visits, about 5 rows read per visit: a grouped query
+// reads each row twice, a plain aggregate once). Time on page is a histogram, so medians need no sorting.
+// Reports also stop for the day after REPORT_READ_BUDGET rows read, so the dashboard can never use up the
+// reads the enquiry form needs.
+const REPORT_READ_BUDGET = 2000000;
+// Histogram of engaged time: 2 s steps to 30 s, 10 s to 2 min, 30 s to 10 min, 5 min to 30 min, then one bucket.
+const BUCKET_SQL = `CASE WHEN engaged_ms < 30000 THEN engaged_ms / 2000 WHEN engaged_ms < 120000 THEN 15 + (engaged_ms - 30000) / 10000
+  WHEN engaged_ms < 600000 THEN 24 + (engaged_ms - 120000) / 30000 WHEN engaged_ms < 1800000 THEN 40 + (engaged_ms - 600000) / 300000
+  ELSE 44 END`;
+const steps = (from, step, count) => Array.from({ length: count }, (_, i) => from + i * step);
+const BUCKET_LO = [...steps(0, 2000, 15), ...steps(30000, 10000, 9), ...steps(120000, 30000, 16), ...steps(600000, 300000, 4), 1800000];
+const BUCKET_HI = [...BUCKET_LO.slice(1), 3600000];
+/** Median from a bucket histogram {bucket: count}, interpolated inside the bucket that holds the middle visit. */
+function histMedian(h, n) {
+  if (!n) return 0;
+  const target = Math.floor(n / 2) + 1; // same middle element as the Python reference: sorted[n // 2]
+  let seen = 0;
+  for (let b = 0; b < BUCKET_LO.length; b++) {
+    const c = h[b];
+    if (seen + c >= target) return BUCKET_LO[b] + (BUCKET_HI[b] - BUCKET_LO[b]) * ((target - seen - 0.5) / c);
+    seen += c;
+  }
+  return 0;
+}
+
+const has = key => `(ev LIKE '%"${key}%')`;  // key is a known type ("click_call:") or a full label key ("click_call:nav\"")
+const VISIT_FLAGS = `
+  ${has('click_call:')} AS call, ${has('copy_phone:')} AS copy, ${has('click_whatsapp:')} AS wa, ${has('form_start:')} AS form,
+  (${INTERACTIVE.map(t => has(t + ':')).join(' OR ')}) AS inter,
+  (SELECT COUNT(*) FROM leads l WHERE l.sid = s.id AND l.status != 'spam' AND l.ts >= ?1 AND l.ts < ?2) AS nleads`;
+const RANGE = 's.started >= ?1 AND s.started < ?2 AND s.bot = 0';
+const FLAGS_CTE = `WITH v AS (SELECT s.*, ${VISIT_FLAGS} FROM sessions s WHERE ${RANGE}),
+  f AS (SELECT *, (inter OR nleads > 0 OR engaged_ms >= ${ENGAGED_MS} OR max_scroll >= 50) AS engaged,
+               (call OR copy OR wa OR nleads > 0) AS contact FROM v)`;
+// 1) every metric by source x campaign x device x time bucket; sources, campaigns, devices and totals are sums of these
+const GROUPS_SQL = `${FLAGS_CTE}
+  SELECT src, med, utm_campaign AS camp, device, ${BUCKET_SQL} AS b, COUNT(*) AS n, SUM(NOT engaged) AS bounced,
+         SUM(nleads) AS leads, SUM(call) AS calls, SUM(copy) AS copies, SUM(wa) AS wa, SUM(contact) AS contacts,
+         SUM(form) AS forms, SUM(form AND nleads = 0) AS abandons, SUM(nleads > 0) AS lead_visits, SUM(nleads > 0 AND form) AS lead_form
+  FROM f GROUP BY src, med, camp, device, b`;
+// 2) visits and contacts per IST hour of the range; days and hours of the day are sums of these
+const HOURS_SQL = `${FLAGS_CTE}
+  SELECT CAST((started + ${IST}) / 3600 AS INTEGER) AS h, COUNT(*) AS n, SUM(call) AS calls, SUM(wa) AS wa, SUM(contact) AS contacts
+  FROM f GROUP BY h`;
+// 3) one row: which labels each visit reached, call taps in total, distinct and returning visitors
+const LABEL_KEYS = Object.entries(EVENT_LABELS).flatMap(([t, ls]) => [...ls, 'other'].map(l => `${t}:${l}`))
+  .filter((k, i, a) => a.indexOf(k) === i && !k.startsWith('view:'));
+const LABELS_SQL = `SELECT COUNT(*) AS n, COUNT(DISTINCT visitor) AS visitors, SUM(is_return) AS ret,
+  ${PLACES.concat('other').map(p => `SUM(COALESCE(json_extract(ev, '$."click_call:${p}"'), 0))`).join(' + ')} AS call_clicks,
+  ${LABEL_KEYS.map((k, i) => `SUM(${has(k + '"')}) AS k${i}`).join(', ')}
+  FROM sessions s WHERE ${RANGE}`;
+
+async function reportBudgetLeft(D) {
+  const row = await D.prepare('SELECT n, reset FROM throttle WHERE k = ?').bind('reads:' + new Date().toISOString().slice(0, 10)).first();
+  return REPORT_READ_BUDGET - (row && row.reset > now() ? row.n : 0);
+}
+async function reportSpent(D, rows) {
+  await D.prepare(`INSERT INTO throttle(k, n, reset) VALUES(?1, ?2, ?3) ON CONFLICT(k) DO UPDATE SET n = n + excluded.n`)
+    .bind('reads:' + new Date().toISOString().slice(0, 10), rows, now() + 2 * 86400).run();
+}
+export class ReportLimit extends Error {}
 
 export async function summary(env, frm, to) {
   const t0 = dayStart(frm), t1 = dayStart(to) + 86400;
   const D = await db(env);
-  const [aggA, aggB, labs, ldays, leadRows] = await D.batch([
-    D.prepare(SUMMARY_SQL[0]).bind(t0, t1),
-    D.prepare(SUMMARY_SQL[1]).bind(t0, t1),
+  if ((await reportBudgetLeft(D)) <= 0) throw new ReportLimit('daily report allowance used');
+  const res = await D.batch([
+    D.prepare(GROUPS_SQL).bind(t0, t1),
+    D.prepare(HOURS_SQL).bind(t0, t1),
     D.prepare(LABELS_SQL).bind(t0, t1),
     D.prepare(`SELECT strftime('%Y-%m-%d', ts + ${IST}, 'unixepoch') AS d, COUNT(*) AS n FROM leads
                WHERE ts >= ? AND ts < ? AND status != 'spam' GROUP BY d`).bind(t0, t1),
     D.prepare(`SELECT id, ts, phone, pin, status, note, source, medium, campaign, device FROM leads
                WHERE ts >= ? AND ts < ? ORDER BY ts DESC LIMIT 1000`).bind(t0, t1),
   ]);
-  const rows = [...aggA.results, ...aggB.results];
-  const pick = kind => rows.filter(r => r.kind === kind);
-  const medians = {};
-  for (const r of rows) if (r.kind.startsWith('med_')) medians[`${r.kind.slice(4)}|${r.a}|${r.b}`] = r.median;
-  const block = (r, medKey) => ({
-    sessions: r.sessions, visitors: r.visitors, bounce_rate: pct(r.bounced, r.sessions),
-    median_time_s: Math.round((medians[medKey] || 0) / 1000), leads: r.leads || 0, calls: r.calls || 0,
-    copies: r.copies || 0, whatsapp: r.whatsapp || 0, contact_rate: pct(r.contacts, r.sessions),
-  });
-  const total = pick('total')[0];
-  const n = total.sessions;
-  const label = new Map(labs.results.map(r => [r.k, r]));
-  const visitsWith = k => (label.get(k) || { visits: 0 }).visits;
-  const realLeads = ldays.results.reduce((a, r) => a + r.n, 0);
+  await reportSpent(D, res.reduce((a, r) => a + (r.meta.rows_read || 0), 0));
+  const [groups, hourRows, lab, ldays, leadRows] = res.map(r => r.results);
 
-  const totals = block(total, 'total||');
-  Object.assign(totals, {
-    returning: total.ret || 0,
-    call_clicks: labs.results.filter(r => r.k.startsWith('click_call:')).reduce((a, r) => a + r.total, 0),
-    form_starts: total.form_starts || 0, form_abandons: total.abandons || 0,
-    form_abandon_rate: pct(total.abandons, total.form_starts), leads: realLeads, // includes leads whose visit started earlier
+  // One pass over the grouped rows builds the totals and the source, campaign and device groups.
+  const acc = key => ({ key, hist: new Array(BUCKET_LO.length).fill(0), n: 0, bounced: 0, leads: 0, calls: 0, copies: 0, wa: 0,
+    contacts: 0, forms: 0, abandons: 0, lead_visits: 0, lead_form: 0 });
+  const add = (a, r) => {
+    a.n += r.n; a.bounced += r.bounced; a.leads += r.leads; a.calls += r.calls; a.copies += r.copies; a.wa += r.wa;
+    a.contacts += r.contacts; a.forms += r.forms; a.abandons += r.abandons; a.lead_visits += r.lead_visits; a.lead_form += r.lead_form;
+    a.hist[r.b] += r.n;
+  };
+  const T = acc(null), bySrc = new Map(), byCamp = new Map(), byDev = new Map();
+  const into = (m, k, r) => { let a = m.get(k); if (!a) m.set(k, a = acc(r)); add(a, r); };
+  for (const r of groups) {
+    add(T, r);
+    into(bySrc, r.src + '\u0000' + r.med, r);
+    if (r.camp) into(byCamp, r.camp + '\u0000' + r.src, r);
+    into(byDev, r.device || 'unknown', r);
+  }
+  const block = a => ({
+    sessions: a.n, bounce_rate: pct(a.bounced, a.n), median_time_s: Math.round(histMedian(a.hist, a.n) / 1000),
+    leads: a.leads, calls: a.calls, copies: a.copies, whatsapp: a.wa, contact_rate: pct(a.contacts, a.n),
   });
+  const L = lab[0] || {};
+  const n = T.n;
+  const realLeads = ldays.reduce((a, r) => a + r.n, 0);
+
+  const totals = { ...block(T), visitors: L.visitors || 0 };
+  Object.assign(totals, {
+    returning: L.ret || 0, call_clicks: L.call_clicks || 0, form_starts: T.forms, form_abandons: T.abandons,
+    form_abandon_rate: pct(T.abandons, T.forms), leads: realLeads, // includes leads whose visit started earlier
+  });
+  const labelIndex = new Map(LABEL_KEYS.map((k, i) => [k, 'k' + i]));
+  const visitsWith = key => L[labelIndex.get(key)] || 0;
   const funnel = [
-    { step: 'Visited', n }, { step: 'Engaged', n: n - (total.bounced || 0) },
-    { step: 'Started the form', n: totals.form_starts }, { step: 'Submitted a lead', n: total.lead_visits || 0 },
+    { step: 'Visited', n }, { step: 'Engaged', n: n - T.bounced },
+    { step: 'Started the form', n: T.forms }, { step: 'Submitted a lead', n: T.lead_visits },
   ];
   const form = {
-    started: totals.form_starts, touched_pin: visitsWith('form_field:pin'), touched_phone: visitsWith('form_field:phone'),
+    started: T.forms, touched_pin: visitsWith('form_field:pin'), touched_phone: visitsWith('form_field:phone'),
     error_pin: visitsWith('form_error:pin'), error_phone: visitsWith('form_error:phone'),
-    submitted: total.lead_form || 0, abandoned: totals.form_abandons,
+    submitted: T.lead_form, abandoned: T.abandons,
   };
-  const top = (list, n2 = 25) => list.sort((a, b) => b.sessions - a.sessions).slice(0, n2);
-  const sources = top(pick('src').map(r => ({ source: r.a, medium: r.b, ...block(r, `src|${r.a}|${r.b}`) })));
-  const campaigns = top(pick('camp').map(r => ({ campaign: r.a, source: r.b, ...block(r, `camp|${r.a}|${r.b}`) })));
-  const devices = top(pick('dev').map(r => ({ device: r.a || 'unknown', ...block(r, `dev|${r.a}|`) })));
+  const top = list => list.sort((a, b) => b.sessions - a.sessions).slice(0, 25);
+  const sources = top([...bySrc.values()].map(a => ({ source: a.key.src || '(not recorded)', medium: a.key.med || '', ...block(a) })));
+  const campaigns = top([...byCamp.values()].map(a => ({ campaign: a.key.camp, source: a.key.src, ...block(a) })));
+  const devices = top([...byDev.values()].map(a => ({ device: a.key.device || 'unknown', ...block(a) })));
 
-  const days = [];
-  for (let d = t0; d < t1; d += 86400) days.push(istDay(d));
-  const dayRow = new Map(pick('day').map(r => [r.a, r]));
-  const dayLeads = new Map(ldays.results.map(r => [r.d, r.n]));
-  const daily = days.map(date => {
-    const r = dayRow.get(date) || {};
-    return { date, sessions: r.sessions || 0, leads: dayLeads.get(date) || 0, calls: r.calls || 0, whatsapp: r.whatsapp || 0 };
-  });
-  const hourRow = new Map(pick('hour').map(r => [Number(r.a), r]));
-  const hours = Array.from({ length: 24 }, (_, hour) => ({ hour, sessions: (hourRow.get(hour) || {}).sessions || 0, contacts: (hourRow.get(hour) || {}).contacts || 0 }));
+  const daily = [];
+  for (let d = t0; d < t1; d += 86400) daily.push({ date: istDay(d), sessions: 0, leads: 0, calls: 0, whatsapp: 0 });
+  const hours = Array.from({ length: 24 }, (_, hour) => ({ hour, sessions: 0, contacts: 0 }));
+  const firstHour = (t0 + IST) / 3600; // the range starts at an IST midnight, so day = (h - firstHour) / 24
+  for (const r of hourRows) {
+    const day = daily[Math.floor((r.h - firstHour) / 24)], hr = hours[r.h % 24];
+    if (day) { day.sessions += r.n; day.calls += r.calls; day.whatsapp += r.wa; }
+    hr.sessions += r.n; hr.contacts += r.contacts;
+  }
+  const dayIndex = new Map(daily.map((r, i) => [r.date, i]));
+  for (const r of ldays) { const i = dayIndex.get(r.d); if (i !== undefined) daily[i].leads += r.n; }
 
-  const labelCounts = typ => labs.results.filter(r => r.k.startsWith(typ + ':'))
-    .map(r => ({ label: r.k.slice(typ.length + 1) || 'other', sessions: r.visits })).sort((a, b) => b.sessions - a.sessions);
+  const labelCounts = typ => LABEL_KEYS.filter(k => k.startsWith(typ + ':')).map(k => ({ label: k.slice(typ.length + 1), sessions: visitsWith(k) }))
+    .filter(r => r.sessions > 0).sort((a, b) => b.sessions - a.sessions);
   const order = [['sectors', 'Sectors'], ['compare', 'Leased line vs broadband'], ['benefits', 'What you get'],
     ['how', 'Live in three moves'], ['why', 'Scale'], ['testimonials', 'Client stories'], ['cta', 'Final call to action']];
   const reach = order.map(([id, l]) => ({ id, label: l, sessions: visitsWith('section_view:' + id), pct: pct(visitsWith('section_view:' + id), n) }));
@@ -560,7 +615,7 @@ export async function summary(env, frm, to) {
   return {
     range: { from: frm, to }, generated: now(), totals, funnel, form, daily, hours, sources, campaigns, devices,
     call_placements: labelCounts('click_call'), quote_placements: labelCounts('click_quote'),
-    sectors: labelCounts('sector_open'), reach, leads: leadRows.results,
+    sectors: labelCounts('sector_open'), reach, leads: leadRows,
   };
 }
 

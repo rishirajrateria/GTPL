@@ -86,11 +86,13 @@ Any change pushed to the branch above is published automatically in about a minu
 | Page views | Unlimited | — |
 | Form + tracking requests | 100,000 a day | a visit makes 1–5 |
 | Database writes | 100,000 rows a day | a visit costs about 3–8 |
+| Database reads | 5,000,000 rows a day | a dashboard view reads about 6 per visit in its date range |
 | Database size | 500 MB per database | about 15 MB at 100 visits a day (visits are kept 400 days) |
 
-Tracking may use at most 60,000 database writes a day; after that it pauses until 05:30 IST and the
-remaining writes are kept for enquiries, so the form keeps working. That covers roughly 8,000–15,000
-visits a day.
+Tracking may use at most 60,000 database writes a day and dashboard reports at most 2,000,000 reads;
+past either, that part pauses until 05:30 IST and the rest is kept for enquiries, so the form keeps
+working. That covers roughly 8,000–15,000 visits a day, and for example 30 views of a 90-day report a
+day at 100 visits a day. Time on page is measured to within a few seconds.
 
 On the free plan nothing can fully stop a deliberate flood of fake requests: if someone used up the
 100,000 daily requests, the form would show its "please call +91 6293760118" message until 05:30 IST.

@@ -18,7 +18,7 @@ Environment (see ill-backend.env.example):
   ILL_SMTP_HOST, ILL_SMTP_PORT, ILL_SMTP_USER, ILL_SMTP_PASSWORD, ILL_SMTP_FROM, ILL_NOTIFY_TO, ILL_SMTP_STARTTLS
                             optional  e-mail an alert for every new lead
 """
-import calendar, csv, getpass, hashlib, hmac, io, json, os, re, secrets, smtplib, sqlite3, sys, threading, time
+import calendar, csv, getpass, hashlib, hmac, io, ipaddress, json, os, re, secrets, smtplib, sqlite3, sys, threading, time
 from collections import defaultdict
 from email.message import EmailMessage
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -165,6 +165,19 @@ def source_of(s):
     return (ref[4:] if ref.startswith('www.') else ref), 'referral'
 
 
+def ip_key(addr):
+    """Client key for rate limits: IPv4 as is, IPv6 by its /64 (one phone or home line gets a whole /64)."""
+    try:
+        a = ipaddress.ip_address(addr.split('%')[0])
+    except ValueError:
+        return addr
+    if a.version == 6:
+        if a.ipv4_mapped:
+            return str(a.ipv4_mapped)
+        return str(ipaddress.ip_network(f'{a}/64', strict=False))
+    return str(a)
+
+
 def ist_day(ts):
     return time.strftime('%Y-%m-%d', time.gmtime(ts + IST))
 
@@ -198,6 +211,7 @@ class Auth:
         self.key = hashlib.sha256(('ill-admin:' + secret).encode()).digest()
         self.pw_hash = pw_hash
         self.fails = defaultdict(list)
+        self.lock = threading.Lock()
 
     def token(self):
         exp = int(time.time()) + self.TTL
@@ -214,16 +228,23 @@ class Auth:
             return False
 
     def locked(self, ip):
-        now = time.time()
-        self.fails[ip] = [t for t in self.fails[ip] if now - t < 900]
-        return len(self.fails[ip]) >= 5
+        with self.lock:
+            now = time.time()
+            self.fails[ip] = [t for t in self.fails[ip] if now - t < 900]
+            return len(self.fails[ip]) >= 5
 
     def attempt(self, ip, pw):
-        if self.locked(ip):
-            return False
+        # Count the attempt before checking it, so parallel requests cannot all slip past the limit.
+        with self.lock:
+            now = time.time()
+            self.fails[ip] = [t for t in self.fails[ip] if now - t < 900]
+            if len(self.fails[ip]) >= 5:
+                return False
+            self.fails[ip].append(now)
         ok = check_password(pw, self.pw_hash)
-        if not ok:
-            self.fails[ip].append(time.time())
+        if ok:
+            with self.lock:
+                self.fails.pop(ip, None)
         return ok
 
 
@@ -553,8 +574,8 @@ def make_handler(app):
             peer = self.client_address[0]
             fwd = self.headers.get('X-Forwarded-For', '')
             if peer in ('127.0.0.1', '::1') and fwd:
-                return fwd.split(',')[-1].strip()
-            return peer
+                peer = fwd.split(',')[-1].strip()
+            return ip_key(peer)
 
         def https(self):
             return self.headers.get('X-Forwarded-Proto', '') == 'https'
