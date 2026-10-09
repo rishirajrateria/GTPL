@@ -9,7 +9,7 @@ export async function onRequest({ request, next }) {
     console.error('function error:', request.method, new URL(request.url).pathname, e && e.message);
     const admin = new URL(request.url).pathname.startsWith('/admin');
     return admin
-      ? send(503, 'The admin service is not available. Check that the D1 database is bound as DB in the Cloudflare project settings.', { type: 'text/plain', admin: true })
+      ? send(503, 'The admin service hit an error. If this is a new setup, check that the D1 database is bound as DB in the Cloudflare project settings and redeploy.', { type: 'text/plain', admin: true })
       : send(503, { ok: false, error: 'unavailable' });
   }
 }

@@ -646,7 +646,7 @@ def make_handler(app):
             ip, ua = self.ip(), self.headers.get('User-Agent', '')
             if p == '/api/e':
                 raw = self.body(32 * 1024)
-                if raw is not None and app.rl_events.allow(ip):
+                if raw is not None and self.same_origin() and app.rl_events.allow(ip):
                     try:
                         app.ingest(ip, ua, json.loads(raw or b'{}'))
                     except (ValueError, sqlite3.Error) as e:

@@ -946,22 +946,30 @@ h2{font-size:clamp(28px,3.4vw,44px)}
       q.push({t:'view'});
     }
     function engaged(){ return eng+(visibleAt?Date.now()-visibleAt:0); }
-    function payload(){ var p={sid:sid, vid:vid, ev:q.splice(0,60), eng:{ms:engaged(), sc:maxScroll}}; if(meta){ p.meta=meta; meta=null; } return JSON.stringify(p); }
-    function flush(beacon){
+    var lastSent=0, sentHidden=false, t1=Date.now();
+    /* meta rides on every send of a new visit, so the visit is still recorded if the first request is lost */
+    function payload(fin){ var p={sid:sid, vid:vid, ev:q.splice(0,60), eng:{ms:engaged(), sc:maxScroll}}; if(meta) p.meta=meta; if(fin) p.fin=1; lastSent=p.eng.ms; return JSON.stringify(p); }
+    function flush(beacon,fin){
       put('sessionStorage','ill_seen',String(Date.now()));
-      var body=payload();
+      var body=payload(fin);
       if(beacon&&navigator.sendBeacon){ navigator.sendBeacon('/api/e', new Blob([body],{type:'text/plain'})); return; }
       try{ fetch('/api/e',{method:'POST',body:body,keepalive:true,headers:{'Content-Type':'text/plain'}}).catch(function(){}); }catch(e){}
     }
     api.track=function(t,l,uniq){ var k=t+':'+(l||''); if(uniq){ if(once[k]) return; once[k]=1; } q.push({t:t,l:l||''}); if(t!=='scroll'&&t!=='section_view') flush(false); };
     api.flush=flush;
     flush(false);
-    setInterval(function(){ if(!d.hidden) flush(false); }, 20000);
+    /* heartbeat: only when there is something new (the 10 s mark, then once a minute), for up to 30 minutes */
+    var hb=setInterval(function(){
+      if(Date.now()-t1>30*60*1000){ clearInterval(hb); return; }
+      if(d.hidden) return;
+      var e=engaged();
+      if(q.length||(e>=10000&&lastSent<10000)||e-lastSent>=60000) flush(false);
+    }, 10000);
     d.addEventListener('visibilitychange',function(){
-      if(d.hidden){ if(visibleAt){ eng+=Date.now()-visibleAt; visibleAt=0; } flush(true); }
-      else visibleAt=Date.now();
+      if(d.hidden){ if(visibleAt){ eng+=Date.now()-visibleAt; visibleAt=0; } flush(true,1); sentHidden=true; }
+      else { visibleAt=Date.now(); sentHidden=false; }
     });
-    w.addEventListener('pagehide',function(){ flush(true); });
+    w.addEventListener('pagehide',function(){ if(!sentHidden||q.length) flush(true,1); });
     w.addEventListener('scroll',function(){
       var h=d.documentElement, sc=Math.round(100*(w.scrollY+w.innerHeight)/Math.max(1,h.scrollHeight));
       if(sc>maxScroll){ maxScroll=Math.min(100,sc); [25,50,75,90].forEach(function(m){ if(maxScroll>=m) api.track('scroll',String(m),true); }); }
@@ -1095,7 +1103,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
   var sendErr=d.getElementById('send-err');
   function done(){ form.classList.remove('sending'); form.classList.add('ok'); var h=d.getElementById('ok-h'); if(h) h.focus({preventScroll:true}); }
   form.addEventListener('submit',function(e){
-    e.preventDefault(); var first=null, bad=[];
+    e.preventDefault(); if(form.classList.contains('sending')) return; var first=null, bad=[];
     Object.keys(rules).forEach(function(id){ if(!check(id)){ bad.push(id); if(!first) first=id; } });
     if(first){ bad.forEach(function(id){ ILL.track('form_error',id); }); d.getElementById(first).focus(); return; }
     if(!ILL.live){ done(); return; }               /* preview copies have no server to send to */

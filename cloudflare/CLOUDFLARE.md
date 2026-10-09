@@ -36,9 +36,11 @@ The tables are created automatically the first time the site is used.
 
 4. **Save and Deploy**. The first build takes about a minute.
 
-Only the page files are published (`index.html`, `favicon.svg`, `og-image.jpg`, `robots.txt`,
-`sitemap.xml`, a 404 page). The customer spreadsheet in `data/` and all source code stay private.
-Once this works you can make the GitHub repository private; Cloudflare keeps its access.
+Only the page files are published on the website (`index.html`, `favicon.svg`, `og-image.jpg`,
+`robots.txt`, `sitemap.xml`, a 404 page); the spreadsheet in `data/` and the code are never served.
+**But the GitHub repository itself is public**, so anyone can download the customer spreadsheet from
+GitHub. Make it private (GitHub → the repository → Settings → General → Danger Zone → Change
+visibility → Private). Cloudflare keeps building from a private repository.
 
 ## 4. Connect the database and set the admin password
 
@@ -79,19 +81,29 @@ Any change pushed to the branch above is published automatically in about a minu
 
 ## Limits of the free plan
 
-| | Free allowance | This site |
+| | Free allowance | This site (measured) |
 | --- | --- | --- |
 | Page views | Unlimited | — |
-| Form + tracking requests | 100,000 a day | a visit makes ~3–10 |
-| Database writes | 100,000 rows a day | a visit makes ~2–5 |
-| Database storage | 5 GB | years of visits |
+| Form + tracking requests | 100,000 a day | a visit makes 1–5 |
+| Database writes | 100,000 rows a day | a visit costs about 3–8 |
+| Database size | 500 MB per database | about 15 MB at 100 visits a day (visits are kept 400 days) |
 
-If a daily allowance were ever used up, tracking would pause until 05:30 IST and the form would show
-its "please call +91 6293760118" message. At that point the $5/month Workers Paid plan removes the
-limits.
+Tracking may use at most 60,000 database writes a day; after that it pauses until 05:30 IST and the
+remaining writes are kept for enquiries, so the form keeps working. That covers roughly 8,000–15,000
+visits a day.
+
+On the free plan nothing can fully stop a deliberate flood of fake requests: if someone used up the
+100,000 daily requests, the form would show its "please call +91 6293760118" message until 05:30 IST.
+If that ever happens, the $5/month Workers Paid plan removes these limits.
+
+## Changing the admin password
+
+Settings → Variables and Secrets → edit `ADMIN_PASSWORD` → Deployments → Retry deployment. Everyone
+is signed out. The dashboard only opens on `ill.gtplkcbpl.com` and `gtpl-ill.pages.dev`, not on the
+per-deployment addresses Cloudflare also creates, so old deployments cannot be used with the old
+password.
 
 ## Differences from the self-hosted version (`server/`)
 
 - No e-mail alert per lead (Cloudflare's free plan has no outgoing mail). Check `/admin` or export to Excel.
-- Changing `ADMIN_PASSWORD` signs everyone out of `/admin`.
 - Visits older than 400 days are deleted automatically; leads are kept.

@@ -1,5 +1,6 @@
 // Cloudflare Pages build step: copies the public page into ./public with Cloudflare's header and
-// routing files. Only these files are published; data/, server/, deploy/ and the rest stay private.
+// routing files. Only these files are served by the website; data/, server/, deploy/ and the rest are
+// not. (That says nothing about the GitHub repository itself: keep it private.)
 //   Pages settings: Root directory "cloudflare", Build command "node build.mjs", Output directory "public"
 import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
