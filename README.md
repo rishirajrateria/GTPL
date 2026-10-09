@@ -16,19 +16,26 @@ any size and on any display, and the page still makes no image requests.
 
 ## Launch
 
-The site goes live at **https://ill.gtplkcbpl.com**. Everything the server administrator needs is in
-`deploy/`: step-by-step instructions in `deploy/DEPLOY.md`, and tested nginx and Apache configs.
-Only five files are served: `index.html`, `favicon.svg`, `og-image.jpg`, `robots.txt` and
-`sitemap.xml`. Never upload `data/`, which holds the customer spreadsheet.
+The site goes live at **https://ill.gtplkcbpl.com**, in one of two ways:
+
+- **Cloudflare (free, recommended):** `cloudflare/` holds a Cloudflare Pages version — the page,
+  the form, tracking and `/admin` on Pages Functions with a D1 database. Setup is click-by-click in
+  `cloudflare/CLOUDFLARE.md`; GTPL's DNS team only adds a CNAME record.
+- **Your own server:** `deploy/` holds a one-command installer (`deploy/install.sh`), tested nginx
+  and Apache configs and `deploy/DEPLOY.md`; GTPL's DNS team adds an A record with the server's IP.
+
+Either way only five files are public: `index.html`, `favicon.svg`, `og-image.jpg`, `robots.txt`
+and `sitemap.xml`. Never publish `data/`, which holds the customer spreadsheet.
 
 ## Leads and the /admin dashboard
 
-`server/` holds a small Python service (standard library only, one SQLite file) that runs on the
-same machine behind nginx or Apache:
+The same features exist twice: `cloudflare/` (Pages Functions + D1, JavaScript) and `server/`
+(a small Python service, standard library only, one SQLite file, behind nginx or Apache). Both
+serve the same dashboard, `server/admin.html`:
 
 - `POST /api/lead` receives the availability form (PIN code + mobile), with a honeypot, a
-  too-fast-to-be-human check, per-IP rate limits and same-number de-duplication. It can e-mail
-  each lead.
+  too-fast-to-be-human check, per-IP rate limits and same-number de-duplication. The self-hosted
+  version can also e-mail each lead.
 - `POST /api/e` receives cookie-free, first-party activity from the page: visits, call taps (and
   which button), WhatsApp opens, number copies, form starts, field errors, sector opens, section
   reach and scroll depth, plus UTM tags and ad click IDs.
@@ -36,9 +43,9 @@ same machine behind nginx or Apache:
   visit → engaged → form → lead funnel, form drop-off by field, sources and campaigns with their
   contact rates, devices, hour of day, and a lead list with status, notes and CSV export.
 
-The page only reports activity when served from `gtplkcbpl.com` (or `localhost`), so previews
-elsewhere send nothing. Open `server/admin.html` directly in a browser to see the dashboard with
-sample data. Setup is in `deploy/DEPLOY.md` step 3.
+The page only reports activity when served from `gtplkcbpl.com`, a `*.pages.dev` test address or
+`localhost`, so previews elsewhere send nothing. Open `server/admin.html` directly in a browser to
+see the dashboard with sample data.
 
 ## Run it
 

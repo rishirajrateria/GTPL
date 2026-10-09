@@ -925,7 +925,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
 
   /* ---------- visitor activity (only when served from the live domain) ---------- */
   var ILL=(function(){
-    var H=location.hostname, live=/(^|\.)gtplkcbpl\.com$/.test(H)||H==='localhost'||H==='127.0.0.1';
+    var H=location.hostname, live=/(^|\.)gtplkcbpl\.com$/.test(H)||/\.pages\.dev$/.test(H)||H==='localhost'||H==='127.0.0.1';
     var api={live:live, t0:Date.now(), sid:'', track:function(){}, flush:function(){}};
     if(!live) return api;
     function rid(){ var a=new Uint8Array(12); (w.crypto||w.msCrypto).getRandomValues(a); return Array.prototype.map.call(a,function(b){return (b%36).toString(36);}).join('')+Date.now().toString(36); }
@@ -956,7 +956,7 @@ h2{font-size:clamp(28px,3.4vw,44px)}
     api.track=function(t,l,uniq){ var k=t+':'+(l||''); if(uniq){ if(once[k]) return; once[k]=1; } q.push({t:t,l:l||''}); if(t!=='scroll'&&t!=='section_view') flush(false); };
     api.flush=flush;
     flush(false);
-    setInterval(function(){ if(!d.hidden) flush(false); }, 15000);
+    setInterval(function(){ if(!d.hidden) flush(false); }, 20000);
     d.addEventListener('visibilitychange',function(){
       if(d.hidden){ if(visibleAt){ eng+=Date.now()-visibleAt; visibleAt=0; } flush(true); }
       else visibleAt=Date.now();

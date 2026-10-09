@@ -148,6 +148,8 @@ def source_of(s):
         return 'google', 'cpc'
     if s['click_id'] == 'fbclid':
         return 'facebook', 'social'
+    if s['click_id'] == 'msclkid':
+        return 'bing', 'cpc'
     ref = (s['ref_host'] or '').lower()
     if not ref:
         return '(direct)', '(none)'
@@ -526,13 +528,14 @@ class App:
         rows = self.store.q('SELECT * FROM leads WHERE ts >= ? AND ts < ? ORDER BY ts DESC', (day_start(frm), day_start(to) + 86400))
         buf = io.StringIO()
         w = csv.writer(buf)
-        w.writerow(['Received (IST)', 'Phone', 'PIN code', 'Status', 'Note', 'Source', 'Medium', 'Campaign', 'Device'])
+        w.writerow(['Received (IST)', 'Mobile (+91)', 'PIN code', 'Status', 'Note', 'Source', 'Medium', 'Campaign', 'Device'])
+
+        def cell(v):  # spreadsheet apps run = + - @ (or tab / CR) as a formula; notes and UTM tags come from outsiders
+            v = '' if v is None else str(v)
+            return "'" + v if v[:1] in ('=', '+', '-', '@', '\t', '\r') else v
         for r in rows:
-            note = r['note'] or ''
-            if note[:1] in ('=', '+', '-', '@'):  # keep spreadsheet apps from running it as a formula
-                note = "'" + note
-            w.writerow([time.strftime('%Y-%m-%d %H:%M', time.gmtime(r['ts'] + IST)), '+91 ' + r['phone'], r['pin'], r['status'],
-                        note, r['source'], r['medium'], r['campaign'], r['device']])
+            w.writerow([cell(v) for v in (time.strftime('%Y-%m-%d %H:%M', time.gmtime(r['ts'] + IST)), r['phone'], r['pin'],
+                                          r['status'], r['note'], r['source'], r['medium'], r['campaign'], r['device'])])
         return '﻿' + buf.getvalue()
 
 
@@ -575,7 +578,7 @@ def make_handler(app):
             if admin:
                 self.send_header('X-Robots-Tag', 'noindex, nofollow')
                 self.send_header('X-Frame-Options', 'DENY')
-                self.send_header('Referrer-Policy', 'no-referrer')
+                self.send_header('Referrer-Policy', 'same-origin')  # 'no-referrer' makes browsers send Origin: null
                 self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'")
             for k, v in (headers or {}).items():
                 self.send_header(k, v)
@@ -597,6 +600,8 @@ def make_handler(app):
             o = self.headers.get('Origin')
             if not o:
                 return True
+            if o == 'null':  # some same-site form posts; the browser's Sec-Fetch-Site then decides
+                return self.headers.get('Sec-Fetch-Site') == 'same-origin'
             host = self.headers.get('X-Forwarded-Host') or self.headers.get('Host') or ''
             return urlparse(o).netloc == host
 
