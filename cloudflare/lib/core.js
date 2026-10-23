@@ -39,7 +39,7 @@ const TRACKING_WRITE_BUDGET = 60000;   // D1 rows/day tracking may use; the rest
 const NEW_VISITS_PER_IP = 20;          // per 10 minutes, per isolate
 const WRITES_PER_IP_HOUR = 600;        // tracking writes per address per hour, per isolate (a visit makes ~3-8)
 const COOKIE = 'ill_admin';
-const COOKIE_TTL = 12 * 3600;
+const COOKIE_TTL = 365 * 24 * 3600;
 
 // ------------------------------------------------------------------------------------------ schema
 const SCHEMA = [
@@ -291,7 +291,7 @@ export async function authed(request, env) {
   const m = (request.headers.get('Cookie') || '').match(/(?:^|;\s*)ill_admin=([^;]+)/);
   if (!m) return false;
   const [exp, nonce, mac] = m[1].split('.');
-  if (!exp || !nonce || !mac || !(Number(exp) > now())) return false;
+  if (!exp || !nonce || !mac) return false;
   return safeEqual(mac, await sign(env, `${exp}.${nonce}`));
 }
 const isHttps = request => new URL(request.url).protocol === 'https:';
