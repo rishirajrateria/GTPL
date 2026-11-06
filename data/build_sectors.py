@@ -68,36 +68,48 @@ chips = '\n      '.join(
   f'<svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button></li>' for p in panels)
 
 def panel_html(p):
-    cards = []
-    for i, b in enumerate(p['items']):
-        site = ''
-        if b['sites']:
-            head, rest = b['sites'][:3], b['sites'][3:]
-            body = E(' · '.join(head))
-            if rest:
-                body += ('<span class="rest" hidden> · ' + E(' · '.join(rest)) + '</span>'
-                         f' <button class="more" type="button" aria-expanded="false">+{len(rest)} more</button>')
-            site = ('<span class="loc"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg><span>'
-                    + body + '</span></span>')
-        cards.append(f'<li class="sp-item" style="--d:{min(i,14)*28}ms"><b>{E(b["name"])}</b>{site}</li>')
+    cards = [f'<li class="sp-item" style="--d:{min(i,14)*28}ms"><b>{E(b["name"])}</b></li>' for i, b in enumerate(p['items'])]
     meta = f'Clients in {E(p["title"])}'
     if p['districts']: meta += f' <i>·</i> {p["districts"]} {"district" if p["districts"]==1 else "districts"}'
     return (f'<div class="sp" id="sp-{p["k"]}" role="region" aria-label="{E(p["title"])} clients" hidden>'
             f'<p class="sp-h">{meta}</p><ul class="sp-grid">{"".join(cards)}</ul></div>')
 
-panels_html = '\n          '.join(panel_html(p) for p in panels)
+# ---- location view: district -> brands served there (only brands shown above) ----
+by_dist = collections.defaultdict(dict)
+for p in panels:
+    for b in p['items']:
+        for dname in b['districts']:
+            e = by_dist[dname].setdefault(key(b['name']), {'name': b['name'], 'sectors': []})
+            if p['label'] not in e['sectors']: e['sectors'].append(p['label'])
+slug = lambda t: re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')
+dists = sorted(by_dist, key=str.upper)
+loc_options = ''.join(f'<option value="sp-loc-{slug(dn)}">{E(dn)}</option>' for dn in dists)
+def loc_panel(dn):
+    items = sorted(by_dist[dn].values(), key=lambda b: b['name'].upper())
+    cards = ''.join(f'<li class="sp-item" style="--d:{min(i,14)*28}ms"><b>{E(b["name"])}</b>'
+                    f'<span class="sp-tag">{E(" · ".join(b["sectors"]))}</span></li>' for i, b in enumerate(items))
+    return (f'<div class="sp" id="sp-loc-{slug(dn)}" role="region" aria-label="Clients in {E(dn)}" hidden>'
+            f'<p class="sp-h">Clients in {E(dn)}</p><ul class="sp-grid">{cards}</ul></div>')
+
+panels_html = '\n          '.join([panel_html(p) for p in panels] + [loc_panel(dn) for dn in dists])
 
 section = f'''<section class="sec slim sectors" id="sectors" aria-labelledby="sc-h">
   <div class="wrap">
     <div class="head rv">
       <span class="eyebrow">Sectors</span>
       <h2 id="sc-h">Serving businesses across <span class="grad">every industry</span></h2>
-      <p class="sub">Pick a sector to see who we connect, and where.</p>
+      <p class="sub">Pick a sector, or a location, to see who we connect.</p>
     </div>
     <!-- Generated from Company_details_sector_wise.xlsx. Chips sorted by number of clients. -->
     <ul class="row rv d1">
       {chips}
     </ul>
+    <div class="loc-find rv d2">
+      <label for="loc-pick">Or find clients by location</label>
+      <span class="pick"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg>
+        <select id="loc-pick"><option value="">Choose a district</option>{loc_options}</select>
+        <svg class="cv" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></span>
+    </div>
     <div class="sct-wrap" id="sector-wrap">
       <div class="sct-inner">
         <div class="sct-panel glass" id="sector-panel" aria-live="polite">
@@ -140,10 +152,20 @@ s = s[:a] + '''.sectors .sub{font-size:14px;color:var(--ink-3)}
 .sp-item{display:block;break-inside:avoid;margin-bottom:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.62);
   box-shadow:inset 0 0 0 1px rgba(36,88,164,.1);opacity:0;transform:translateY(6px);animation:pop .32s var(--ease) var(--d,0ms) forwards}
 .sp-item b{display:block;font-size:12px;font-weight:800;letter-spacing:.035em;text-transform:uppercase;color:var(--ink);line-height:1.3}
-.sp-item .loc{display:flex;align-items:flex-start;gap:5px;margin-top:5px;font-size:12px;font-weight:500;line-height:1.45;color:var(--ink-3)}
-.sp-item .more{border:0;padding:0;background:none;font:inherit;font-weight:700;color:var(--blue);cursor:pointer;white-space:nowrap}
-.sp-item .more:hover{text-decoration:underline}
-.sp-item .loc .i{width:12px;height:12px;flex:none;margin-top:2px;color:var(--blue)}
+.sp-tag{display:block;margin-top:4px;font-size:11.5px;font-weight:600;line-height:1.4;color:var(--ink-3)}
+.loc-find{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px;margin-top:16px;font-size:13px;font-weight:600;color:var(--ink-3)}
+.loc-find .pick{position:relative;display:inline-flex;align-items:center}
+.loc-find .pick .i,.loc-find .pick .cv{position:absolute;z-index:1;pointer-events:none;color:var(--blue)}
+.loc-find .pick .i{left:13px;width:15px;height:15px}
+.loc-find .pick .cv{right:13px;width:12px;height:12px}
+.loc-find select{-webkit-appearance:none;appearance:none;border:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;
+  min-width:230px;padding:10px 36px 10px 36px;border-radius:99px;background:rgba(255,255,255,.6);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 12px 26px -20px rgba(13,31,60,.55)}
+.loc-find select option{color:#101d30;background:#fff}
+.loc-find select.on{color:#fff;background:var(--blue)}
+.loc-find .pick:has(select.on) .i,.loc-find .pick:has(select.on) .cv{color:#fff}
+.loc-find select:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 @keyframes pop{to{opacity:1;transform:none}}''' + s[b:]
 s = s.replace('''  .sct-panel{padding:16px 14px}
   .sp-list li{font-size:12.5px;padding:7px 12px}''', '''  .sct-panel{padding:14px 10px 10px}
@@ -167,32 +189,35 @@ b = s.index('  /* ---------- ring protection: a link cuts, traffic routes the ot
 s = s[:a] + '''  /* ---------- sectors: tap an industry to see who we serve there ---------- */
   (function(){
     var wrap=d.getElementById('sector-wrap'); if(!wrap) return;
-    var btns=[].slice.call(d.querySelectorAll('.sct')), open=null;
+    var btns=[].slice.call(d.querySelectorAll('.sct')), sel=d.getElementById('loc-pick'), open=null;
     function markScroll(p){ var g=p&&p.querySelector('.sp-grid'); if(!g) return;
       function upd(){ g.classList.toggle('more', g.scrollHeight-g.scrollTop-g.clientHeight>4); }
       upd(); if(!g.dataset.w){ g.dataset.w='1'; g.addEventListener('scroll',upd,{passive:true}); w.addEventListener('resize',upd,{passive:true}); } }
-    function setOpen(btn){
-      btns.forEach(function(b){
-        var on=b===btn, p=d.getElementById(b.getAttribute('aria-controls'));
-        b.setAttribute('aria-expanded',String(on)); if(p) p.hidden=!on;
-        if(on&&p){ var g=p.querySelector('.sp-grid'); if(g) g.scrollTop=0; markScroll(p); }
+    function show(id){
+      [].slice.call(wrap.querySelectorAll('.sp')).forEach(function(p){
+        var on=p.id===id; p.hidden=!on;
+        if(on){ var g=p.querySelector('.sp-grid'); if(g) g.scrollTop=0; markScroll(p); }
       });
-      wrap.classList.toggle('open',!!btn); open=btn||null;
-      if(btn){                       /* bring the list into view if it opened off-screen */
+      wrap.classList.toggle('open',!!id);
+      if(id){                        /* bring the list into view if it opened off-screen */
         var RMq=w.matchMedia&&w.matchMedia('(prefers-reduced-motion: reduce)').matches;
         setTimeout(function(){ var r=wrap.getBoundingClientRect();
           if(r.top>w.innerHeight-140||r.top<70) wrap.scrollIntoView({behavior:RMq?'auto':'smooth',block:'start'}); }, RMq?0:260);
       }
     }
+    function setLoc(v){ if(!sel) return; sel.value=v||''; sel.classList.toggle('on',!!sel.value); }
+    function setOpen(btn){
+      btns.forEach(function(b){ b.setAttribute('aria-expanded',String(b===btn)); });
+      open=btn||null; if(btn) setLoc('');
+      show(btn?btn.getAttribute('aria-controls'):'');
+    }
     btns.forEach(function(b){ b.addEventListener('click',function(){ setOpen(open===b?null:b); }); });
-    wrap.addEventListener('click',function(e){
-      var m=e.target.closest&&e.target.closest('.more'); if(!m) return;
-      var r=m.parentNode.querySelector('.rest'), on=m.getAttribute('aria-expanded')!=='true';
-      if(r) r.hidden=!on; m.setAttribute('aria-expanded',String(on));
-      m.textContent=on?'Show less':'+'+(r?r.textContent.split(' · ').length-1:0)+' more';
-      markScroll(m.closest('.sp'));
+    if(sel) sel.addEventListener('change',function(){
+      btns.forEach(function(b){ b.setAttribute('aria-expanded','false'); }); open=null;
+      setLoc(sel.value); show(sel.value);
     });
-    d.addEventListener('keydown',function(e){ if(e.key==='Escape'&&open){ var t=open; setOpen(null); t.focus(); } });
+    d.addEventListener('keydown',function(e){ if(e.key==='Escape'&&open){ var t=open; setOpen(null); t.focus(); }
+      else if(e.key==='Escape'&&sel&&sel.value&&d.activeElement===sel){ setLoc(''); show(''); } });
   })();
 
 ''' + s[b:]
